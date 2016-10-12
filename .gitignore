@@ -16,6 +16,7 @@ out/
 # Gradle files
 .gradle/
 build/
+/*/build/
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -32,9 +33,19 @@ proguard/
 # Android Studio captures folder
 captures/
 
+# Android Patch
+gen-external-apklibs
+
 # Intellij
+.idea/
 *.iml
-.idea/workspace.xml
+
+# VIM
+*.swp
+*.swo
+
+# MELD
+*.orig
 
 # Keystore files
 *.jks
