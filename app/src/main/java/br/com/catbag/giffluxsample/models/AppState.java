@@ -10,14 +10,24 @@ import org.immutables.value.Value;
 public abstract class AppState {
 
     @Value.Default
-    public String getUrl() {
+    public String getGifLocalPath(){
+        return "";
+    }
+
+    @Value.Default
+    public String getGifDownloadFailureMsg() {
+       return "";
+    }
+
+    @Value.Default
+    public String getGifUrl() {
        return "http://inspirandoideias.com.br/blog/wp-content/uploads/2015/03/" +
                "b3368a682fc5ff891e41baad2731f4b6.gif";
     }
 
     @Value.Default
     public String getGifTitle(){
-        return "title bolado";
+        return "goku";
     }
 
     @Value.Default
@@ -27,11 +37,11 @@ public abstract class AppState {
 
     @Value.Default
     public GifStatus getGifStatus(){
-       return GifStatus.NOT_LOADED;
+       return GifStatus.NOT_DOWNLOADED;
     }
 
     public enum GifStatus {
-       PAUSED, LOOPING, NOT_LOADED
+       PAUSED, LOOPING, DOWNLOADING, DOWNLOADED, NOT_DOWNLOADED
     }
 
 }
