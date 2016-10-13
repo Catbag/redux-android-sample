@@ -2,9 +2,7 @@ package br.com.catbag.giffluxsample;
 
 import android.app.Application;
 
-import com.umaplay.fluxxan.Dispatcher;
 import com.umaplay.fluxxan.Fluxxan;
-import com.umaplay.fluxxan.impl.DispatcherImpl;
 
 import br.com.catbag.giffluxsample.models.AppState;
 import br.com.catbag.giffluxsample.models.ImmutableAppState;
@@ -17,6 +15,10 @@ import br.com.catbag.giffluxsample.reducers.GifReducer;
 public class App extends Application {
 
     private static Fluxxan<AppState> fluxxan = null;
+
+    public static Fluxxan<AppState> getFluxxan() {
+        return fluxxan;
+    }
 
     @Override
     public void onCreate() {
@@ -34,10 +36,5 @@ public class App extends Application {
     public void onTerminate() {
         super.onTerminate();
         fluxxan.stop();
-    }
-
-
-    public static Fluxxan<AppState> getFluxxan() {
-        return fluxxan;
     }
 }

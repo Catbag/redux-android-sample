@@ -30,7 +30,7 @@ public class GifActionCreator extends BaseActionCreator {
     }
 
     public static GifActionCreator getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new GifActionCreator();
         }
         return instance;
@@ -51,8 +51,7 @@ public class GifActionCreator extends BaseActionCreator {
     public void gifClick(AppState.GifStatus status) {
         if (status == AppState.GifStatus.DOWNLOADED || status == AppState.GifStatus.PAUSED) {
             gifPlay();
-        }
-        else if (status == AppState.GifStatus.LOOPING) {
+        } else if (status == AppState.GifStatus.LOOPING) {
             gifPause();
         }
     }

@@ -1,18 +1,11 @@
 package br.com.catbag.giffluxsample.ui;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.umaplay.fluxxan.Fluxxan;
 import com.umaplay.fluxxan.ui.StateListenerActivity;
 import com.umaplay.fluxxan.util.ThreadUtils;
@@ -21,24 +14,20 @@ import br.com.catbag.giffluxsample.App;
 import br.com.catbag.giffluxsample.R;
 import br.com.catbag.giffluxsample.actions.GifActionCreator;
 import br.com.catbag.giffluxsample.models.AppState;
-
-import static com.bumptech.glide.load.engine.DiskCacheStrategy.ALL;
-import static com.bumptech.glide.load.engine.DiskCacheStrategy.SOURCE;
+import br.com.catbag.giffluxsample.ui.wrappers.GlideWrapper;
 
 public class GifListActivity extends StateListenerActivity<AppState> {
 
     private AppState mAppState = getFlux().getState();
     private GifActionCreator mActionCreator = GifActionCreator.getInstance();
-    private ImageView mGifView;
     private ProgressBar mLoading;
-    private GlideDrawable mResource;
+    private GlideWrapper mGlideWrapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gif_list);
-        mGifView = (ImageView) findViewById(R.id.gif_image);
-        mGifView.setOnClickListener(v -> mActionCreator.gifClick(mAppState.getGifStatus()));
+        initializeGifView();
         mLoading = (ProgressBar) findViewById(R.id.loading);
         mActionCreator.gifDownloadStart(mAppState.getGifUrl(), mAppState.getGifTitle(), this);
     }
@@ -54,7 +43,7 @@ public class GifListActivity extends StateListenerActivity<AppState> {
         switch (mAppState.getGifStatus()) {
             case NOT_DOWNLOADED:
                 String errorMsg = appState.getGifDownloadFailureMsg();
-                if(!errorMsg.isEmpty()) {
+                if (!errorMsg.isEmpty()) {
                     showToast(errorMsg);
                     mLoading.setVisibility(View.GONE);
                 }
@@ -63,13 +52,13 @@ public class GifListActivity extends StateListenerActivity<AppState> {
                 setVisibilityLoading(View.VISIBLE);
                 break;
             case DOWNLOADED:
-                loadGif(appState.getGifLocalPath());
+                mGlideWrapper.load(appState.getGifLocalPath());
                 break;
             case LOOPING:
-                playGif(appState.getGifLocalPath());
+                mGlideWrapper.play(appState.getGifLocalPath());
                 break;
             case PAUSED:
-                stopGif();
+                mGlideWrapper.stop();
                 break;
             default:
         }
@@ -79,70 +68,17 @@ public class GifListActivity extends StateListenerActivity<AppState> {
         ThreadUtils.runOnMain(() -> mLoading.setVisibility(visibility));
     }
 
-    private void stopGif() {
-        ThreadUtils.runOnMain(() -> mResource.stop());
-    }
-
-    private void playGif(String gifLocalPath) {
-        RequestListener listener = new RequestListener<String, GlideDrawable>() {
-            @Override
-            public boolean onException(Exception e, String model, Target<GlideDrawable> target,
-                                       boolean isFirstResource) {
-                System.out.println("GifListActivity.onException: " + e.getLocalizedMessage());
-                setVisibilityLoading(View.GONE);
-                showToast(e.getLocalizedMessage());
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(GlideDrawable resource, String model,
-                                           Target<GlideDrawable> target, boolean isFromMemoryCache,
-                                           boolean isFirstResource) {
-                System.out.println("GifListActivity.onResourceReady");
-                mResource = resource;
-                return false;
-            }
-        };
-
-        ThreadUtils.runOnMain(() -> {
-            if(mResource != null) {
-                mResource.start();
-            }else{
-                Glide.with(this).load(gifLocalPath)
-                     .listener(listener).diskCacheStrategy(SOURCE).into(mGifView);
-            }
-        });
-    }
-
-    private void loadGif(String gifLocalPath) {
-        RequestListener listener = new RequestListener<String, Bitmap>() {
-            @Override
-            public boolean onException(Exception e, String model, Target<Bitmap> target,
-                                       boolean isFirstResource) {
-                System.out.println("GifListActivity.onException: " + e.getLocalizedMessage());
-                setVisibilityLoading(View.GONE);
-                showToast(e.getLocalizedMessage());
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target,
-                                           boolean isFromMemoryCache, boolean isFirstResource) {
-                System.out.println("GifListActivity.onResourceReady");
-                setVisibilityLoading(View.GONE);
-                return false;
-            }
-        };
-
-        ThreadUtils.runOnMain(() -> {
-            Glide.with(this).load(gifLocalPath).asBitmap().listener(listener)
-                    .diskCacheStrategy(ALL).into(mGifView);
-        });
-    }
-
-    private void showToast(String msg){
+    private void showToast(String msg) {
         ThreadUtils.runOnMain(() -> {
             Toast.makeText(GifListActivity.this, msg, Toast.LENGTH_LONG).show();
         });
+    }
+
+    private void initializeGifView() {
+        ImageView imageView = (ImageView) findViewById(R.id.gif_image);
+        imageView.setOnClickListener(v -> mActionCreator.gifClick(mAppState.getGifStatus()));
+        mGlideWrapper = new GlideWrapper(imageView)
+                .onException((e) -> showToast(e.getLocalizedMessage()))
+                .onLoaded(() -> setVisibilityLoading(View.GONE));
     }
 }

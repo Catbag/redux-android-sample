@@ -1,6 +1,5 @@
 package br.com.catbag.giffluxsample.asyncs.files;
 
-import android.content.Context;
 import android.util.Log;
 
 import java.io.File;
@@ -8,8 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import okhttp3.ResponseBody;
 
 /**
  * Created by felipe on 13/10/16.

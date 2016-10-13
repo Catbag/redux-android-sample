@@ -9,9 +9,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RoutesGenerator {
-    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
     private static final String CATBAG_URL = "http://www.catbag.com.br";
-
+    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
     private static Retrofit.Builder builder =
             new Retrofit.Builder()
                     .baseUrl(CATBAG_URL)
