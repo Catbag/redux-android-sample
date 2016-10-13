@@ -1,6 +1,5 @@
 package br.com.catbag.giffluxsample.reducers;
 
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.umaplay.fluxxan.annotation.BindAction;
 import com.umaplay.fluxxan.impl.BaseAnnotatedReducer;
 
@@ -15,7 +14,7 @@ import br.com.catbag.giffluxsample.models.ImmutableAppState;
 public class GifReducer extends BaseAnnotatedReducer<AppState> {
 
     @BindAction(GifActionCreator.GIF_PLAY)
-    public AppState play(AppState state, Object ...args) {
+    public AppState play(AppState state, Object... args) {
         return ImmutableAppState.builder()
                 .from(state)
                 .gifStatus(AppState.GifStatus.LOOPING)
@@ -24,7 +23,7 @@ public class GifReducer extends BaseAnnotatedReducer<AppState> {
     }
 
     @BindAction(GifActionCreator.GIF_PAUSE)
-    public AppState pause(AppState state, Object ...args) {
+    public AppState pause(AppState state, Object... args) {
         return ImmutableAppState.builder()
                 .from(state)
                 .gifStatus(AppState.GifStatus.PAUSED)
@@ -50,7 +49,7 @@ public class GifReducer extends BaseAnnotatedReducer<AppState> {
     }
 
     @BindAction(GifActionCreator.GIF_DOWNLOAD_STARTED)
-    public AppState downloadStarted(AppState state, Object ...args) {
+    public AppState downloadStarted(AppState state, Object... args) {
         return ImmutableAppState.builder()
                 .from(state)
                 .gifStatus(AppState.GifStatus.DOWNLOADING)

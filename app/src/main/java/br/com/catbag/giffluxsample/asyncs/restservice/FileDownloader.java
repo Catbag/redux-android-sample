@@ -1,9 +1,7 @@
 package br.com.catbag.giffluxsample.asyncs.restservice;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -28,7 +26,7 @@ public class FileDownloader {
         mRoutes = RoutesGenerator.createRoutes(ApiRoutes.class);
     }
 
-    public void download(String fileUrl, String pathToSave){
+    public void download(String fileUrl, String pathToSave) {
         Call<ResponseBody> call = mRoutes.downloadFileWithDynamicUrlSync(fileUrl);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -63,20 +61,20 @@ public class FileDownloader {
             }
         });
 
-        if (mStartListener != null)  mStartListener.onStarted();
+        if (mStartListener != null) mStartListener.onStarted();
     }
 
-    public FileDownloader onSuccess(SuccessDownloadListener listener){
+    public FileDownloader onSuccess(SuccessDownloadListener listener) {
         mSuccessListener = listener;
         return this;
     }
 
-    public FileDownloader onFailure(FailureDownloadListener listener){
+    public FileDownloader onFailure(FailureDownloadListener listener) {
         mFailureListener = listener;
         return this;
     }
 
-    public FileDownloader onStarted(StartDownloadListener listener){
+    public FileDownloader onStarted(StartDownloadListener listener) {
         mStartListener = listener;
         return this;
     }
