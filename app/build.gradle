@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 24
@@ -17,6 +18,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -26,4 +31,6 @@ dependencies {
     })
     testCompile 'junit:junit:4.12'
     compile 'com.umaplay.oss:fluxxan:1.0.0'
+    compile 'org.immutables:value:2.3.2'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
 }
