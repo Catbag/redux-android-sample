@@ -2,7 +2,9 @@ package br.com.catbag.giffluxsample.ui;
 
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -26,6 +28,7 @@ public class GifListActivity extends StateListenerActivity<AppState> {
     private AppState mAppState = getFlux().getState();
     private GifActionCreator mActionCreator = GifActionCreator.getInstance();
     private ImageView mGifView;
+    private ProgressBar mLoading;
     private GlideDrawable mResource;
 
     @Override
@@ -34,6 +37,7 @@ public class GifListActivity extends StateListenerActivity<AppState> {
         setContentView(R.layout.activity_gif_list);
         mGifView = (ImageView) findViewById(R.id.gif_image);
         mGifView.setOnClickListener(v -> mActionCreator.gifClick(mAppState.getGifStatus()));
+        mLoading = (ProgressBar) findViewById(R.id.loading);
         mActionCreator.gifDownloadStart(mAppState.getGifUrl(), mAppState.getGifTitle(), this);
     }
 
@@ -50,14 +54,14 @@ public class GifListActivity extends StateListenerActivity<AppState> {
                 String errorMsg = appState.getGifDownloadFailureMsg();
                 if(!errorMsg.isEmpty()) {
                     showToast(errorMsg);
+                    mLoading.setVisibility(View.GONE);
                 }
-                showToast("Stop Spinner");
                 break;
             case DOWNLOADING:
-                showToast("Show Spinner");
+                setVisibilityLoading(View.VISIBLE);
                 break;
             case DOWNLOADED:
-                showToast("Stop Spinner");
+                setVisibilityLoading(View.GONE);
                 loadGif(appState.getGifLocalPath());
                 break;
             case LOOPING:
@@ -68,6 +72,10 @@ public class GifListActivity extends StateListenerActivity<AppState> {
                 break;
             default:
         }
+    }
+
+    private void setVisibilityLoading(int visibility) {
+        ThreadUtils.runOnMain(() -> mLoading.setVisibility(visibility));
     }
 
     private void stopGif() {
