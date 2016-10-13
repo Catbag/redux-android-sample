@@ -18,8 +18,9 @@ import static com.bumptech.glide.load.engine.DiskCacheStrategy.SOURCE;
 
 public class GlideWrapper {
 
-    private GlideDrawable mResource;
+    private String mLocalPath;
     private ImageView mImageView;
+    private GlideDrawable mResource;
     private GlideLoadListener mLoadListener;
     private GlideExceptionListener mExceptionListener;
 
@@ -31,7 +32,7 @@ public class GlideWrapper {
         ThreadUtils.runOnMain(() -> mResource.stop());
     }
 
-    public void play(String gifLocalPath) {
+    public void play() {
         RequestListener listener = new RequestListener<String, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, String model, Target<GlideDrawable> target,
@@ -53,13 +54,15 @@ public class GlideWrapper {
             if (mResource != null) {
                 mResource.start();
             } else {
-                Glide.with(mImageView.getContext()).load(gifLocalPath)
-                        .listener(listener).diskCacheStrategy(SOURCE).into(mImageView);
+                Glide.with(mImageView.getContext()).load(mLocalPath).listener(listener).
+                        diskCacheStrategy(SOURCE).into(mImageView);
             }
         });
     }
 
-    public void load(String gifLocalPath) {
+    public void load(String localPath) {
+        mLocalPath = localPath;
+
         RequestListener listener = new RequestListener<String, Bitmap>() {
             @Override
             public boolean onException(Exception e, String model, Target<Bitmap> target,
@@ -77,7 +80,7 @@ public class GlideWrapper {
         };
 
         ThreadUtils.runOnMain(() -> {
-            Glide.with(mImageView.getContext()).load(gifLocalPath).asBitmap().listener(listener)
+            Glide.with(mImageView.getContext()).load(mLocalPath).asBitmap().listener(listener)
                     .diskCacheStrategy(ALL).into(mImageView);
         });
     }
