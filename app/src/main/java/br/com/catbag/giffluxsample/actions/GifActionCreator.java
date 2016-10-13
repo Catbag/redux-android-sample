@@ -1,10 +1,14 @@
 package br.com.catbag.giffluxsample.actions;
 
+import android.content.Context;
+
 import com.umaplay.fluxxan.Action;
-import com.umaplay.fluxxan.ActionCreator;
 import com.umaplay.fluxxan.impl.BaseActionCreator;
 
+import java.io.File;
+
 import br.com.catbag.giffluxsample.App;
+import br.com.catbag.giffluxsample.asyncs.restservice.FileDownloader;
 import br.com.catbag.giffluxsample.models.AppState;
 
 /**
@@ -13,8 +17,11 @@ import br.com.catbag.giffluxsample.models.AppState;
 
 public class GifActionCreator extends BaseActionCreator {
     public static final String APP_START = "APP_START";
-    public static final String PLAY_GIF = "PLAY_GIF";
-    public static final String PAUSE_GIF = "PAUSE_GIF";
+    public static final String GIF_PLAY = "GIF_PLAY";
+    public static final String GIF_PAUSE = "GIF_PAUSE";
+    public static final String GIF_DOWNLOAD_SUCCESS = "GIF_DOWNLOAD_SUCCESS";
+    public static final String GIF_DOWNLOAD_FAILURE = "GIF_DOWNLOAD_FAILURE";
+    public static final String GIF_DOWNLOAD_STARTED = "GIF_DOWNLOAD_STARTED";
 
     private static GifActionCreator instance;
 
@@ -26,28 +33,35 @@ public class GifActionCreator extends BaseActionCreator {
         if(instance == null) {
             instance = new GifActionCreator();
         }
-
         return instance;
     }
 
-    public void start() {
-        dispatch(new Action<>(APP_START));
-    }
+    public void gifDownloadStart(String gifUrl, String gifTitle, Context context) {
+        dispatch(new Action(APP_START));
 
-    public void play() {
-        dispatch(new Action<>(PLAY_GIF));
-    }
+        String pathToSave = context.getExternalFilesDir(null) + File.separator + gifTitle + ".gif";
 
-    public void pause() {
-        dispatch(new Action<>(PAUSE_GIF));
+        FileDownloader fileDownloader = new FileDownloader();
+        fileDownloader.onStarted(() -> dispatch(new Action(GIF_DOWNLOAD_STARTED)))
+                .onSuccess(() -> dispatch(new Action(GIF_DOWNLOAD_SUCCESS, pathToSave)))
+                .onFailure(e -> dispatch(new Action(GIF_DOWNLOAD_FAILURE, e.getLocalizedMessage())))
+                .download(gifUrl, pathToSave);
     }
 
     public void gifClick(AppState.GifStatus status) {
-        if (status == AppState.GifStatus.LOOPING) {
-            pause();
+        if (status == AppState.GifStatus.DOWNLOADED || status == AppState.GifStatus.PAUSED) {
+            gifPlay();
         }
-        else {
-            play();
+        else if (status == AppState.GifStatus.LOOPING) {
+            gifPause();
         }
+    }
+
+    private void gifPlay() {
+        dispatch(new Action(GIF_PLAY));
+    }
+
+    private void gifPause() {
+        dispatch(new Action(GIF_PAUSE));
     }
 }
