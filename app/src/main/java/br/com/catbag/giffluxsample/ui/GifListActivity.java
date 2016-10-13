@@ -55,7 +55,7 @@ public class GifListActivity extends StateListenerActivity<AppState> {
                 mGlideWrapper.load(appState.getGifLocalPath());
                 break;
             case LOOPING:
-                mGlideWrapper.play(appState.getGifLocalPath());
+                mGlideWrapper.play();
                 break;
             case PAUSED:
                 mGlideWrapper.stop();
