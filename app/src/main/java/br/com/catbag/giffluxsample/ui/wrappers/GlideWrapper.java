@@ -20,6 +20,7 @@ public class GlideWrapper {
 
     private String mLocalPath;
     private ImageView mImageView;
+
     private GlideDrawable mResource;
     private GlideLoadListener mLoadListener;
     private GlideExceptionListener mExceptionListener;
@@ -101,5 +102,9 @@ public class GlideWrapper {
 
     public interface GlideLoadListener {
         void onLoaded();
+    }
+
+    public GlideDrawable getResource() {
+        return mResource;
     }
 }

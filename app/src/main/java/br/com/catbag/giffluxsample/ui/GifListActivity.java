@@ -94,6 +94,11 @@ public class GifListActivity extends StateListenerActivity<AppState> {
         Anvil.render();
     }
 
+    public GlideWrapper getGlideWrapper() {
+        return mGlideWrapper;
+    }
+
+
     private void showToast(String msg) {
         ThreadUtils.runOnMain(() -> {
             Toast.makeText(GifListActivity.this, msg, Toast.LENGTH_LONG).show();
