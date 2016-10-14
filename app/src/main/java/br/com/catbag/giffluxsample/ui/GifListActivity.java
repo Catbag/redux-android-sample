@@ -1,9 +1,8 @@
 package br.com.catbag.giffluxsample.ui;
 
 import android.os.Bundle;
-import android.view.View;
+import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.umaplay.fluxxan.Fluxxan;
@@ -15,21 +14,46 @@ import br.com.catbag.giffluxsample.R;
 import br.com.catbag.giffluxsample.actions.GifActionCreator;
 import br.com.catbag.giffluxsample.models.AppState;
 import br.com.catbag.giffluxsample.ui.wrappers.GlideWrapper;
+import trikita.anvil.Anvil;
+
+import static trikita.anvil.DSL.*;
 
 public class GifListActivity extends StateListenerActivity<AppState> {
 
     private AppState mAppState = getFlux().getState();
     private GifActionCreator mActionCreator = GifActionCreator.getInstance();
-    private ProgressBar mLoading;
+
+    //Views
     private GlideWrapper mGlideWrapper;
+
+    //Bindings
+    private boolean gifProgressVisibility;
+    private int gifBackgroundColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gif_list);
+        bindingViews();
         initializeGifView();
-        mLoading = (ProgressBar) findViewById(R.id.loading);
         mActionCreator.gifDownloadStart(mAppState.getGifUrl(), mAppState.getGifTitle(), this);
+    }
+
+    private void bindingViews() {
+        //Bindings Defaults
+        gifBackgroundColor = ContextCompat.getColor(this, R.color.notWatched);
+        gifProgressVisibility = false;
+
+        Anvil.mount(findViewById(R.id.activity_gif_list), () -> {
+            backgroundColor(gifBackgroundColor);
+
+            withId(R.id.loading, () -> {
+                visibility(gifProgressVisibility);
+            });
+            withId(R.id.gif_image, () -> {
+                onClick(v -> mActionCreator.gifClick(mAppState.getGifStatus()));
+            });
+        });
     }
 
     @Override
@@ -45,11 +69,11 @@ public class GifListActivity extends StateListenerActivity<AppState> {
                 String errorMsg = appState.getGifDownloadFailureMsg();
                 if (!errorMsg.isEmpty()) {
                     showToast(errorMsg);
-                    mLoading.setVisibility(View.GONE);
+                    gifProgressVisibility = false;
                 }
                 break;
             case DOWNLOADING:
-                setVisibilityLoading(View.VISIBLE);
+                gifProgressVisibility = true;
                 break;
             case DOWNLOADED:
                 mGlideWrapper.load(appState.getGifLocalPath());
@@ -62,10 +86,12 @@ public class GifListActivity extends StateListenerActivity<AppState> {
                 break;
             default:
         }
-    }
 
-    private void setVisibilityLoading(int visibility) {
-        ThreadUtils.runOnMain(() -> mLoading.setVisibility(visibility));
+        if (appState.getGifWatched()) {
+            gifBackgroundColor = ContextCompat.getColor(this, R.color.watched);
+        }
+
+        Anvil.render();
     }
 
     private void showToast(String msg) {
@@ -76,9 +102,11 @@ public class GifListActivity extends StateListenerActivity<AppState> {
 
     private void initializeGifView() {
         ImageView imageView = (ImageView) findViewById(R.id.gif_image);
-        imageView.setOnClickListener(v -> mActionCreator.gifClick(mAppState.getGifStatus()));
         mGlideWrapper = new GlideWrapper(imageView)
                 .onException((e) -> showToast(e.getLocalizedMessage()))
-                .onLoaded(() -> setVisibilityLoading(View.GONE));
+                .onLoaded(() -> {
+                    gifProgressVisibility = false;
+                    Anvil.render();
+                });
     }
 }
