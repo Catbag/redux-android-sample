@@ -45,6 +45,7 @@ public class GifReducer extends BaseAnnotatedReducer<AppState> {
                 .from(state)
                 .gifStatus(AppState.GifStatus.NOT_DOWNLOADED)
                 .gifDownloadFailureMsg(errorMsg)
+                .gifLocalPath("")
                 .build();
     }
 
