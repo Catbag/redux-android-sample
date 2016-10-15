@@ -30,11 +30,15 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.0'
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.0'
-    androidTestCompile "org.mockito:mockito-core:1.+"
+    androidTestCompile "com.crittercism.dexmaker:dexmaker:1.4"
+    androidTestCompile "com.crittercism.dexmaker:dexmaker-dx:1.4"
+    androidTestCompile "com.crittercism.dexmaker:dexmaker-mockito:1.4"
+    androidTestCompile "org.mockito:mockito-core:2.0.17-beta"
 
+    // robolectric
     testCompile 'junit:junit:4.12'
+    testCompile "org.mockito:mockito-core:2.0.17-beta"
+    testCompile "org.robolectric:robolectric:3.1.2"
 
     compile 'com.umaplay.oss:fluxxan:1.0.0'
     compile 'org.immutables:value:2.3.2'

@@ -19,7 +19,6 @@ public class FileDownloader {
     private static final String TAG = "FileDownloader";
     private final ApiRoutes mRoutes;
     private SuccessDownloadListener mSuccessListener;
-
     private FailureDownloadListener mFailureListener;
     private StartDownloadListener mStartListener;
 

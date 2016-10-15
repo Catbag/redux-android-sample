@@ -104,14 +104,12 @@ public class GifListActivityTest {
     public void mockFileDownloaderToAlwaysFail(){
         downloader = mock(FileDownloader.class);
         doAnswer( (invocation) -> {
-            System.out.println("MOCKED METHOD");
             listener.onFailure(new Exception("Download error"));
             return null;
         }).when(downloader).download(anyString(), anyString());
         doAnswer( (invocation) -> {
             Object[] args = invocation.getArguments();
             Object mock = invocation.getMock();
-            System.out.println("MOCKED FAILURE");
             listener = (FileDownloader.FailureDownloadListener)args[0];
             return mock;
         }).when(downloader).onFailure(any(FileDownloader.FailureDownloadListener.class));
