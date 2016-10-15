@@ -16,7 +16,10 @@ import br.com.catbag.giffluxsample.models.AppState;
 import br.com.catbag.giffluxsample.ui.wrappers.GlideWrapper;
 import trikita.anvil.Anvil;
 
-import static trikita.anvil.DSL.*;
+import static trikita.anvil.DSL.backgroundColor;
+import static trikita.anvil.DSL.onClick;
+import static trikita.anvil.DSL.visibility;
+import static trikita.anvil.DSL.withId;
 
 public class GifListActivity extends StateListenerActivity<AppState> {
 
@@ -108,7 +111,7 @@ public class GifListActivity extends StateListenerActivity<AppState> {
     private void initializeGifView() {
         ImageView imageView = (ImageView) findViewById(R.id.gif_image);
         mGlideWrapper = new GlideWrapper(imageView)
-                .onException((e) -> showToast(e.getLocalizedMessage()))
+                .onException((e) -> showToast(e.getMessage()))
                 .onLoaded(() -> {
                     gifProgressVisibility = false;
                     Anvil.render();

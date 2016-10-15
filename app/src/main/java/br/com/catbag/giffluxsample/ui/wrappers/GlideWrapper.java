@@ -38,6 +38,7 @@ public class GlideWrapper {
             @Override
             public boolean onException(Exception e, String model, Target<GlideDrawable> target,
                                        boolean isFirstResource) {
+                e.printStackTrace();
                 if (mExceptionListener != null) mExceptionListener.onException(e);
                 return false;
             }
@@ -68,6 +69,7 @@ public class GlideWrapper {
             @Override
             public boolean onException(Exception e, String model, Target<Bitmap> target,
                                        boolean isFirstResource) {
+                e.printStackTrace();
                 if (mExceptionListener != null) mExceptionListener.onException(e);
                 return false;
             }

@@ -18,9 +18,10 @@ import retrofit2.Response;
 public class FileDownloader {
     private static final String TAG = "FileDownloader";
     private final ApiRoutes mRoutes;
-    private SuccessDownloadListener mSuccessListener = null;
-    private FailureDownloadListener mFailureListener = null;
-    private StartDownloadListener mStartListener = null;
+    private SuccessDownloadListener mSuccessListener;
+
+    private FailureDownloadListener mFailureListener;
+    private StartDownloadListener mStartListener;
 
     public FileDownloader() {
         mRoutes = RoutesGenerator.createRoutes(ApiRoutes.class);
