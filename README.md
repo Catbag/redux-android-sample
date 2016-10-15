@@ -17,6 +17,17 @@ A Android sample that implements Flux architecture with React and NoSQL
 }
 ```
 
+#Tests
+
+###Integration tests
+
+- The integration tests is running on top of espresso framework, and using 
+mockito to handle mocks.
+
+To setup a CI or run tests in command line use this command:
+
+    adb shell am instrument -w br.com.catbag.giffluxsample.test/android.support.test.runner.AndroidJUnitRunner
+
 #Good Pratices
 
 ###Actions Creators
