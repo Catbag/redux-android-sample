@@ -121,15 +121,21 @@ public class GifListActivityTest {
         GifActionCreator.getInstance().setFileDownloader(downloader);
     }
 
-//    @Test
-//    public void gifDownloadFailedTest() {
-//        mockFileDownloaderToAlwaysFail();
-//
-//        mActivityTestRule.launchActivity(new Intent());
-//
-//        onView(withText("Download error")).inRoot(withToast())
-//                .check(matches(isDisplayed()));
-//    }
+    public void removeMockInFileDownloader(){
+        GifActionCreator.getInstance().setFileDownloader(new FileDownloader());
+    }
+
+    @Test
+    public void gifDownloadFailedTest() {
+        mockFileDownloaderToAlwaysFail();
+
+        mActivityTestRule.launchActivity(new Intent());
+
+        onView(withText("Download error")).inRoot(withToast())
+                .check(matches(isDisplayed()));
+
+        removeMockInFileDownloader();
+    }
 
     private void waitSpinnerGone() {
         try {
