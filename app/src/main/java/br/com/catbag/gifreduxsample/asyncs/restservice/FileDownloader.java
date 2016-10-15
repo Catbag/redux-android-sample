@@ -38,7 +38,6 @@ public class FileDownloader {
                         FileWriter.writeToDisk(response.body().byteStream(),
                                 response.body().contentLength(), pathToSave);
                     } catch (IOException e) {
-                        e.printStackTrace();
                         if (mFailureListener != null) {
                             mFailureListener.onFailure(new FileNotFoundException());
                         }

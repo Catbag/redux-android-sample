@@ -55,3 +55,29 @@ To run unit tests through a CI or command line:
 dispatch action, the main action has to be dispatched before other async
 created actions, and its not a good practice dispatch two actions on the 
 same synchronous cycle.
+
+## CODE INSPECT 
+
+### How to use
+
+1. Run **check** task on _Gradle Tasks -> verification_
+
+2. After this attention on Android Studio **Run** console
+or on gradle output if you run on terminal.
+
+3. The reports are inside **app/build/reports/tool_name** folders.
+_eg. flux-android-sample/app/build/reports/lint_
+
+4. The inspect tools custom configurations are inside **app/inspect/**
+folder.
+
+5. Problems found by inspect tools stops the **check** task.
+
+### References
+
+[Summary](http://vincentbrison.com/2014/07/19/how-to-improve-quality-and-syntax-of-your-android-code/)
+
+[Checkstyle](https://github.com/checkstyle/checkstyle)
+[FindBugs](http://findbugs.sourceforge.net/)
+[PMD](http://pmd.github.io/)
+[Android Lint](https://developer.android.com/studio/write/lint.html)

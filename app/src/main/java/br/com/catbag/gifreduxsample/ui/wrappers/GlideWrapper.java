@@ -1,6 +1,7 @@
 package br.com.catbag.gifreduxsample.ui.wrappers;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -18,6 +19,7 @@ import static com.bumptech.glide.load.engine.DiskCacheStrategy.SOURCE;
 
 public class GlideWrapper {
 
+    private static final String TAG = "GlideWrapper";
     private String mLocalPath;
     private ImageView mImageView;
 
@@ -38,7 +40,7 @@ public class GlideWrapper {
             @Override
             public boolean onException(Exception e, String model, Target<GlideDrawable> target,
                                        boolean isFirstResource) {
-                e.printStackTrace();
+                Log.e(TAG, "", e);
                 if (mExceptionListener != null) mExceptionListener.onException(e);
                 return false;
             }
@@ -69,7 +71,7 @@ public class GlideWrapper {
             @Override
             public boolean onException(Exception e, String model, Target<Bitmap> target,
                                        boolean isFirstResource) {
-                e.printStackTrace();
+                Log.e(TAG, "", e);
                 if (mExceptionListener != null) mExceptionListener.onException(e);
                 return false;
             }
@@ -98,15 +100,15 @@ public class GlideWrapper {
         return this;
     }
 
+    public GlideDrawable getResource() {
+        return mResource;
+    }
+
     public interface GlideExceptionListener {
         void onException(Exception e);
     }
 
     public interface GlideLoadListener {
         void onLoaded();
-    }
-
-    public GlideDrawable getResource() {
-        return mResource;
     }
 }

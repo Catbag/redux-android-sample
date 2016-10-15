@@ -14,10 +14,10 @@ import br.com.catbag.gifreduxsample.reducers.GifReducer;
 
 public class App extends Application {
 
-    private static Fluxxan<AppState> fluxxan = null;
+    private static Fluxxan<AppState> sFluxxan = null;
 
     public static Fluxxan<AppState> getFluxxan() {
-        return fluxxan;
+        return sFluxxan;
     }
 
     @Override
@@ -28,13 +28,13 @@ public class App extends Application {
 
     private void initializeFluxxan() {
         AppState state = ImmutableAppState.builder().build();
-        fluxxan = new Fluxxan<>(state);
-        fluxxan.registerReducer(new GifReducer());
-        fluxxan.start();
+        sFluxxan = new Fluxxan<>(state);
+        sFluxxan.registerReducer(new GifReducer());
+        sFluxxan.start();
     }
 
     public void onTerminate() {
+        sFluxxan.stop();
         super.onTerminate();
-        fluxxan.stop();
     }
 }

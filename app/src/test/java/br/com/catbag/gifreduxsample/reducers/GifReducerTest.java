@@ -1,5 +1,7 @@
 package br.com.catbag.gifreduxsample.reducers;
 
+import android.util.Log;
+
 import com.umaplay.fluxxan.Action;
 import com.umaplay.fluxxan.StateListener;
 
@@ -21,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 @Config(sdk = 23, constants=BuildConfig.class)
 @RunWith(RobolectricTestRunner.class)
 public class GifReducerTest {
+    private static final String TAG = "GifReducerTest";
     private Boolean stateChanged = false;
 
     @Before
@@ -99,7 +102,7 @@ public class GifReducerTest {
         synchronized (stateChanged){
             while(!stateChanged){
                 sleep(5);
-                System.out.println("dispatching...");
+                Log.v(TAG, "dispatching...");
             };
             stateChanged = false;
         }
@@ -113,7 +116,7 @@ public class GifReducerTest {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Log.e(TAG, "", e);
         }
     }
 }

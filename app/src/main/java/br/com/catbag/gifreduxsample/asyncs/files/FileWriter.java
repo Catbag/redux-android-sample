@@ -12,8 +12,11 @@ import java.io.OutputStream;
  * Created by felipe on 13/10/16.
  */
 
-public class FileWriter {
+public final class FileWriter {
     private static final String TAG = "FileWriter";
+
+    private FileWriter() {
+    }
 
     public static void writeToDisk(InputStream inputStream, long fileSize, String pathToSave)
             throws IOException {
