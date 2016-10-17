@@ -1,9 +1,9 @@
-# flux-android-sample
+# redux-android-sample
 
-A Android sample that implements Flux architecture with React and NoSQL
+A Android sample that implements Redux architecture with React and NoSQL
 
 # Architecture
-![Gif Sample Flux Architecture](architecture_gif_sample.png)
+![Gif Sample Redux Architecture](architecture_gif_sample.png)
 
 #App State Example
 ``` javascript
@@ -33,7 +33,7 @@ mockito to handle mocks.
 
 To setup a CI or run tests in command line use this command:
 
-    adb shell am instrument -w br.com.catbag.giffluxsample.test/android.support.test.runner.AndroidJUnitRunner
+    adb shell am instrument -w br.com.catbag.gifreduxsample.test/android.support.test.runner.AndroidJUnitRunner
 
 
 ###Unit tests

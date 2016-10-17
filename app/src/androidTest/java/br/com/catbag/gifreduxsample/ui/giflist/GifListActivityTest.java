@@ -1,4 +1,4 @@
-package br.com.catbag.giffluxsample.ui.giflist;
+package br.com.catbag.gifreduxsample.ui.giflist;
 
 
 import android.content.Intent;
@@ -12,10 +12,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import br.com.catbag.giffluxsample.R;
-import br.com.catbag.giffluxsample.actions.GifActionCreator;
-import br.com.catbag.giffluxsample.asyncs.restservice.FileDownloader;
-import br.com.catbag.giffluxsample.ui.GifListActivity;
+import br.com.catbag.gifreduxsample.R;
+import br.com.catbag.gifreduxsample.actions.GifActionCreator;
+import br.com.catbag.gifreduxsample.asyncs.restservice.FileDownloader;
+import br.com.catbag.gifreduxsample.ui.GifListActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -23,8 +23,8 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static br.com.catbag.giffluxsample.matchers.Matchers.withBGColor;
-import static br.com.catbag.giffluxsample.matchers.Matchers.withToast;
+import static br.com.catbag.gifreduxsample.matchers.Matchers.withBGColor;
+import static br.com.catbag.gifreduxsample.matchers.Matchers.withToast;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;

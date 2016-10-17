@@ -1,4 +1,4 @@
-package br.com.catbag.giffluxsample.actions;
+package br.com.catbag.gifreduxsample.actions;
 
 import android.content.Context;
 
@@ -7,9 +7,9 @@ import com.umaplay.fluxxan.impl.BaseActionCreator;
 
 import java.io.File;
 
-import br.com.catbag.giffluxsample.App;
-import br.com.catbag.giffluxsample.asyncs.restservice.FileDownloader;
-import br.com.catbag.giffluxsample.models.AppState;
+import br.com.catbag.gifreduxsample.App;
+import br.com.catbag.gifreduxsample.asyncs.restservice.FileDownloader;
+import br.com.catbag.gifreduxsample.models.AppState;
 
 /**
  * Created by niltonvasques on 10/12/16.

@@ -1,11 +1,11 @@
-package br.com.catbag.giffluxsample.reducers;
+package br.com.catbag.gifreduxsample.reducers;
 
 import com.umaplay.fluxxan.annotation.BindAction;
 import com.umaplay.fluxxan.impl.BaseAnnotatedReducer;
 
-import br.com.catbag.giffluxsample.actions.GifActionCreator;
-import br.com.catbag.giffluxsample.models.AppState;
-import br.com.catbag.giffluxsample.models.ImmutableAppState;
+import br.com.catbag.gifreduxsample.actions.GifActionCreator;
+import br.com.catbag.gifreduxsample.models.AppState;
+import br.com.catbag.gifreduxsample.models.ImmutableAppState;
 
 /**
  * Created by niltonvasques on 10/12/16.

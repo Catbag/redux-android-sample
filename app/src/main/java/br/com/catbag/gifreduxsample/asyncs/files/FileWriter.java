@@ -1,4 +1,4 @@
-package br.com.catbag.giffluxsample.asyncs.files;
+package br.com.catbag.gifreduxsample.asyncs.files;
 
 import android.util.Log;
 

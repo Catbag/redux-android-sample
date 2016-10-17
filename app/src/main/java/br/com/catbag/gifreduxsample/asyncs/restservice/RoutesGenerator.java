@@ -1,4 +1,4 @@
-package br.com.catbag.giffluxsample.asyncs.restservice;
+package br.com.catbag.gifreduxsample.asyncs.restservice;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
