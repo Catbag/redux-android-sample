@@ -1,6 +1,7 @@
 package br.com.catbag.gifreduxsample.actions;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.umaplay.fluxxan.Action;
 import com.umaplay.fluxxan.impl.BaseActionCreator;
@@ -15,7 +16,7 @@ import br.com.catbag.gifreduxsample.models.AppState;
  * Created by niltonvasques on 10/12/16.
  */
 
-public class GifActionCreator extends BaseActionCreator {
+public final class GifActionCreator extends BaseActionCreator {
     public static final String APP_START = "APP_START";
     public static final String GIF_PLAY = "GIF_PLAY";
     public static final String GIF_PAUSE = "GIF_PAUSE";
@@ -23,20 +24,21 @@ public class GifActionCreator extends BaseActionCreator {
     public static final String GIF_DOWNLOAD_FAILURE = "GIF_DOWNLOAD_FAILURE";
     public static final String GIF_DOWNLOAD_STARTED = "GIF_DOWNLOAD_STARTED";
 
-    private static GifActionCreator instance;
+    private static final String TAG = "GifActionCreator";
+    private static GifActionCreator sInstance;
 
-    private FileDownloader fileDownloader;
+    private FileDownloader mFileDownloader;
 
     private GifActionCreator() {
         App.getFluxxan().inject(this);
-        fileDownloader = new FileDownloader();
+        mFileDownloader = new FileDownloader();
     }
 
     public static GifActionCreator getInstance() {
-        if (instance == null) {
-            instance = new GifActionCreator();
+        if (sInstance == null) {
+            sInstance = new GifActionCreator();
         }
-        return instance;
+        return sInstance;
     }
 
     public void gifDownloadStart(String gifUrl, String gifTitle, Context context) {
@@ -44,10 +46,10 @@ public class GifActionCreator extends BaseActionCreator {
 
         String pathToSave = context.getExternalFilesDir(null) + File.separator + gifTitle + ".gif";
 
-        fileDownloader.onStarted(() -> dispatch(new Action(GIF_DOWNLOAD_STARTED)))
+        mFileDownloader.onStarted(() -> dispatch(new Action(GIF_DOWNLOAD_STARTED)))
                 .onSuccess(() -> dispatch(new Action(GIF_DOWNLOAD_SUCCESS, pathToSave)))
                 .onFailure(e -> {
-                    e.printStackTrace();
+                    Log.e(TAG, "", e);
                     dispatch(new Action(GIF_DOWNLOAD_FAILURE, e.getMessage()));
                 })
                 .download(gifUrl, pathToSave);
@@ -61,12 +63,12 @@ public class GifActionCreator extends BaseActionCreator {
         }
     }
 
-    public void setFileDownloader(FileDownloader fileDownloader) {
-        this.fileDownloader = fileDownloader;
+    public void setmFileDownloader(FileDownloader mFileDownloader) {
+        this.mFileDownloader = mFileDownloader;
     }
 
-    public FileDownloader getFileDownloader() {
-        return fileDownloader;
+    public FileDownloader getmFileDownloader() {
+        return mFileDownloader;
     }
 
     private void gifPlay() {

@@ -116,11 +116,11 @@ public class GifListActivityTest {
         doReturn(downloader).when(downloader).onSuccess(any(FileDownloader.SuccessDownloadListener.class));
         doReturn(downloader).when(downloader).onStarted(any(FileDownloader.StartDownloadListener.class));
 
-        GifActionCreator.getInstance().setFileDownloader(downloader);
+        GifActionCreator.getInstance().setmFileDownloader(downloader);
     }
 
     public void removeMockInFileDownloader(){
-        GifActionCreator.getInstance().setFileDownloader(new FileDownloader());
+        GifActionCreator.getInstance().setmFileDownloader(new FileDownloader());
     }
 
     @Test

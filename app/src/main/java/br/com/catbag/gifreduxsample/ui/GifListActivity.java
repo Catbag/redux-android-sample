@@ -30,8 +30,8 @@ public class GifListActivity extends StateListenerActivity<AppState> {
     private GlideWrapper mGlideWrapper;
 
     //Bindings
-    private boolean gifProgressVisibility;
-    private int gifBackgroundColor;
+    private boolean mGifProgressVisibility;
+    private int mGifBackgroundColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +44,14 @@ public class GifListActivity extends StateListenerActivity<AppState> {
 
     private void bindingViews() {
         //Bindings Defaults
-        gifBackgroundColor = ContextCompat.getColor(this, R.color.notWatched);
-        gifProgressVisibility = false;
+        mGifBackgroundColor = ContextCompat.getColor(this, R.color.notWatched);
+        mGifProgressVisibility = false;
 
         Anvil.mount(findViewById(R.id.activity_gif_list), () -> {
-            backgroundColor(gifBackgroundColor);
+            backgroundColor(mGifBackgroundColor);
 
             withId(R.id.loading, () -> {
-                visibility(gifProgressVisibility);
+                visibility(mGifProgressVisibility);
             });
             withId(R.id.gif_image, () -> {
                 onClick(v -> mActionCreator.gifClick(mAppState.getGifStatus()));
@@ -72,11 +72,11 @@ public class GifListActivity extends StateListenerActivity<AppState> {
                 String errorMsg = appState.getGifDownloadFailureMsg();
                 if (!errorMsg.isEmpty()) {
                     showToast(errorMsg);
-                    gifProgressVisibility = false;
+                    mGifProgressVisibility = false;
                 }
                 break;
             case DOWNLOADING:
-                gifProgressVisibility = true;
+                mGifProgressVisibility = true;
                 break;
             case DOWNLOADED:
                 mGlideWrapper.load(appState.getGifLocalPath());
@@ -91,7 +91,7 @@ public class GifListActivity extends StateListenerActivity<AppState> {
         }
 
         if (appState.getGifWatched()) {
-            gifBackgroundColor = ContextCompat.getColor(this, R.color.watched);
+            mGifBackgroundColor = ContextCompat.getColor(this, R.color.watched);
         }
 
         Anvil.render();
@@ -112,7 +112,7 @@ public class GifListActivity extends StateListenerActivity<AppState> {
         mGlideWrapper = new GlideWrapper(imageView)
                 .onException((e) -> showToast(e.getMessage()))
                 .onLoaded(() -> {
-                    gifProgressVisibility = false;
+                    mGifProgressVisibility = false;
                     Anvil.render();
                 });
     }

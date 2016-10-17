@@ -6,6 +6,7 @@ import org.immutables.value.Value;
  * Created by niltonvasques on 10/12/16.
  */
 
+@SuppressWarnings("PMD.BooleanGetMethodName")
 @Value.Immutable
 public abstract class AppState {
 
@@ -21,8 +22,8 @@ public abstract class AppState {
 
     @Value.Default
     public String getGifUrl() {
-        return "http://inspirandoideias.com.br/blog/wp-content/uploads/2015/03/" +
-                "b3368a682fc5ff891e41baad2731f4b6.gif";
+        return "http://inspirandoideias.com.br/blog/wp-content/uploads/2015/03/"
+                + "b3368a682fc5ff891e41baad2731f4b6.gif";
     }
 
     @Value.Default
