@@ -28,12 +28,24 @@ A Android sample that implements Flux architecture with React and NoSQL
 
 ###Integration tests
 
-- The integration tests is running on top of espresso framework, and using 
+- The integration tests are running on top of espresso framework, and using 
 mockito to handle mocks.
 
 To setup a CI or run tests in command line use this command:
 
     adb shell am instrument -w br.com.catbag.giffluxsample.test/android.support.test.runner.AndroidJUnitRunner
+
+
+###Unit tests
+
+- The unit tests are running with [roboeletric](http://robolectric.org/), that is a android test framework with
+builtin mock capabilities of android sdk. The roboeletric give us the power to run some unit tests 
+with functions from android SDK without the requirement of an emulator running, what results 
+in very fast tests.
+
+To run unit tests through a CI or command line:
+
+    ./gradlew  clean test --daemon --continue
 
 #Good Pratices
 
