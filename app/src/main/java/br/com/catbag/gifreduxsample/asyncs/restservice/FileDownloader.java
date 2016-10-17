@@ -1,11 +1,11 @@
-package br.com.catbag.giffluxsample.asyncs.restservice;
+package br.com.catbag.gifreduxsample.asyncs.restservice;
 
 import android.util.Log;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import br.com.catbag.giffluxsample.asyncs.files.FileWriter;
+import br.com.catbag.gifreduxsample.asyncs.files.FileWriter;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;

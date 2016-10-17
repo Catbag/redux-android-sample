@@ -1,4 +1,4 @@
-package br.com.catbag.giffluxsample.ui;
+package br.com.catbag.gifreduxsample.ui;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -9,11 +9,11 @@ import com.umaplay.fluxxan.Fluxxan;
 import com.umaplay.fluxxan.ui.StateListenerActivity;
 import com.umaplay.fluxxan.util.ThreadUtils;
 
-import br.com.catbag.giffluxsample.App;
-import br.com.catbag.giffluxsample.R;
-import br.com.catbag.giffluxsample.actions.GifActionCreator;
-import br.com.catbag.giffluxsample.models.AppState;
-import br.com.catbag.giffluxsample.ui.wrappers.GlideWrapper;
+import br.com.catbag.gifreduxsample.App;
+import br.com.catbag.gifreduxsample.R;
+import br.com.catbag.gifreduxsample.actions.GifActionCreator;
+import br.com.catbag.gifreduxsample.models.AppState;
+import br.com.catbag.gifreduxsample.ui.wrappers.GlideWrapper;
 import trikita.anvil.Anvil;
 
 import static trikita.anvil.DSL.backgroundColor;

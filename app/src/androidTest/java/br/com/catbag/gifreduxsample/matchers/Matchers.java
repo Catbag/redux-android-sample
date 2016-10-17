@@ -1,4 +1,4 @@
-package br.com.catbag.giffluxsample.matchers;
+package br.com.catbag.gifreduxsample.matchers;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.IBinder;

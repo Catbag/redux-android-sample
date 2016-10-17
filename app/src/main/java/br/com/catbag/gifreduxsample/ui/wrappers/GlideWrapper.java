@@ -1,4 +1,4 @@
-package br.com.catbag.giffluxsample.ui.wrappers;
+package br.com.catbag.gifreduxsample.ui.wrappers;
 
 import android.graphics.Bitmap;
 import android.widget.ImageView;

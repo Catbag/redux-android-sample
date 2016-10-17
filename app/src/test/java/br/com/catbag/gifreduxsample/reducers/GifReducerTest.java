@@ -1,23 +1,20 @@
-package br.com.catbag.giffluxsample.reducers;
+package br.com.catbag.gifreduxsample.reducers;
 
 import com.umaplay.fluxxan.Action;
-import com.umaplay.fluxxan.Fluxxan;
 import com.umaplay.fluxxan.StateListener;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import br.com.catbag.giffluxsample.App;
-import br.com.catbag.giffluxsample.BuildConfig;
-import br.com.catbag.giffluxsample.actions.GifActionCreator;
-import br.com.catbag.giffluxsample.models.AppState;
+import br.com.catbag.gifreduxsample.App;
+import br.com.catbag.gifreduxsample.BuildConfig;
+import br.com.catbag.gifreduxsample.actions.GifActionCreator;
+import br.com.catbag.gifreduxsample.models.AppState;
 
-import static br.com.catbag.giffluxsample.App.getFluxxan;
 import static org.junit.Assert.assertEquals;
 
 // Roboeletric still not supports API 24 stuffs

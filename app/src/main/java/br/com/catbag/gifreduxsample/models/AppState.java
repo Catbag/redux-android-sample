@@ -1,4 +1,4 @@
-package br.com.catbag.giffluxsample.models;
+package br.com.catbag.gifreduxsample.models;
 
 import org.immutables.value.Value;
 
