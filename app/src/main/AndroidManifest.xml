@@ -3,6 +3,7 @@
           package="br.com.catbag.giffluxsample">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.SET_DEBUG_APP"></uses-permission>
 
     <application
         android:name=".App"

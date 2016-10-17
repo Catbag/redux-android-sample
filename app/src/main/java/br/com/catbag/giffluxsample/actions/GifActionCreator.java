@@ -25,8 +25,11 @@ public class GifActionCreator extends BaseActionCreator {
 
     private static GifActionCreator instance;
 
+    private FileDownloader fileDownloader;
+
     private GifActionCreator() {
         App.getFluxxan().inject(this);
+        fileDownloader = new FileDownloader();
     }
 
     public static GifActionCreator getInstance() {
@@ -41,10 +44,12 @@ public class GifActionCreator extends BaseActionCreator {
 
         String pathToSave = context.getExternalFilesDir(null) + File.separator + gifTitle + ".gif";
 
-        FileDownloader fileDownloader = new FileDownloader();
         fileDownloader.onStarted(() -> dispatch(new Action(GIF_DOWNLOAD_STARTED)))
                 .onSuccess(() -> dispatch(new Action(GIF_DOWNLOAD_SUCCESS, pathToSave)))
-                .onFailure(e -> dispatch(new Action(GIF_DOWNLOAD_FAILURE, e.getLocalizedMessage())))
+                .onFailure(e -> {
+                    e.printStackTrace();
+                    dispatch(new Action(GIF_DOWNLOAD_FAILURE, e.getMessage()));
+                })
                 .download(gifUrl, pathToSave);
     }
 
@@ -54,6 +59,14 @@ public class GifActionCreator extends BaseActionCreator {
         } else if (status == AppState.GifStatus.LOOPING) {
             gifPause();
         }
+    }
+
+    public void setFileDownloader(FileDownloader fileDownloader) {
+        this.fileDownloader = fileDownloader;
+    }
+
+    public FileDownloader getFileDownloader() {
+        return fileDownloader;
     }
 
     private void gifPlay() {
