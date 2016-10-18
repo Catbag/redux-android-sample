@@ -1,5 +1,7 @@
 # redux-android-sample
 
+[![CircleCI](https://circleci.com/gh/Catbag/redux-android-sample/tree/master.svg?style=svg)](https://circleci.com/gh/Catbag/redux-android-sample/tree/master)
+
 A Android sample that implements Redux architecture with React and NoSQL
 
 # Architecture
