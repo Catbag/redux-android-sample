@@ -1,0 +1,29 @@
+dependencies:
+  pre:
+    - echo y | android update sdk --no-ui --all --filter tools
+    - echo y | android update sdk --no-ui --all --filter platform-tools
+    - echo y | android update sdk --no-ui --all --filter build-tools-24.0.3
+    - echo y | android update sdk --no-ui --all --filter android-24
+    - echo y | android update sdk --no-ui --all --filter extra-android-m2repository
+    - echo y | android update sdk --no-ui --all --filter extra-google-m2repository
+test:
+  override:
+    #build attempt
+    - (./gradlew assemble -PdisablePreDex):
+          timeout: 360
+    #code inspect and junit tests
+    - ./gradlew check -PdisablePreDex --console=plain
+    #start emulator
+    - emulator -avd sys-img-armeabi-v7-android-22 -no-audio -no-window:
+          background: true
+          parallel: true
+    - circle-android wait-for-boot
+    #unlock screen
+    - fb-adb shell input keyevent 82
+    #run ui tests
+    - ./gradlew connectedCheck -PdisablePreDex --console=plain
+
+    #copy .apk to circleci artifacts folder
+    - cp -r ${HOME}/${CIRCLE_PROJECT_REPONAME}/app/build/outputs/apk/ $CIRCLE_ARTIFACTS
+    #copy the tests reports to circleci report folder
+    - cp -r ${HOME}/${CIRCLE_PROJECT_REPONAME}/app/build/reports/* $CIRCLE_TEST_REPORTS

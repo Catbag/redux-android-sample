@@ -7,7 +7,9 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.content.ContextCompat;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
+import android.view.WindowManager;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +40,16 @@ public class GifListActivityTest {
 
     @Rule
     public ActivityTestRule<GifListActivity> mActivityTestRule = new ActivityTestRule<>(GifListActivity.class, false, false);
+
+    @Before
+    public void setUp() {
+        //This code unlock the device if it was locked (for CI emulator tools)
+        GifListActivity activity = mActivityTestRule.getActivity();
+        Runnable wakeUpDevice = () -> activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        activity.runOnUiThread(wakeUpDevice);
+    }
 
     @Test
     public void loadingDuringGifLoadingTest() {
