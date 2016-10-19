@@ -1,5 +1,7 @@
 # redux-android-sample
 
+[![Build Status](http://drone.catbag.com.br/api/badges/Catbag/redux-android-sample/status.svg)](http://drone.catbag.com.br/Catbag/redux-android-sample)
+
 A Android sample that implements Redux architecture with React and NoSQL
 
 # Architecture
