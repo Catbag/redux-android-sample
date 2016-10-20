@@ -1,0 +1,4 @@
+build:
+  image: catbagdev/android-env
+  commands:
+    - ./gradlew check --daemon -PdisablePreDex --stacktrace
