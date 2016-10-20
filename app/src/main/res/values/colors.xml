@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="notWatched">#11DE11</color>
     <color name="watched">#00FFFFFF</color>
+    <color name="error">#F94A4A</color>
 </resources>
