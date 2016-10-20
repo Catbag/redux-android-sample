@@ -73,7 +73,7 @@ public class FileDownloader {
         return this;
     }
 
-    public FileDownloader onStarted(StartDownloadListener listener) {
+    public FileDownloader onStart(StartDownloadListener listener) {
         mStartListener = listener;
         return this;
     }

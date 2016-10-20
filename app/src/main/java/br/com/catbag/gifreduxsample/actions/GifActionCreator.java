@@ -46,7 +46,7 @@ public final class GifActionCreator extends BaseActionCreator {
 
         String pathToSave = context.getExternalFilesDir(null) + File.separator + gifTitle + ".gif";
 
-        mFileDownloader.onStarted(() -> dispatch(new Action(GIF_DOWNLOAD_STARTED)))
+        mFileDownloader.onStart(() -> dispatch(new Action(GIF_DOWNLOAD_STARTED)))
                 .onSuccess(() -> dispatch(new Action(GIF_DOWNLOAD_SUCCESS, pathToSave)))
                 .onFailure(e -> {
                     Log.e(TAG, "", e);
@@ -63,7 +63,7 @@ public final class GifActionCreator extends BaseActionCreator {
         }
     }
 
-    public void setmFileDownloader(FileDownloader mFileDownloader) {
+    public void setFileDownloader(FileDownloader mFileDownloader) {
         this.mFileDownloader = mFileDownloader;
     }
 
