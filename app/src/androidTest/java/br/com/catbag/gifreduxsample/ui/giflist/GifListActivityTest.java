@@ -14,7 +14,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import br.com.catbag.gifreduxsample.R;
-import br.com.catbag.gifreduxsample.customs.WakeActivityTestRule;
 import br.com.catbag.gifreduxsample.ui.GifListActivity;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -36,7 +35,7 @@ import static org.hamcrest.Matchers.not;
 public class GifListActivityTest {
 
     @Rule
-    public ActivityTestRule<GifListActivity> mActivityTestRule = new WakeActivityTestRule<>(GifListActivity.class, false, false);
+    public ActivityTestRule<GifListActivity> mActivityTestRule = new ActivityTestRule<>(GifListActivity.class, false, false);
 
 
     @Test
