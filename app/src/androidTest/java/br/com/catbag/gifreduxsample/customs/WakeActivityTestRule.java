@@ -6,10 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.test.rule.ActivityTestRule;
 import android.view.WindowManager;
 
-import br.com.catbag.gifreduxsample.ui.GifListActivity;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-
 /**
  * Created by niltonvasques on 10/20/16.
  */

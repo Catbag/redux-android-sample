@@ -10,6 +10,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.umaplay.fluxxan.util.ThreadUtils;
 
+import static android.R.attr.resource;
 import static com.bumptech.glide.load.engine.DiskCacheStrategy.ALL;
 import static com.bumptech.glide.load.engine.DiskCacheStrategy.SOURCE;
 
@@ -73,10 +74,11 @@ public class GlideWrapper {
                                        boolean isFirstResource) {
                 Log.e(TAG, "", e);
                 if (mExceptionListener != null) {
-                    if (e == null)
+                    if (e == null) {
                         mExceptionListener.onException(new Exception("glide load error"));
-                    else
+                    }else {
                         mExceptionListener.onException(e);
+                    }
                 }
                 return false;
             }
