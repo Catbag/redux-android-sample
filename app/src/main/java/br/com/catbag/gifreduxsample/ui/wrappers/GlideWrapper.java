@@ -72,8 +72,12 @@ public class GlideWrapper {
             public boolean onException(Exception e, String model, Target<Bitmap> target,
                                        boolean isFirstResource) {
                 Log.e(TAG, "", e);
-                if (e == null) e = new Exception("glide load error");
-                if (mExceptionListener != null) mExceptionListener.onException(e);
+                if (mExceptionListener != null) {
+                    if (e == null)
+                        mExceptionListener.onException(new Exception("glide load error"));
+                    else
+                        mExceptionListener.onException(e);
+                }
                 return false;
             }
 
