@@ -76,7 +76,7 @@ public class GlideWrapper {
                 if (mExceptionListener != null) {
                     if (e == null) {
                         mExceptionListener.onException(new Exception("glide load error"));
-                    }else {
+                    } else {
                         mExceptionListener.onException(e);
                     }
                 }
