@@ -2,8 +2,8 @@ build:
   image: niltonvasques/android-emulator:latest
   commands:
     - echo "no" | emulator64-arm -avd test -noaudio -no-window -gpu off -verbose -qemu -usbdevice tablet &
-    - ./gradlew check --daemon -PdisablePreDex --stacktrace
     - adb wait-for-device
+    - ./gradlew check --daemon -PdisablePreDex --stacktrace
     - A=$(adb shell getprop sys.boot_completed | tr -d '\r'); while [ "$A" != "1" ]; do sleep 2; A=$(adb shell getprop sys.boot_completed | tr -d '\r'); done
     - adb shell input keyevent 82
     - ./gradlew cC --daemon -PdisablePreDex --stacktrace
