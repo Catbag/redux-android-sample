@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import br.com.catbag.gifreduxsample.R;
+import br.com.catbag.gifreduxsample.customs.WakeActivityTestRule;
 import br.com.catbag.gifreduxsample.ui.GifListActivity;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -27,6 +28,7 @@ import static br.com.catbag.gifreduxsample.matchers.Matchers.withToast;
 import static br.com.catbag.gifreduxsample.ui.giflist.mocks.FileDownloaderMocks.mockFileDownloaderToAlwaysFail;
 import static br.com.catbag.gifreduxsample.ui.giflist.mocks.FileDownloaderMocks.mockFileDownloaderToDownloadInfinite;
 import static br.com.catbag.gifreduxsample.ui.giflist.mocks.FileDownloaderMocks.removeMockInFileDownloader;
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 import static org.hamcrest.Matchers.not;
 
 @LargeTest
@@ -34,7 +36,8 @@ import static org.hamcrest.Matchers.not;
 public class GifListActivityTest {
 
     @Rule
-    public ActivityTestRule<GifListActivity> mActivityTestRule = new ActivityTestRule<>(GifListActivity.class, false, false);
+    public ActivityTestRule<GifListActivity> mActivityTestRule = new WakeActivityTestRule<>(GifListActivity.class, false, false);
+
 
     @Test
     public void loadingDuringGifLoadingTest() {
@@ -95,6 +98,11 @@ public class GifListActivityTest {
         onView(withId(R.id.gif_image))
                 .perform(click());
 
+        View image = mActivityTestRule.getActivity().findViewById(R.id.gif_image);
+        Log.i("pauseGifTest", "before "+image.getWidth()+" W"+ image.getHeight()+ " H");
+        sleep(2000);
+        Log.i("pauseGifTest", "after "+image.getWidth()+" W"+ image.getHeight()+ " H");
+
         onView(withId(R.id.gif_image))
                 .perform(click());
         assert(!mActivityTestRule.getActivity().getGlideWrapper().getResource().isRunning());
@@ -138,4 +146,13 @@ public class GifListActivityTest {
             Log.e("GifListActivityTest", "", e);
         }
     }
+
+    private void sleep(long ms){
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Log.e(TAG, "", e);
+        }
+    }
+
 }
