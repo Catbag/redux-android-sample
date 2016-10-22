@@ -43,6 +43,8 @@ public class GifListActivityTest {
         mockFileDownloaderToDownloadInfinite();
 
         mActivityTestRule.launchActivity(new Intent());
+        //waiting until dispatcher delivery the downloading action
+        sleep(1000);
         onView(withId(R.id.loading))
                 .check(matches(isDisplayed()));
 
