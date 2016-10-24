@@ -1,7 +1,5 @@
 package br.com.catbag.gifreduxsample.idlings;
 
-import android.support.test.espresso.IdlingResource;
-
 import br.com.catbag.gifreduxsample.ui.wrappers.GlideWrapper;
 
 public class GlideLoadIdlingResource extends GlideIdlingResource {
@@ -18,7 +16,7 @@ public class GlideLoadIdlingResource extends GlideIdlingResource {
 
     @Override
     public boolean isIdleNow() {
-        boolean idle = mWrapper.isLoaded();
+        boolean idle = mWrapper.ismLoaded();
         if (idle && mResourceCallback != null) {
             mResourceCallback.onTransitionToIdle();
         }

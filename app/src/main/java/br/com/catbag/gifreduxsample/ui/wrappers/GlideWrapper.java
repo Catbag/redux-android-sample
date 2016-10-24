@@ -10,7 +10,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.umaplay.fluxxan.util.ThreadUtils;
 
-import static android.R.attr.resource;
 import static com.bumptech.glide.load.engine.DiskCacheStrategy.ALL;
 import static com.bumptech.glide.load.engine.DiskCacheStrategy.SOURCE;
 
@@ -29,7 +28,7 @@ public class GlideWrapper {
     private GlideLoadListener mLoadListener;
     private GlideExceptionListener mExceptionListener;
 
-    private boolean isLoaded = false;
+    private boolean mLoaded = false;
 
     public GlideWrapper(ImageView imageView) {
         mImageView = imageView;
@@ -96,7 +95,7 @@ public class GlideWrapper {
             public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target,
                                            boolean isFromMemoryCache, boolean isFirstResource) {
                 if (mLoadListener != null) mLoadListener.onLoaded();
-                isLoaded = true;
+                mLoaded = true;
                 return false;
             }
         };
@@ -117,8 +116,8 @@ public class GlideWrapper {
         return this;
     }
 
-    public boolean isLoaded() {
-        return isLoaded;
+    public boolean ismLoaded() {
+        return mLoaded;
     }
 
 

@@ -3,7 +3,6 @@ build:
   privileged: true
   commands:
     - cp -a /drone/.gradle /root/ && rm -Rf /drone/.gradle
-    - wget 127.0.0.1:8000/goku.gif
     - start_emulator && wait_emulator
     - ./gradlew check --daemon -PdisablePreDex --stacktrace
     - ./gradlew assembleDebugAndroidTest --daemon -PdisablePreDex --stacktrace

@@ -1,12 +1,9 @@
 package br.com.catbag.gifreduxsample.idlings;
 
-import android.support.test.espresso.IdlingResource;
-
 import com.umaplay.fluxxan.Fluxxan;
 import com.umaplay.fluxxan.StateListener;
 
 import br.com.catbag.gifreduxsample.models.AppState;
-import br.com.catbag.gifreduxsample.ui.wrappers.GlideWrapper;
 
 public class StartedActionIdlingResource extends BaseIdlingResource implements StateListener<AppState> {
 

@@ -41,8 +41,7 @@ public class GifReducerTest {
 
     @Test
     public void initialAppState() throws Exception {
-        String expectedDefaultURL = "http://inspirandoideias.com.br/blog/wp-content/upload" +
-                "s/2015/03/b3368a682fc5ff891e41baad2731f4b6.gif" ;
+        String expectedDefaultURL = "http://127.0.0.1:8000/goku.gif" ;
         assertEquals(AppState.GifStatus.NOT_DOWNLOADED, currentState().getGifStatus());
         assertEquals("", currentState().getGifLocalPath());
         assertEquals("goku", currentState().getGifTitle());
