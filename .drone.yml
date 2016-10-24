@@ -4,9 +4,7 @@ build:
   commands:
     - cp -a /drone/.gradle /root/ && rm -Rf /drone/.gradle
     - hostname -I
-    - ls /dev/tcp
-    - ping server
-    - ping server:8000
+    - wget http://server:8000/goku.gif
     # start_emulator
     # ./gradlew check --daemon -PdisablePreDex --stacktrace
     # ./gradlew assembleDebugAndroidTest --daemon -PdisablePreDex --stacktrace
