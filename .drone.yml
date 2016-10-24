@@ -7,7 +7,7 @@ build:
     # ./gradlew check --daemon -PdisablePreDex --stacktrace
     # ./gradlew assembleDebugAndroidTest --daemon -PdisablePreDex --stacktrace
     - wait_emulator && unlock_emulator
-    - adb shell ping http://10.0.2.2:8000
+    - adb shell ping http://10.0.2.2
     # ./gradlew cC --daemon -PdisablePreDex --stacktrace
     # cp -a /root/.gradle /drone/
 cache:
