@@ -4,12 +4,14 @@ build:
   commands:
     - cp -a /drone/.gradle /root/ && rm -Rf /drone/.gradle
     - hostname -I
-   #- start_emulator
-   #- ./gradlew check --daemon -PdisablePreDex --stacktrace
-   #- ./gradlew assembleDebugAndroidTest --daemon -PdisablePreDex --stacktrace
-   #- wait_emulator && unlock_emulator
-   #- ./gradlew cC --daemon -PdisablePreDex --stacktrace
-   #- cp -a /root/.gradle /drone/
+    - ping server
+    - ping server:8000
+    # start_emulator
+    # ./gradlew check --daemon -PdisablePreDex --stacktrace
+    # ./gradlew assembleDebugAndroidTest --daemon -PdisablePreDex --stacktrace
+    # wait_emulator && unlock_emulator
+    # ./gradlew cC --daemon -PdisablePreDex --stacktrace
+    # cp -a /root/.gradle /drone/
 cache:
   mount:
     - /drone/.gradle
