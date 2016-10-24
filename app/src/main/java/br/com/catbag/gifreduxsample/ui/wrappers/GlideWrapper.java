@@ -25,8 +25,11 @@ public class GlideWrapper {
     private ImageView mImageView;
 
     private GlideDrawable mResource;
+
     private GlideLoadListener mLoadListener;
     private GlideExceptionListener mExceptionListener;
+
+    private boolean isLoaded = false;
 
     public GlideWrapper(ImageView imageView) {
         mImageView = imageView;
@@ -42,7 +45,13 @@ public class GlideWrapper {
             public boolean onException(Exception e, String model, Target<GlideDrawable> target,
                                        boolean isFirstResource) {
                 Log.e(TAG, "", e);
-                if (mExceptionListener != null) mExceptionListener.onException(e);
+                if (mExceptionListener != null) {
+                    if (e != null) {
+                        mExceptionListener.onException(e);
+                    } else {
+                        mExceptionListener.onException(new Exception("Glide undefined exception"));
+                    }
+                }
                 return false;
             }
 
@@ -87,6 +96,7 @@ public class GlideWrapper {
             public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target,
                                            boolean isFromMemoryCache, boolean isFirstResource) {
                 if (mLoadListener != null) mLoadListener.onLoaded();
+                isLoaded = true;
                 return false;
             }
         };
@@ -106,6 +116,11 @@ public class GlideWrapper {
         mExceptionListener = listener;
         return this;
     }
+
+    public boolean isLoaded() {
+        return isLoaded;
+    }
+
 
     public GlideDrawable getResource() {
         return mResource;

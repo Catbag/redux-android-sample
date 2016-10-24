@@ -22,8 +22,7 @@ public abstract class AppState {
 
     @Value.Default
     public String getGifUrl() {
-        return "http://inspirandoideias.com.br/blog/wp-content/uploads/2015/03/"
-                + "b3368a682fc5ff891e41baad2731f4b6.gif";
+        return "http://127.0.0.1:8000/goku.gif";
     }
 
     @Value.Default
