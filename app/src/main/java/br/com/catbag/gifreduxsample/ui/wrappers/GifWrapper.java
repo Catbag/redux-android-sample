@@ -19,8 +19,8 @@ public class GifWrapper {
     private GifImageView mImageView;
     private GifDrawable mDrawable;
 
-    private GlideLoadListener mLoadListener;
-    private GlideExceptionListener mExceptionListener;
+    private GifLoadListener mLoadListener;
+    private GifExceptionListener mExceptionListener;
 
     private boolean mLoaded = false;
 
@@ -56,12 +56,12 @@ public class GifWrapper {
         }
     }
 
-    public GifWrapper onLoaded(GlideLoadListener listener) {
+    public GifWrapper onLoaded(GifLoadListener listener) {
         mLoadListener = listener;
         return this;
     }
 
-    public GifWrapper onException(GlideExceptionListener listener) {
+    public GifWrapper onException(GifExceptionListener listener) {
         mExceptionListener = listener;
         return this;
     }
@@ -75,11 +75,11 @@ public class GifWrapper {
         return mDrawable;
     }
 
-    public interface GlideExceptionListener {
+    public interface GifExceptionListener {
         void onException(Exception e);
     }
 
-    public interface GlideLoadListener {
+    public interface GifLoadListener {
         void onLoaded();
     }
 }

@@ -27,7 +27,7 @@ public class GifListActivity extends StateListenerActivity<AppState> {
     private GifActionCreator mActionCreator = GifActionCreator.getInstance();
 
     //Views
-    private GifWrapper mGlideWrapper;
+    private GifWrapper mGifWrapper;
 
     //Bindings
     private boolean mGifProgressVisibility;
@@ -79,13 +79,13 @@ public class GifListActivity extends StateListenerActivity<AppState> {
                 mGifProgressVisibility = true;
                 break;
             case DOWNLOADED:
-                mGlideWrapper.load(appState.getGifLocalPath());
+                mGifWrapper.load(appState.getGifLocalPath());
                 break;
             case LOOPING:
-                mGlideWrapper.play();
+                mGifWrapper.play();
                 break;
             case PAUSED:
-                mGlideWrapper.stop();
+                mGifWrapper.stop();
                 break;
             default:
         }
@@ -97,8 +97,8 @@ public class GifListActivity extends StateListenerActivity<AppState> {
         Anvil.render();
     }
 
-    public GifWrapper getGlideWrapper() {
-        return mGlideWrapper;
+    public GifWrapper getGifWrapper() {
+        return mGifWrapper;
     }
 
     private void showToast(String msg) {
@@ -108,7 +108,7 @@ public class GifListActivity extends StateListenerActivity<AppState> {
     }
 
     private void initializeGifView() {
-        mGlideWrapper = new GifWrapper((GifImageView) findViewById(R.id.gif_image))
+        mGifWrapper = new GifWrapper((GifImageView) findViewById(R.id.gif_image))
                 .onException((e) -> showToast(e.getMessage()))
                 .onLoaded(() -> {
                     mGifProgressVisibility = false;

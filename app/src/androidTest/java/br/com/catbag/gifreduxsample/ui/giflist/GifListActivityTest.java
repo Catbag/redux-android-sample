@@ -104,7 +104,7 @@ public class GifListActivityTest {
 
         onView(withId(R.id.gif_image))
                 .perform(click());
-        assert(mActivityTestRule.getActivity().getGlideWrapper().getDrawable().isRunning());
+        assert(mActivityTestRule.getActivity().getGifWrapper().getDrawable().isRunning());
 
         loadResource.unregisterIdlingResource();
     }
@@ -129,7 +129,7 @@ public class GifListActivityTest {
         loadResource.unregisterIdlingResource();
         playResource.registerIdlingResource();
 
-        assert(!mActivityTestRule.getActivity().getGlideWrapper().getDrawable().isRunning());
+        assert(!mActivityTestRule.getActivity().getGifWrapper().getDrawable().isRunning());
 
     }
 
@@ -146,7 +146,7 @@ public class GifListActivityTest {
     }
 
     public GifWrapper getWrapper(){
-        return mActivityTestRule.getActivity().getGlideWrapper();
+        return mActivityTestRule.getActivity().getGifWrapper();
     }
 
     private Fluxxan getFluxxan(){
