@@ -1,11 +1,11 @@
 package br.com.catbag.gifreduxsample.idlings;
 
-import br.com.catbag.gifreduxsample.ui.wrappers.GlideWrapper;
+import br.com.catbag.gifreduxsample.ui.wrappers.GifWrapper;
 
 public class GlideLoadIdlingResource extends GlideIdlingResource {
 
 
-    public GlideLoadIdlingResource(GlideWrapper wrapper) {
+    public GlideLoadIdlingResource(GifWrapper wrapper) {
         super(wrapper);
     }
 
@@ -16,7 +16,7 @@ public class GlideLoadIdlingResource extends GlideIdlingResource {
 
     @Override
     public boolean isIdleNow() {
-        boolean idle = mWrapper.ismLoaded();
+        boolean idle = mWrapper.isLoaded();
         if (idle && mResourceCallback != null) {
             mResourceCallback.onTransitionToIdle();
         }

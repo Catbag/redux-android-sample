@@ -19,7 +19,7 @@ import br.com.catbag.gifreduxsample.idlings.GlideLoadIdlingResource;
 import br.com.catbag.gifreduxsample.idlings.GlidePlayIdlingResource;
 import br.com.catbag.gifreduxsample.idlings.StartedActionIdlingResource;
 import br.com.catbag.gifreduxsample.ui.GifListActivity;
-import br.com.catbag.gifreduxsample.ui.wrappers.GlideWrapper;
+import br.com.catbag.gifreduxsample.ui.wrappers.GifWrapper;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -104,7 +104,7 @@ public class GifListActivityTest {
 
         onView(withId(R.id.gif_image))
                 .perform(click());
-        assert(mActivityTestRule.getActivity().getGlideWrapper().getResource().isRunning());
+        assert(mActivityTestRule.getActivity().getGlideWrapper().getDrawable().isRunning());
 
         loadResource.unregisterIdlingResource();
     }
@@ -129,7 +129,7 @@ public class GifListActivityTest {
         loadResource.unregisterIdlingResource();
         playResource.registerIdlingResource();
 
-        assert(!mActivityTestRule.getActivity().getGlideWrapper().getResource().isRunning());
+        assert(!mActivityTestRule.getActivity().getGlideWrapper().getDrawable().isRunning());
 
     }
 
@@ -145,7 +145,7 @@ public class GifListActivityTest {
         removeMockInFileDownloader();
     }
 
-    public GlideWrapper getWrapper(){
+    public GifWrapper getWrapper(){
         return mActivityTestRule.getActivity().getGlideWrapper();
     }
 
