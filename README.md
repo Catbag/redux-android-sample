@@ -49,6 +49,19 @@ To run unit tests through a CI or command line:
 
     ./gradlew  clean test --daemon --continue
 
+### Drone CI
+
+#### Running drone build locally
+
+* [Install](http://readme.drone.io/devs/cli/#install:b659b046131d4024ab5e2d3675716bf0) drone CLI
+
+        curl http://downloads.drone.io/drone-cli/drone_linux_amd64.tar.gz | tar zx
+       sudo install -t /usr/local/bin drone
+
+* Run drone build inside project dir
+
+        drone exec --trusted
+
 #Good Pratices
 
 ###Actions Creators

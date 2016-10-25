@@ -39,7 +39,7 @@ public class FileDownloader {
                                 response.body().contentLength(), pathToSave);
                     } catch (IOException e) {
                         if (mFailureListener != null) {
-                            mFailureListener.onFailure(new FileNotFoundException());
+                            mFailureListener.onFailure(new FileNotFoundException("Not found"));
                         }
                         Log.d(TAG, "file download failed");
                     }
@@ -73,7 +73,7 @@ public class FileDownloader {
         return this;
     }
 
-    public FileDownloader onStarted(StartDownloadListener listener) {
+    public FileDownloader onStart(StartDownloadListener listener) {
         mStartListener = listener;
         return this;
     }

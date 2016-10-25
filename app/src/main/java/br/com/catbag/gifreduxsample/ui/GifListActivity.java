@@ -2,7 +2,6 @@ package br.com.catbag.gifreduxsample.ui;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.umaplay.fluxxan.Fluxxan;
@@ -13,7 +12,8 @@ import br.com.catbag.gifreduxsample.App;
 import br.com.catbag.gifreduxsample.R;
 import br.com.catbag.gifreduxsample.actions.GifActionCreator;
 import br.com.catbag.gifreduxsample.models.AppState;
-import br.com.catbag.gifreduxsample.ui.wrappers.GlideWrapper;
+import br.com.catbag.gifreduxsample.ui.wrappers.GifWrapper;
+import pl.droidsonroids.gif.GifImageView;
 import trikita.anvil.Anvil;
 
 import static trikita.anvil.DSL.backgroundColor;
@@ -27,7 +27,7 @@ public class GifListActivity extends StateListenerActivity<AppState> {
     private GifActionCreator mActionCreator = GifActionCreator.getInstance();
 
     //Views
-    private GlideWrapper mGlideWrapper;
+    private GifWrapper mGifWrapper;
 
     //Bindings
     private boolean mGifProgressVisibility;
@@ -79,13 +79,13 @@ public class GifListActivity extends StateListenerActivity<AppState> {
                 mGifProgressVisibility = true;
                 break;
             case DOWNLOADED:
-                mGlideWrapper.load(appState.getGifLocalPath());
+                mGifWrapper.load(appState.getGifLocalPath());
                 break;
             case LOOPING:
-                mGlideWrapper.play();
+                mGifWrapper.play();
                 break;
             case PAUSED:
-                mGlideWrapper.stop();
+                mGifWrapper.stop();
                 break;
             default:
         }
@@ -97,8 +97,8 @@ public class GifListActivity extends StateListenerActivity<AppState> {
         Anvil.render();
     }
 
-    public GlideWrapper getGlideWrapper() {
-        return mGlideWrapper;
+    public GifWrapper getGifWrapper() {
+        return mGifWrapper;
     }
 
     private void showToast(String msg) {
@@ -108,8 +108,7 @@ public class GifListActivity extends StateListenerActivity<AppState> {
     }
 
     private void initializeGifView() {
-        ImageView imageView = (ImageView) findViewById(R.id.gif_image);
-        mGlideWrapper = new GlideWrapper(imageView)
+        mGifWrapper = new GifWrapper((GifImageView) findViewById(R.id.gif_image))
                 .onException((e) -> showToast(e.getMessage()))
                 .onLoaded(() -> {
                     mGifProgressVisibility = false;
