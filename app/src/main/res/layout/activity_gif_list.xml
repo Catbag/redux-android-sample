@@ -13,8 +13,9 @@
 
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gif_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_centerInParent="true"
+        android:layout_width="320dp"
+        android:layout_height="320dp" />
 
     <ProgressBar
         android:id="@+id/loading"

@@ -4,7 +4,6 @@ import com.umaplay.fluxxan.util.ThreadUtils;
 
 import java.io.IOException;
 
-import pl.droidsonroids.gif.AnimationListener;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -30,13 +29,13 @@ public class GifWrapper {
     }
 
     public void stop() {
-        if(mDrawable != null && mDrawable.canPause()){
+        if (mDrawable != null && mDrawable.canPause()) {
             mDrawable.pause();
         }
     }
 
     public void play() {
-        if(mDrawable != null){
+        if (mDrawable != null) {
             mDrawable.start();
         }
     }
@@ -50,10 +49,10 @@ public class GifWrapper {
             ThreadUtils.runOnMain(() -> {
                 mImageView.setImageDrawable(mDrawable);
                 mLoaded = true;
-                if(mLoadListener != null) mLoadListener.onLoaded();
+                if (mLoadListener != null) mLoadListener.onLoaded();
             });
         } catch (IOException e) {
-            if(mExceptionListener != null) mExceptionListener.onException(e);
+            if (mExceptionListener != null) mExceptionListener.onException(e);
         }
     }
 
