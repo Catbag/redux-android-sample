@@ -53,7 +53,7 @@ public class GifListActivity extends StateListenerActivity<AppState> {
     public void onStateChanged(AppState appState) {
         mRendered = false;
         FeedComponent feed = (FeedComponent) findViewById(R.id.feed);
-        feed.setGifs(AppStateHelper.getListGifs(appState));
+        feed.setGifs(AppStateHelper.extractGifList(appState));
         if (!appState.getGifs().isEmpty()) {
             mGifProgressVisibility = false;
         }

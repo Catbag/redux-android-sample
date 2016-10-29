@@ -40,34 +40,33 @@ public final class GifActionCreator extends BaseActionCreator {
         return sInstance;
     }
 
-    public void gifDownloadStart(Gif state, Context context) {
-        dispatch(new Action(GIF_DOWNLOAD_START, state.getUuid()));
+    public void gifDownloadStart(Gif gif, Context context) {
+        dispatch(new Action(GIF_DOWNLOAD_START, gif.getUuid()));
         String pathToSave = context.getExternalFilesDir(null) + File.separator
-                + state.getUuid() + ".gif";
+                + gif.getUuid() + ".gif";
 
-        // with just one filedownloader the callbacks are replaced all time
-        mFileDownloader.download(state.getUrl(), pathToSave,
+        mFileDownloader.download(gif.getUrl(), pathToSave,
                 () -> {
                     Map<String, Object> params = new HashMap<>();
-                    params.put(PayloadParams.PARAM_UUID, state.getUuid());
+                    params.put(PayloadParams.PARAM_UUID, gif.getUuid());
                     params.put(PayloadParams.PARAM_PATH, pathToSave);
                     dispatch(new Action(GIF_DOWNLOAD_SUCCESS, params));
                 },
                 e -> {
                     Map<String, Object> params = new HashMap<>();
-                    params.put(PayloadParams.PARAM_UUID, state.getUuid());
+                    params.put(PayloadParams.PARAM_UUID, gif.getUuid());
                     params.put(PayloadParams.PARAM_DOWNLOAD_FAILURE_MSG, e.getMessage());
                     dispatch(new Action(GIF_DOWNLOAD_FAILURE, params));
                 });
 
     }
 
-    public void gifClick(Gif state) {
-        if (state.getStatus() == Gif.Status.DOWNLOADED || state.getStatus() == Gif
+    public void gifClick(Gif gif) {
+        if (gif.getStatus() == Gif.Status.DOWNLOADED || gif.getStatus() == Gif
                 .Status.PAUSED) {
-            gifPlay(state.getUuid());
-        } else if (state.getStatus() == Gif.Status.LOOPING) {
-            gifPause(state.getUuid());
+            gifPlay(gif.getUuid());
+        } else if (gif.getStatus() == Gif.Status.LOOPING) {
+            gifPause(gif.getUuid());
         }
     }
 

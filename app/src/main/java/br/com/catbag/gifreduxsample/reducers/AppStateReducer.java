@@ -14,7 +14,7 @@ import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.models.ImmutableAppState;
 
 import static br.com.catbag.gifreduxsample.helpers.AppStateHelper.getGifStateByUuid;
-import static br.com.catbag.gifreduxsample.helpers.AppStateHelper.toMap;
+import static br.com.catbag.gifreduxsample.helpers.AppStateHelper.gifListToMap;
 
 /**
  * Created by raul@catbag.com.br on 10/26/16.
@@ -25,7 +25,7 @@ public class AppStateReducer extends BaseAnnotatedReducer<AppState> {
     @BindAction(GifListActionCreator.GIF_LIST_LOADED)
     public AppState listLoaded(AppState state, List<Gif> gifs) {
         return createImmutableAppBuilder(state)
-                .putAllGifs(toMap(gifs))
+                .putAllGifs(gifListToMap(gifs))
                 .build();
     }
 

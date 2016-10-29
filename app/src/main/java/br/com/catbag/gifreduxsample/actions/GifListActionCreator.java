@@ -35,8 +35,8 @@ public final class GifListActionCreator extends BaseActionCreator {
         mDataManager.getAllGifs(gifs -> dispatch(new Action(GIF_LIST_LOADED, gifs)));
     }
 
-    public void setDataManager(DataManager mDataManager) {
-        this.mDataManager = mDataManager;
+    public void setDataManager(DataManager dataManager) {
+        mDataManager = dataManager;
     }
 
 }

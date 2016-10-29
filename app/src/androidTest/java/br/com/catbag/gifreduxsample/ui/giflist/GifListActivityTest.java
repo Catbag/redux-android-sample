@@ -38,8 +38,6 @@ import br.com.catbag.gifreduxsample.models.ImmutableGif;
 import br.com.catbag.gifreduxsample.reducers.FakeReducer;
 import br.com.catbag.gifreduxsample.ui.GifListActivity;
 import br.com.catbag.gifreduxsample.ui.components.FeedComponent;
-import pl.droidsonroids.gif.GifDrawable;
-import pl.droidsonroids.gif.GifImageView;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -48,11 +46,10 @@ import static android.support.test.espresso.contrib.RecyclerViewActions.scrollTo
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static br.com.catbag.gifreduxsample.matchers.Matchers.withBGColor;
+import static br.com.catbag.gifreduxsample.matchers.Matchers.withGifDrawable;
 import static br.com.catbag.gifreduxsample.matchers.Matchers.withPlayingGifDrawable;
 import static br.com.catbag.gifreduxsample.utils.FileUtils.createFakeGifFile;
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.mock;
 
@@ -107,10 +104,9 @@ public class GifListActivityTest {
 
         onView(withId(R.id.gif_image)).check(matches(isDisplayed()));
 
-        GifImageView gifView = (GifImageView) getActivity().findViewById(R.id.gif_image);
-        assertNotNull(gifView.getDrawable());
+        onView(withId(R.id.gif_image)).check(matches(withGifDrawable()));
 
-        assertFalse(((GifDrawable)gifView.getDrawable()).isPlaying());
+        onView(withId(R.id.gif_image)).check(matches(not(withPlayingGifDrawable())));
     }
 
     @Test
@@ -308,7 +304,7 @@ public class GifListActivityTest {
         return MyApp.getFluxxan();
     }
 
-        private List<Gif> createFakeGifList(int size) {
+    private List<Gif> createFakeGifList(int size) {
         List<Gif> gifs = new ArrayList<>();
         File fakeGifFile = createFakeGifFile();
         for (int i = 0; i < size; i++) {
@@ -328,7 +324,7 @@ public class GifListActivityTest {
     }
 
     private AppState createStateFromGifs(List<Gif> gifs) {
-        return ImmutableAppState.builder().putAllGifs(AppStateHelper.toMap(gifs)).build();
+        return ImmutableAppState.builder().putAllGifs(AppStateHelper.gifListToMap(gifs)).build();
     }
 
     private ImmutableGif.Builder gifBuilder() {

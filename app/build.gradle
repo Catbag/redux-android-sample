@@ -56,6 +56,4 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.0.+'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.2'
     compile 'com.github.trikita:anvil-recyclerview:1.2'
-
-
 }

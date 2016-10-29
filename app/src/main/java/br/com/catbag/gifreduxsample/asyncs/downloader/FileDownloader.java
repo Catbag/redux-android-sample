@@ -8,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -42,17 +44,15 @@ public class FileDownloader {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    new Thread(() -> {
-                        try {
-                            readFromNetAndWriteToDisk(response.body().byteStream(), pathToSave);
-                        } catch (IOException e) {
-                            if (failureDownloadListener != null) {
-                                failureDownloadListener.onFailure(new FileNotFoundException("Not found"));
-                            }
+                    try {
+                        readFromNetAndWriteToDisk(response.body().byteStream(), pathToSave);
+                    } catch (IOException e) {
+                        if (failureDownloadListener != null) {
+                            failureDownloadListener.onFailure(new FileNotFoundException("Not found"));
                         }
+                    }
 
-                        if (successDownloadListener != null) successDownloadListener.onSuccess();
-                    }).start();
+                    if (successDownloadListener != null) successDownloadListener.onSuccess();
                 }
                 else if (failureDownloadListener != null) {
                     failureDownloadListener.onFailure(new FileNotFoundException("Not found"));
@@ -118,7 +118,15 @@ public class FileDownloader {
         }
 
         public <S> S createRoutes(Class<S> serviceClass) {
-            Retrofit retrofit = mBuilder.client(mHttpClient.build()).build();
+            int cpuCount = Runtime.getRuntime().availableProcessors();
+            int corePoolSize = cpuCount + 1;
+            Executor mThreadPoolExecutor
+                    = Executors.newFixedThreadPool(corePoolSize);
+
+            Retrofit retrofit = mBuilder
+                    .client(mHttpClient.build())
+                    .callbackExecutor(mThreadPoolExecutor)
+                    .build();
             return retrofit.create(serviceClass);
         }
     }

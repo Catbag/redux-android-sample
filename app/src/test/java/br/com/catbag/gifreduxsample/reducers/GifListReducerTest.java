@@ -18,12 +18,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.BuildConfig;
+import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.actions.GifActionCreator;
 import br.com.catbag.gifreduxsample.actions.GifListActionCreator;
 import br.com.catbag.gifreduxsample.actions.PayloadParams;
-import br.com.catbag.gifreduxsample.helpers.AppStateHelper;
+import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.models.ImmutableGif;
 
@@ -134,7 +134,9 @@ public class GifListReducerTest {
     }
 
     private Gif getFirstGif() {
-        return AppStateHelper.getFirstGif(getApp().getFluxxan().getState());
+        AppState state = getApp().getFluxxan().getState();
+       if (state.getGifs().size() <= 0) return null;
+       return (Gif) state.getGifs().values().toArray()[0];
     }
 
     private void sleep(long ms){
@@ -145,11 +147,11 @@ public class GifListReducerTest {
         }
     }
 
-    public void dispatchSomeGifs() {
+    private void dispatchSomeGifs() {
         dispatchAction(new Action(GifListActionCreator.GIF_LIST_LOADED, getFakeGifs()));
     }
 
-    public List<Gif> getFakeGifs() {
+    private List<Gif> getFakeGifs() {
         String[] titles = {"Gif 1", "Gif 2", "Gif 3", "Gif 4", "Gif 5" };
         String[] urls = {
                 "https://media.giphy.com/media/l0HlE56oAxpngfnWM/giphy.gif",
