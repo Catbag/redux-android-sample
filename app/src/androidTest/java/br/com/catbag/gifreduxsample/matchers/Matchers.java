@@ -1,16 +1,15 @@
 package br.com.catbag.gifreduxsample.matchers;
 
 import android.graphics.drawable.ColorDrawable;
-import android.os.IBinder;
-import android.support.test.espresso.Root;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.internal.util.Checks;
 import android.view.View;
-import android.view.WindowManager;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
+
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Created by niltonvasques on 10/14/16.
@@ -21,8 +20,8 @@ public class Matchers {
         Checks.checkNotNull(color);
         return new BoundedMatcher<View, View>(View.class) {
             @Override
-            public boolean matchesSafely(View warning) {
-                int currentColor = ((ColorDrawable)warning.getBackground()).getColor();
+            public boolean matchesSafely(View view) {
+                int currentColor = ((ColorDrawable)view.getBackground()).getColor();
                 return color == currentColor;
             }
             @Override
@@ -32,41 +31,31 @@ public class Matchers {
         };
     }
 
-    public static Matcher<View> animationRunning() {
+    public static Matcher<View> withPlayingGifDrawable() {
         return new BoundedMatcher<View, View>(View.class) {
             @Override
-            public boolean matchesSafely(View warning) {
-                if(warning.getAnimation() == null) return false;
-                return warning.getAnimation().isInitialized();
+            public boolean matchesSafely(View view) {
+                GifImageView gifImageView = (GifImageView) view;
+                return ((GifDrawable)gifImageView.getDrawable()).isPlaying();
             }
             @Override
             public void describeTo(Description description) {
-                description.appendText("animation running");
+                description.appendText("with gif image view playing");
             }
         };
     }
 
-    public static TypeSafeMatcher<Root> withToast(){
-        return new ToastMatcher();
-
-    }
-
-    public static class ToastMatcher extends TypeSafeMatcher<Root> {
-        @Override public void describeTo(Description description) {
-            description.appendText("is toast");
-        }
-
-        @Override public boolean matchesSafely(Root root) {
-            int type = root.getWindowLayoutParams().get().type;
-            if ((type == WindowManager.LayoutParams.TYPE_TOAST)) {
-                IBinder windowToken = root.getDecorView().getWindowToken();
-                IBinder appToken = root.getDecorView().getApplicationWindowToken();
-                if (windowToken == appToken) {
-                    //means this window isn't contained by any other windows.
-                    return true;
-                }
+    public static Matcher<View> withGifDrawable() {
+        return new BoundedMatcher<View, View>(View.class) {
+            @Override
+            public boolean matchesSafely(View view) {
+                GifImageView gifImageView = (GifImageView) view;
+                return gifImageView.getDrawable() != null;
             }
-            return false;
-        }
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("with gif image view not null");
+            }
+        };
     }
 }

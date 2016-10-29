@@ -8,20 +8,13 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                android:background="@color/notWatched"
                 tools:context="br.com.catbag.gifreduxsample.ui.GifListActivity">
 
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/gif_image"
-        android:layout_centerInParent="true"
-        android:layout_width="320dp"
-        android:layout_height="320dp" />
+    <br.com.catbag.gifreduxsample.ui.components.FeedComponent
+        android:id="@+id/feed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </br.com.catbag.gifreduxsample.ui.components.FeedComponent>
 
-    <ProgressBar
-        android:id="@+id/loading"
-        style="@android:style/Widget.ProgressBar.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
-
+    <include layout="@layout/common_progress"/>
 </RelativeLayout>
