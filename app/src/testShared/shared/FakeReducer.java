@@ -1,4 +1,4 @@
-package br.com.catbag.gifreduxsample.reducers;
+package shared;
 
 import com.umaplay.fluxxan.annotation.BindAction;
 import com.umaplay.fluxxan.impl.BaseAnnotatedReducer;
