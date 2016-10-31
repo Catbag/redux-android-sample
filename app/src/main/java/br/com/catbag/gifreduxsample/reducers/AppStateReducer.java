@@ -41,9 +41,9 @@ public class AppStateReducer extends BaseAnnotatedReducer<AppState> {
     }
 
     @BindAction(GifActionCreator.GIF_DOWNLOAD_FAILURE)
-    public AppState downloadFailure(AppState state, Map<String, Object> params) {
+    public AppState downloadFailure(AppState state, String uuid) {
         return reduceGifState(state,
-                GifInnerReducer.downloadFailure(getGifState(params, state), params));
+                GifInnerReducer.downloadFailure(getGifStateByUuid(uuid, state)));
     }
 
     @BindAction(GifActionCreator.GIF_PLAY)

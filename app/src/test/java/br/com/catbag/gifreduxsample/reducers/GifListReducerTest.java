@@ -93,13 +93,8 @@ public class GifListReducerTest {
     @Test(timeout = 1000)
     public void whenSendDownloadFailureAction() throws Exception {
         dispatchSomeGifs();
-        String expectedErrorMsg = "failed";
-        Map<String, Object> params = new HashMap<>();
-        params.put(PayloadParams.PARAM_UUID, getFirstGif().getUuid());
-        params.put(PayloadParams.PARAM_DOWNLOAD_FAILURE_MSG, expectedErrorMsg);
-        dispatchAction(new Action(GifActionCreator.GIF_DOWNLOAD_FAILURE, params));
-        assertEquals(Gif.Status.NOT_DOWNLOADED, getFirstGif().getStatus());
-        assertEquals(expectedErrorMsg, getFirstGif().getDownloadFailureMsg());
+        dispatchAction(new Action(GifActionCreator.GIF_DOWNLOAD_FAILURE, getFirstGif().getUuid()));
+        assertEquals(Gif.Status.DOWNLOAD_FAILED, getFirstGif().getStatus());
     }
 
     @Test(timeout = 1000)

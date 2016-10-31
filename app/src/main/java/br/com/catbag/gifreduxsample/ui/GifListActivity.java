@@ -9,23 +9,21 @@ import com.umaplay.fluxxan.util.ThreadUtils;
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.R;
 import br.com.catbag.gifreduxsample.actions.GifListActionCreator;
-import br.com.catbag.gifreduxsample.helpers.AppStateHelper;
 import br.com.catbag.gifreduxsample.models.AppState;
-import br.com.catbag.gifreduxsample.ui.components.FeedComponent;
 import trikita.anvil.Anvil;
 
 import static trikita.anvil.BaseDSL.withId;
 import static trikita.anvil.DSL.visibility;
 
-public class GifListActivity extends StateListenerActivity<AppState> {
-
-    private boolean mRendered = false;
+public class GifListActivity extends StateListenerActivity<AppState>
+        implements AnvilRenderComponent {
 
     //Redux components
     private GifListActionCreator mActionCreator = GifListActionCreator.getInstance();
 
     //Binding Data
     private boolean mGifProgressVisibility = true;
+    private AnvilRenderListener mAnvilRenderListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +33,6 @@ public class GifListActivity extends StateListenerActivity<AppState> {
         mActionCreator.loadGifs();
     }
 
-    private void bindingViews() {
-        //Bindings Defaults
-        Anvil.mount(findViewById(R.id.activity_gif_list), () -> {
-            withId(R.id.loading, () -> {
-                visibility(mGifProgressVisibility);
-            });
-        });
-    }
-
     @Override
     protected Fluxxan<AppState> getFlux() {
         return MyApp.getFluxxan();
@@ -51,20 +40,27 @@ public class GifListActivity extends StateListenerActivity<AppState> {
 
     @Override
     public void onStateChanged(AppState appState) {
-        mRendered = false;
-        FeedComponent feed = (FeedComponent) findViewById(R.id.feed);
-        feed.setGifs(AppStateHelper.extractGifList(appState));
         if (!appState.getGifs().isEmpty()) {
             mGifProgressVisibility = false;
         }
-
+        //TODO this can be controlled by a singleton class that manage broadcasters and listeners
         ThreadUtils.runOnMain(() -> {
             Anvil.render();
-            mRendered = true;
+            if (mAnvilRenderListener != null) mAnvilRenderListener.onAnvilRendered();
         });
     }
 
-    public boolean wasRendered() {
-        return mRendered;
+    @Override
+    public void setAnvilRenderListener(AnvilRenderListener listener) {
+        mAnvilRenderListener = listener;
+    }
+
+    private void bindingViews() {
+        //Bindings Defaults
+        Anvil.mount(findViewById(R.id.activity_gif_list), () -> {
+            withId(R.id.loading, () -> {
+                visibility(mGifProgressVisibility);
+            });
+        });
     }
 }

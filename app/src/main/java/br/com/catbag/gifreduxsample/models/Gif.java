@@ -11,7 +11,7 @@ import org.immutables.value.Value;
 public abstract class Gif {
 
     public enum Status {
-        PAUSED, LOOPING, DOWNLOADING, DOWNLOADED, NOT_DOWNLOADED
+        PAUSED, LOOPING, DOWNLOADING, DOWNLOADED, NOT_DOWNLOADED, DOWNLOAD_FAILED
     }
 
     @Value
@@ -19,11 +19,6 @@ public abstract class Gif {
 
     @Value.Default
     public String getPath() {
-        return "";
-    }
-
-    @Value.Default
-    public String getDownloadFailureMsg() {
         return "";
     }
 

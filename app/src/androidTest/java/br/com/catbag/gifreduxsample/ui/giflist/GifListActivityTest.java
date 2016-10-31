@@ -38,6 +38,7 @@ import br.com.catbag.gifreduxsample.models.ImmutableGif;
 import br.com.catbag.gifreduxsample.reducers.FakeReducer;
 import br.com.catbag.gifreduxsample.ui.GifListActivity;
 import br.com.catbag.gifreduxsample.ui.components.FeedComponent;
+import br.com.catbag.gifreduxsample.ui.components.GifComponent;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -157,7 +158,7 @@ public class GifListActivityTest {
 
         mActivityTestRule.launchActivity(new Intent());
 
-        UiTestLocker locker = new UiTestLocker(getActivity());
+        UiTestLocker locker = new UiTestLocker(getGifComponent(0));
 
         onView(withId(R.id.gif_image)).perform(click());
 
@@ -181,7 +182,7 @@ public class GifListActivityTest {
 
         mActivityTestRule.launchActivity(new Intent());
 
-        UiTestLocker locker = new UiTestLocker(getActivity());
+        UiTestLocker locker = new UiTestLocker(getGifComponent(0));
 
         onView(withId(R.id.gif_image)).perform(click());
 
@@ -196,8 +197,7 @@ public class GifListActivityTest {
     @Test
     public void whenGifDownloadFailTest() {
         Gif gif = gifBuilder()
-                .status(Gif.Status.NOT_DOWNLOADED)
-                .downloadFailureMsg("Download error")
+                .status(Gif.Status.DOWNLOAD_FAILED)
                 .build();
 
         dispatchFakeReduceAction(createStateFromGif(gif));
@@ -241,7 +241,8 @@ public class GifListActivityTest {
         RecyclerView recyclerView = (RecyclerView) feed.getChildAt(0);
         recyclerView.setId(View.generateViewId());
 
-        UiTestLocker locker = new UiTestLocker(getActivity());
+        int lastItemPositionOnScreen = recyclerView.getChildCount()-1;
+        UiTestLocker locker = new UiTestLocker(getGifComponent(lastItemPositionOnScreen));
 
         onView(withId(recyclerView.getId()))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(gifListSize-1, click()));
@@ -249,7 +250,7 @@ public class GifListActivityTest {
         locker.registerIdlingResource();
 
         int lastViewId = View.generateViewId();
-        FrameLayout frame = ((FrameLayout)recyclerView.getChildAt(recyclerView.getChildCount()-1));
+        FrameLayout frame = ((FrameLayout)recyclerView.getChildAt(lastItemPositionOnScreen));
         View lastView = frame.findViewById(R.id.gif_image);
         lastView.setId(lastViewId);
 
@@ -271,9 +272,10 @@ public class GifListActivityTest {
         RecyclerView recyclerView = (RecyclerView) feed.getChildAt(0);
         recyclerView.setId(View.generateViewId());
 
-        UiTestLocker locker = new UiTestLocker(getActivity());
-
         onView(withId(recyclerView.getId())).perform(scrollToPosition(gifListSize-1));
+
+        UiTestLocker locker = new UiTestLocker(getGifComponent(0));
+
         onView(withId(recyclerView.getId()))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
@@ -317,6 +319,13 @@ public class GifListActivityTest {
         }
 
         return gifs;
+    }
+
+    private GifComponent getGifComponent(int pos) {
+        FeedComponent feed = (FeedComponent) getActivity().findViewById(R.id.feed);
+        RecyclerView recyclerView = (RecyclerView) feed.getChildAt(0);
+        FrameLayout frameLayout = (FrameLayout) recyclerView.getChildAt(pos);
+        return ((GifComponent) frameLayout.getChildAt(0));
     }
 
     private AppState createStateFromGif(Gif gif) {

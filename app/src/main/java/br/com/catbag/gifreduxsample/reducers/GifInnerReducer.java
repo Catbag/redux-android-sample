@@ -27,10 +27,9 @@ public final class GifInnerReducer {
                 .build();
     }
 
-    public static Gif downloadFailure(Gif gif, Map<String, Object> params) {
+    public static Gif downloadFailure(Gif gif) {
         return createImmutableGifBuilder(gif)
-                .status(Gif.Status.NOT_DOWNLOADED)
-                .downloadFailureMsg((String) params.get(PayloadParams.PARAM_DOWNLOAD_FAILURE_MSG))
+                .status(Gif.Status.DOWNLOAD_FAILED)
                 .build();
     }
 
