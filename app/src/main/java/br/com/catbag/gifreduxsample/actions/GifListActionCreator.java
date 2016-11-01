@@ -12,7 +12,6 @@ import br.com.catbag.gifreduxsample.asyncs.data.DataManager;
 
 public final class GifListActionCreator extends BaseActionCreator {
 
-    public static final String LOAD_GIF_LIST = "LOAD_GIF_LIST";
     public static final String GIF_LIST_LOADED = "GIF_LIST_LOADED";
 
     private static GifListActionCreator sInstance;
@@ -31,7 +30,6 @@ public final class GifListActionCreator extends BaseActionCreator {
     }
 
     public void loadGifs() {
-        dispatch(new Action(LOAD_GIF_LIST));
         mDataManager.getAllGifs(gifs -> dispatch(new Action(GIF_LIST_LOADED, gifs)));
     }
 

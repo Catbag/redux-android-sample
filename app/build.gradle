@@ -52,8 +52,8 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'co.trikita:anvil-sdk15:0.4.0'
-    compile 'com.android.support:cardview-v7:24.0.+'
     compile 'com.android.support:recyclerview-v7:24.0.+'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.2'
     compile 'com.github.trikita:anvil-recyclerview:1.2'
+
 }

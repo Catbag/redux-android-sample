@@ -53,10 +53,7 @@ public final class GifActionCreator extends BaseActionCreator {
                     dispatch(new Action(GIF_DOWNLOAD_SUCCESS, params));
                 },
                 e -> {
-                    Map<String, Object> params = new HashMap<>();
-                    params.put(PayloadParams.PARAM_UUID, gif.getUuid());
-                    params.put(PayloadParams.PARAM_DOWNLOAD_FAILURE_MSG, e.getMessage());
-                    dispatch(new Action(GIF_DOWNLOAD_FAILURE, params));
+                    dispatch(new Action(GIF_DOWNLOAD_FAILURE, gif.getUuid()));
                 });
 
     }
