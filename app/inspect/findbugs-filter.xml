@@ -30,6 +30,9 @@
             <Bug code="IJU"/>
         </Not>
     </Match>
-
+    <Match>
+        <Class name="shared.TestBase" />
+        <Bug code="DMI"/>
+    </Match>
 
 </FindBugsFilter>
