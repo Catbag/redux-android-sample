@@ -18,11 +18,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import br.com.catbag.gifreduxsample.BuildConfig;
 import br.com.catbag.gifreduxsample.MyApp;
-import br.com.catbag.gifreduxsample.actions.GifActionCreator;
 import br.com.catbag.gifreduxsample.actions.GifListActionCreator;
 import br.com.catbag.gifreduxsample.actions.PayloadParams;
 import br.com.catbag.gifreduxsample.models.AppState;
