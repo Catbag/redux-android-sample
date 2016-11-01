@@ -35,10 +35,10 @@ import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.models.ImmutableAppState;
 import br.com.catbag.gifreduxsample.models.ImmutableGif;
-import br.com.catbag.gifreduxsample.reducers.FakeReducer;
 import br.com.catbag.gifreduxsample.ui.GifListActivity;
 import br.com.catbag.gifreduxsample.ui.components.FeedComponent;
 import br.com.catbag.gifreduxsample.ui.components.GifComponent;
+import shared.FakeReducer;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

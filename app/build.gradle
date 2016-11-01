@@ -2,6 +2,16 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply from: 'inspect/inspect.gradle'
 
+android.sourceSets {
+    test {
+        java.srcDirs += "$projectDir/src/testShared"
+    }
+
+    androidTest {
+        java.srcDirs += "$projectDir/src/testShared"
+    }
+}
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
