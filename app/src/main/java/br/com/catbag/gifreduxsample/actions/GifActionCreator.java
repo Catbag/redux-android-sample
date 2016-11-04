@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.catbag.gifreduxsample.MyApp;
-import br.com.catbag.gifreduxsample.asyncs.downloader.FileDownloader;
+import br.com.catbag.gifreduxsample.asyncs.net.downloader.FileDownloader;
 import br.com.catbag.gifreduxsample.models.Gif;
 
 /**

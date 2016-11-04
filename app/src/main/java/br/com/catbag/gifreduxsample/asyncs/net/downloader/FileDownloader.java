@@ -1,4 +1,4 @@
-package br.com.catbag.gifreduxsample.asyncs.downloader;
+package br.com.catbag.gifreduxsample.asyncs.net.downloader;
 
 import android.util.Log;
 
@@ -8,16 +8,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
-import okhttp3.OkHttpClient;
+import br.com.catbag.gifreduxsample.asyncs.net.rest.retrofit.RetrofitBuilder;
+import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.api.RiffsyRoutes;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
@@ -31,9 +28,7 @@ public class FileDownloader {
     private static DownloadRoute sRoutes;
 
     public FileDownloader() {
-        if (sRoutes == null) {
-            sRoutes = new RoutesGenerator().createRoutes(DownloadRoute.class);
-        }
+        sRoutes = RetrofitBuilder.getInstance().createApiEndpoint(DownloadRoute.class, RiffsyRoutes.BASE_URL);
     }
 
     public void download(String fileUrl, String pathToSave,
@@ -105,29 +100,5 @@ public class FileDownloader {
         @GET
         @Streaming
         Call<ResponseBody> downloadFileWithDynamicUrlSync(@Url String fileUrl);
-    }
-
-    private final class RoutesGenerator {
-        private OkHttpClient.Builder mHttpClient = new OkHttpClient.Builder();
-        private Retrofit.Builder mBuilder
-                = new Retrofit.Builder()
-                .baseUrl("http://none.com")
-                .addConverterFactory(GsonConverterFactory.create());
-
-        private RoutesGenerator() {
-        }
-
-        public <S> S createRoutes(Class<S> serviceClass) {
-            int cpuCount = Runtime.getRuntime().availableProcessors();
-            int corePoolSize = cpuCount + 1;
-            Executor mThreadPoolExecutor
-                    = Executors.newFixedThreadPool(corePoolSize);
-
-            Retrofit retrofit = mBuilder
-                    .client(mHttpClient.build())
-                    .callbackExecutor(mThreadPoolExecutor)
-                    .build();
-            return retrofit.create(serviceClass);
-        }
     }
 }

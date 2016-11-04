@@ -2,6 +2,7 @@ package shared;
 
 import com.umaplay.fluxxan.Fluxxan;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -90,4 +91,7 @@ public final class TestUtils {
         return (Gif) state.getGifs().values().toArray()[0];
     }
 
+    public static InputStream getResourceAsStream(String fileName) {
+        return TestUtils.class.getResourceAsStream(fileName);
+    }
 }

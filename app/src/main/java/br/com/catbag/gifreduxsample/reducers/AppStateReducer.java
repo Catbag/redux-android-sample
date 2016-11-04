@@ -22,10 +22,13 @@ import static br.com.catbag.gifreduxsample.helpers.AppStateHelper.gifListToMap;
 
 public class AppStateReducer extends BaseAnnotatedReducer<AppState> {
 
-    @BindAction(GifListActionCreator.GIF_LIST_LOADED)
-    public AppState listLoaded(AppState state, List<Gif> gifs) {
+    @BindAction(GifListActionCreator.GIF_LIST_UPDATED)
+    public AppState listUpdated(AppState state, Map<String, Object> params) {
+        List<Gif> gifs = (List<Gif>) params.get(PayloadParams.PARAM_GIFS);
+        boolean hasMore = (boolean) params.get(PayloadParams.PARAM_HAS_MORE);
         return createImmutableAppBuilder(state)
                 .putAllGifs(gifListToMap(gifs))
+                .hasMoreGifs(hasMore)
                 .build();
     }
 

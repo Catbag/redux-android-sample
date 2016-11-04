@@ -19,4 +19,9 @@ public abstract class AppState {
         return gifs;
     }
 
+    @Value.Default
+    public boolean getHasMoreGifs() {
+        return true;
+    }
+
 }
