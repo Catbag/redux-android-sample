@@ -15,7 +15,7 @@ import static junit.framework.Assert.assertEquals;
  * Created by niltonvasques on 11/3/16.
  */
 
-public class RiffsyResultTest extends TestBase{
+public class RiffsyResultTest extends TestBase {
   private List<RiffsyMedia> medias = new ArrayList<>();
   private RiffsyResult sut = new RiffsyResult.Builder().media(medias).title(STRING_UNIQUE).build();
 
@@ -40,8 +40,8 @@ public class RiffsyResultTest extends TestBase{
 
   @Test
   public void testSetTitle() {
-    sut = sut.newBuilder().title(STRING_UNIQUE2).build();
+    sut = sut.newBuilder().title(STRING_UNIQUE_2).build();
 
-    assertEquals(sut.title(), STRING_UNIQUE2);
+    assertEquals(sut.title(), STRING_UNIQUE_2);
   }
 }

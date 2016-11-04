@@ -11,7 +11,7 @@ import static junit.framework.Assert.assertEquals;
  * Created by niltonvasques on 11/3/16.
  */
 public final class RiffsyGifTest extends TestBase {
-    private RiffsyGif sut = new RiffsyGif.Builder().url(STRING_UNIQUE).preview(STRING_UNIQUE2).build();
+    private RiffsyGif sut = new RiffsyGif.Builder().url(STRING_UNIQUE).preview(STRING_UNIQUE_2).build();
 
     @Test
     public void testGetUrl() {
@@ -20,20 +20,20 @@ public final class RiffsyGifTest extends TestBase {
 
     @Test
     public void testSetUrl() {
-        sut = sut.newBuilder().url(STRING_UNIQUE2).build();
+        sut = sut.newBuilder().url(STRING_UNIQUE_2).build();
 
-        assertEquals(sut.url(), STRING_UNIQUE2);
+        assertEquals(sut.url(), STRING_UNIQUE_2);
     }
 
     @Test
     public void testGetPreview() {
-        assertEquals(sut.preview(), STRING_UNIQUE2);
+        assertEquals(sut.preview(), STRING_UNIQUE_2);
     }
 
     @Test
     public void testSetPreview() {
-        sut = sut.newBuilder().preview(STRING_UNIQUE3).build();
+        sut = sut.newBuilder().preview(STRING_UNIQUE_3).build();
 
-        assertEquals(sut.preview(), STRING_UNIQUE3);
+        assertEquals(sut.preview(), STRING_UNIQUE_3);
     }
 }

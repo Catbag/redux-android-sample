@@ -23,7 +23,7 @@ import shared.TestUtils;
  *
  * @author <a href="mailto:jaredsburrows@gmail.com">Jared Burrows</a>
  */
-public abstract class ServerMockTestBase extends TestBase{
+public abstract class ServerMockTestBase extends TestBase {
     @Rule
     public final MockWebServer server = new MockWebServer();
     protected String mockEndPoint;

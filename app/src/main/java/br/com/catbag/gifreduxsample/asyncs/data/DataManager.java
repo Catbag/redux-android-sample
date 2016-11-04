@@ -49,7 +49,6 @@ public class DataManager {
             @Override
             public void onFailure(Call<RiffsyResponse> call, Throwable t) {
                 Log.e(getClass().getSimpleName(), "onFailure", t);
-
             }
         });
     }
