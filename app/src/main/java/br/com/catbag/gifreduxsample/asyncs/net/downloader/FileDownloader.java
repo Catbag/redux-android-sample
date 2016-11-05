@@ -10,14 +10,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import br.com.catbag.gifreduxsample.asyncs.net.rest.retrofit.RetrofitBuilder;
-import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.api.RiffsyRoutes;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.GET;
-import retrofit2.http.Streaming;
-import retrofit2.http.Url;
 
 /**
  * Created by felipe on 13/10/16.
@@ -25,10 +21,10 @@ import retrofit2.http.Url;
 
 public class FileDownloader {
 
-    private static DownloadRoute sRoutes;
+    private static RetrofitBuilder.DownloadRoute sRoutes;
 
     public FileDownloader() {
-        sRoutes = RetrofitBuilder.getInstance().createApiEndpoint(DownloadRoute.class, RiffsyRoutes.BASE_URL);
+        sRoutes = RetrofitBuilder.getInstance().createDownloadEndpoint();
     }
 
     public void download(String fileUrl, String pathToSave,
@@ -96,9 +92,4 @@ public class FileDownloader {
         void onFailure(Exception e);
     }
 
-    private interface DownloadRoute {
-        @GET
-        @Streaming
-        Call<ResponseBody> downloadFileWithDynamicUrlSync(@Url String fileUrl);
-    }
 }
