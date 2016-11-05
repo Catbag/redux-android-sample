@@ -11,9 +11,8 @@ import com.umaplay.fluxxan.util.ThreadUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.helpers.AppStateHelper;
@@ -37,7 +36,7 @@ import static trikita.anvil.BaseDSL.v;
 public class FeedComponent extends RenderableView implements StateListener<AppState>, AnvilRenderComponent {
 
     private List<Gif> mGifs;
-    private Map<String, GifDrawable> mDrawables = new HashMap<>();
+    private DrawableCache mDrawables = new DrawableCache();
     private LinearLayoutManager mLayoutManager;
     private AnvilRenderListener mAnvilRenderListener;
     private boolean mIsRegisteredOnStateChange = false;
@@ -144,5 +143,31 @@ public class FeedComponent extends RenderableView implements StateListener<AppSt
         }
 
         return drawable;
+    }
+
+    private class DrawableCache extends LinkedHashMap<String, GifDrawable> {
+        private static final int CACHE_CAPACITY = 10;
+        /* The load factor indicates the size where the linked hash will trigger to
+         * increase his size. */
+        private static final float LOAD_FACTOR = 0.7f;
+        /* The initial capacity should be a little bit greater than cache capacity to keep
+         * a threshold that ensures that removeEldest will be triggered before the list be full.
+         */
+        private static final int INITIAL_CAPACITY = (int) (CACHE_CAPACITY * LOAD_FACTOR);
+        /* The accessOrder ensures that eldestEntry will be the most oldest entry accessed.
+         * This fits well in the feed, since the eldest gif accessed usually will be
+         * the one that the user have viewed moments ago and isn't currently displayed
+         * in the screen.
+         **/
+        private static final boolean ACCESS_ORDER = true;
+
+        public DrawableCache() {
+            super(INITIAL_CAPACITY, LOAD_FACTOR, ACCESS_ORDER);
+        }
+
+        @Override
+        protected boolean removeEldestEntry(Entry<String, GifDrawable> eldest) {
+            return size() > CACHE_CAPACITY;
+        }
     }
 }
