@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.umaplay.fluxxan.Fluxxan;
 
+import br.com.catbag.gifreduxsample.asyncs.data.DataManager;
 import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.ImmutableAppState;
 import br.com.catbag.gifreduxsample.reducers.AppStateReducer;
@@ -15,11 +16,13 @@ import br.com.catbag.gifreduxsample.reducers.AppStateReducer;
 public class MyApp extends Application {
 
     private static Fluxxan<AppState> sFluxxan = null;
+    private static DataManager sDataManager = null;
 
     @Override
     public void onCreate() {
         super.onCreate();
         initializeFluxxan();
+        initializeDataManager();
     }
 
     private void initializeFluxxan() {
@@ -29,12 +32,24 @@ public class MyApp extends Application {
         sFluxxan.start();
     }
 
+    private void initializeDataManager() {
+        sDataManager = new DataManager(getApplicationContext());
+        sDataManager.start();
+    }
+
     public void onTerminate() {
         sFluxxan.stop();
+        sDataManager.stop();
         super.onTerminate();
     }
 
     public static Fluxxan<AppState> getFluxxan() {
         return sFluxxan;
+    }
+    public static DataManager getDataManager() {
+        return sDataManager;
+    }
+    public static void setDataManager(DataManager dataManager) {
+        sDataManager = dataManager;
     }
 }

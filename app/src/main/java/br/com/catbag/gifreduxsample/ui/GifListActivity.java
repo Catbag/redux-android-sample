@@ -8,7 +8,7 @@ import com.umaplay.fluxxan.util.ThreadUtils;
 
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.R;
-import br.com.catbag.gifreduxsample.actions.GifListActionCreator;
+import br.com.catbag.gifreduxsample.actions.AppStateActionCreator;
 import br.com.catbag.gifreduxsample.models.AppState;
 import trikita.anvil.Anvil;
 
@@ -17,9 +17,6 @@ import static trikita.anvil.DSL.visibility;
 
 public class GifListActivity extends StateListenerActivity<AppState>
         implements AnvilRenderComponent {
-
-    //Redux components
-    private GifListActionCreator mActionCreator = GifListActionCreator.getInstance();
 
     //Binding Data
     private boolean mGifProgressVisibility = true;
@@ -30,7 +27,7 @@ public class GifListActivity extends StateListenerActivity<AppState>
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gif_list);
         bindingViews();
-        mActionCreator.loadGifs();
+        AppStateActionCreator.getInstance().loadAppState();
     }
 
     @Override

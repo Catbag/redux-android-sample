@@ -2,6 +2,7 @@ package br.com.catbag.gifreduxsample.ui.giflist;
 
 
 import android.content.Intent;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -19,7 +20,6 @@ import java.util.List;
 
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.R;
-import br.com.catbag.gifreduxsample.actions.GifListActionCreator;
 import br.com.catbag.gifreduxsample.asyncs.data.DataManager;
 import br.com.catbag.gifreduxsample.idlings.UiTestLocker;
 import br.com.catbag.gifreduxsample.models.Gif;
@@ -63,12 +63,12 @@ public class GifListActivityTest extends ReduxBaseTest {
     @Override
     public void setup() {
         super.setup();
-        GifListActionCreator.getInstance().setDataManager(mock(DataManager.class));
+        MyApp.setDataManager(mock(DataManager.class));
     }
 
     @Override
     public void cleanup() {
-        GifListActionCreator.getInstance().setDataManager(new DataManager());
+        MyApp.setDataManager(new DataManager(InstrumentationRegistry.getTargetContext()));
         super.cleanup();
     }
 

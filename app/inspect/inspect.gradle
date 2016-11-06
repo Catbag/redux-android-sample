@@ -84,5 +84,6 @@ android {
         htmlReport true
         htmlOutput file("$project.buildDir/reports/lint/")
         lintConfig file("inspect/lint.xml")
+        warning 'InvalidPackage' // https://github.com/FasterXML/jackson-databind/issues/1192
     }
 }

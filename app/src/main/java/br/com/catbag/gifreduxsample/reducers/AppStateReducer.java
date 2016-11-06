@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.com.catbag.gifreduxsample.actions.AppStateActionCreator;
 import br.com.catbag.gifreduxsample.actions.GifActionCreator;
 import br.com.catbag.gifreduxsample.actions.GifListActionCreator;
 import br.com.catbag.gifreduxsample.actions.PayloadParams;
@@ -22,6 +23,12 @@ import static br.com.catbag.gifreduxsample.helpers.AppStateHelper.gifListToMap;
  */
 
 public class AppStateReducer extends BaseAnnotatedReducer<AppState> {
+
+    @BindAction(AppStateActionCreator.APP_STATE_LOADED)
+    public AppState stateLoaded(AppState oldState, AppState newState) {
+        return createImmutableAppBuilder(newState)
+                .build();
+    }
 
     @BindAction(GifListActionCreator.GIF_LIST_UPDATED)
     public AppState listUpdated(AppState state, Map<String, Object> params) {
