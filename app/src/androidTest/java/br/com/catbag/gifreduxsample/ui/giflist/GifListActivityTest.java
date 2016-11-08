@@ -8,11 +8,13 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.test.suitebuilder.annotation.LargeTest;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.umaplay.fluxxan.Action;
 import com.umaplay.fluxxan.Fluxxan;
+import com.umaplay.fluxxan.StateListener;
 
 import org.junit.After;
 import org.junit.Before;
@@ -61,15 +63,30 @@ public class GifListActivityTest {
     @Rule
     public ActivityTestRule<GifListActivity> mActivityTestRule
             = new ActivityTestRule<>(GifListActivity.class, false, false);
+    private Boolean mStateChanged = false;
 
     @Before
     public void setUp(){
         GifListActionCreator.getInstance().setDataManager(mock(DataManager.class));
         getFluxxan().registerReducer(new FakeReducer());
+        getFluxxan().getDispatcher().addListener(stateListener);
     }
+
+    private StateListener stateListener = new StateListener() {
+        @Override
+        public boolean hasStateChanged(Object newState, Object oldState) {
+            mStateChanged = true;
+            return newState != oldState;
+        }
+
+        @Override
+        public void onStateChanged(Object o) {
+        }
+    };
 
     @After
     public void cleanUp(){
+        getFluxxan().getDispatcher().removeListener(stateListener);
         getFluxxan().unregisterReducer(FakeReducer.class);
         GifListActionCreator.getInstance().setDataManager(new DataManager());
     }
@@ -296,6 +313,21 @@ public class GifListActivityTest {
     private void dispatchFakeReduceAction(AppState state) {
         getFluxxan().getDispatcher()
                 .dispatch(new Action(FakeReducer.FAKE_REDUCE_ACTION, state));
+        // Since the dispatcher send actions in background we need wait the response arrives
+        synchronized (mStateChanged){
+            while(!mStateChanged || getFluxxan().getDispatcher().isDispatching()) {
+                sleep(5);
+            }
+            mStateChanged = false;
+        }
+    }
+
+    private void sleep(long ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Log.e(getClass().getSimpleName(), "", e);
+        }
     }
 
     private GifListActivity getActivity(){
