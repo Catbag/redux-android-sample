@@ -7,17 +7,21 @@ import java.util.List;
 
 import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.model.RiffsyResponse;
 import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.model.RiffsyResult;
-import shared.TestBase;
 
 import static junit.framework.Assert.assertEquals;
+import static shared.TestHelper.DELTA;
+import static shared.TestHelper.FLOAT_RANDOM;
 
 /**
  * Created by niltonvasques on 11/3/16.
  */
 
-public class RiffsyResponseTest extends TestBase {
+public class RiffsyResponseTest {
     private List<RiffsyResult> results = new ArrayList<>();
-    private RiffsyResponse sut = new RiffsyResponse.Builder().results(results).next(FLOAT_RANDOM).build();
+    private RiffsyResponse sut = new RiffsyResponse.Builder()
+            .results(results)
+            .next(FLOAT_RANDOM)
+            .build();
 
     @Test
     public void testGetRiffsyResults() {

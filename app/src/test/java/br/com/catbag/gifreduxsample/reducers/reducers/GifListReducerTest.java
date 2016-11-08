@@ -1,12 +1,12 @@
 package br.com.catbag.gifreduxsample.reducers.reducers;
 
-import android.util.Log;
-
 import com.umaplay.fluxxan.Action;
-import com.umaplay.fluxxan.StateListener;
 
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import br.com.catbag.gifreduxsample.BuildConfig;
 import br.com.catbag.gifreduxsample.MyApp;
@@ -27,6 +28,7 @@ import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.models.ImmutableAppState;
 import shared.FakeReducer;
+import shared.TestHelper;
 
 import static br.com.catbag.gifreduxsample.actions.GifActionCreator.GIF_DOWNLOAD_FAILURE;
 import static br.com.catbag.gifreduxsample.actions.GifActionCreator.GIF_DOWNLOAD_START;
@@ -37,85 +39,82 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static shared.TestUtils.DEFAULT_UUID;
-import static shared.TestUtils.buildGif;
-import static shared.TestUtils.createDefaultImmutableGif;
-import static shared.TestUtils.createStateFromGif;
-import static shared.TestUtils.createStateFromGifs;
-import static shared.TestUtils.getFakeGifs;
-import static shared.TestUtils.getFirstGif;
-import static shared.TestUtils.getFluxxan;
+import static shared.TestHelper.DEFAULT_UUID;
+import static shared.TestHelper.buildAppState;
+import static shared.TestHelper.buildFiveGifs;
+import static shared.TestHelper.buildGif;
+import static shared.TestHelper.builderWithDefault;
 
 // Roboeletric still not supports API 24 stuffs
 @Config(sdk = 23, constants=BuildConfig.class)
 @RunWith(RobolectricTestRunner.class)
 public class GifListReducerTest {
-    private Boolean mStateChanged = false;
+    private TestHelper helper
+            = new TestHelper(((MyApp) RuntimeEnvironment.application).getFluxxan());
+
+    @Rule
+    public Timeout mGlobalTimeout = new Timeout(20, TimeUnit.SECONDS);
 
     @Before
-    public void setup(){
-        getFluxxan().registerReducer(new FakeReducer());
-        getFluxxan().getDispatcher().addListener(new StateListener() {
-            @Override
-            public boolean hasStateChanged(Object newState, Object oldState) {
-                mStateChanged = true;
-                return newState != oldState;
-            }
-
-            @Override
-            public void onStateChanged(Object o) {
-            }
-        });
+    public void setup() {
+        helper.getFluxxan().registerReducer(new FakeReducer());
+        helper.activateStateListener();
     }
 
-    @Test(timeout = 1000)
+    @After
+    public void cleanup() {
+        helper.getFluxxan().registerReducer(new FakeReducer());
+        helper.deactivateStateListener();
+    }
+
+    @Test
     public void initialAppState() throws Exception {
-        assertTrue(getApp().getFluxxan().getState().getGifs().isEmpty());
-        assertTrue(getApp().getFluxxan().getState().getHasMoreGifs());
+        assertTrue(helper.getFluxxan().getState().getGifs().isEmpty());
+        assertTrue(helper.getFluxxan().getState().getHasMoreGifs());
     }
 
-    @Test(timeout = 1000)
+    @Test
     public void whenSendDownloadStartedAction() throws Exception {
         assertTransition(Gif.Status.NOT_DOWNLOADED, Gif.Status.DOWNLOADING, GIF_DOWNLOAD_START,
                 DEFAULT_UUID);
     }
 
-    @Test(timeout = 1000)
+    @Test
     public void whenSendLoadListAction() throws Exception {
-        List<Gif> fakeGifs = getFakeGifs();
+        List<Gif> fakeGifs = buildFiveGifs();
 
         Map<String, Object> params = new HashMap<>();
         params.put(PayloadParams.PARAM_GIFS, fakeGifs);
         params.put(PayloadParams.PARAM_HAS_MORE, false);
-        dispatchAction(new Action(GifListActionCreator.GIF_LIST_UPDATED, params));
+        helper.dispatchAction(new Action(GifListActionCreator.GIF_LIST_UPDATED, params));
 
-        Map<String, Gif> gifsStates = getApp().getFluxxan().getState().getGifs();
+        Map<String, Gif> gifsStates = helper.getFluxxan().getState().getGifs();
         assertEquals(fakeGifs.size(), gifsStates.size());
-        assertFalse(getApp().getFluxxan().getState().getHasMoreGifs());
+        assertFalse(helper.getFluxxan().getState().getHasMoreGifs());
 
         for (Gif expectedGif : fakeGifs) {
             assertEquals(expectedGif, gifsStates.get(expectedGif.getUuid()));
         }
     }
 
-    @Test(timeout = 1000)
+    @Test
     public void whenSendLoadListWithANonEmptyListAction() throws Exception {
-        List<Gif> fakeGifs = getFakeGifs();
+        List<Gif> fakeGifs = buildFiveGifs();
 
         Map<String, Object> params = new HashMap<>();
         params.put(PayloadParams.PARAM_GIFS, fakeGifs);
         params.put(PayloadParams.PARAM_HAS_MORE, true);
-        dispatchAction(new Action(GifListActionCreator.GIF_LIST_UPDATED, params));
+        helper.dispatchAction(new Action(GifListActionCreator.GIF_LIST_UPDATED, params));
 
-        List<Gif> fakeGifs2 = getFakeGifs();
+        List<Gif> fakeGifs2 = buildFiveGifs();
         params = new HashMap<>();
         params.put(PayloadParams.PARAM_GIFS, fakeGifs2);
         params.put(PayloadParams.PARAM_HAS_MORE, false);
-        dispatchAction(new Action(GifListActionCreator.GIF_LIST_UPDATED, params));
+        helper.dispatchAction(new Action(GifListActionCreator.GIF_LIST_UPDATED, params));
 
-        Map<String, Gif> gifsStates = getApp().getFluxxan().getState().getGifs();
+        Map<String, Gif> gifsStates = helper.getFluxxan().getState().getGifs();
         assertEquals(fakeGifs.size() + fakeGifs2.size(), gifsStates.size());
-        assertFalse(getApp().getFluxxan().getState().getHasMoreGifs());
+        assertFalse(helper.getFluxxan().getState().getHasMoreGifs());
 
         for (Gif expectedGif : fakeGifs) {
             assertEquals(expectedGif, gifsStates.get(expectedGif.getUuid()));
@@ -125,7 +124,7 @@ public class GifListReducerTest {
         }
     }
 
-    @Test(timeout = 1000)
+    @Test
     public void whenSendDownloadSuccessAction() throws Exception {
         String expectedPath = "/test/image.gif";
         Map<String, Object> params = new HashMap<>();
@@ -134,49 +133,50 @@ public class GifListReducerTest {
 
         assertTransition(Gif.Status.DOWNLOADING, Gif.Status.DOWNLOADED, GIF_DOWNLOAD_SUCCESS,
                 params);
-        assertEquals(expectedPath, getFluxxan().getState().getGifs().get(DEFAULT_UUID).getPath());
+        assertEquals(expectedPath, helper.getFluxxan().getState().getGifs().get(DEFAULT_UUID).getPath());
     }
 
-    @Test(timeout = 1000)
+    @Test
     public void whenSendDownloadFailureAction() throws Exception {
         assertTransition(Gif.Status.DOWNLOADING, Gif.Status.DOWNLOAD_FAILED, GIF_DOWNLOAD_FAILURE,
                 DEFAULT_UUID);
     }
 
-    @Test(timeout = 1000)
+    @Test
     public void whenSendPlayAction() throws Exception {
         HashSet fromSet = new HashSet();
         fromSet.add(Gif.Status.DOWNLOADED);
         fromSet.add(Gif.Status.PAUSED);
         assertTransition(fromSet, Gif.Status.LOOPING, GIF_PLAY, DEFAULT_UUID);
-        assertEquals(true, getFirstGif().getWatched());
+        assertEquals(true, helper.firstAppStateGif().getWatched());
     }
 
-    @Test(timeout = 1000)
+    @Test
     public void whenSendPauseAction()  {
         assertTransition(Gif.Status.LOOPING, Gif.Status.PAUSED, GIF_PAUSE, DEFAULT_UUID);
     }
 
-    @Test(timeout = 1000)
+    @Test
     public void whenSendManyActions() {
         List gifs = new ArrayList();
         gifs.add(buildGif(Gif.Status.NOT_DOWNLOADED, "1"));
         gifs.add(buildGif(Gif.Status.DOWNLOADING, "2"));
         gifs.add(buildGif(Gif.Status.LOOPING, "3"));
 
-        dispatchAction(new Action(FakeReducer.FAKE_REDUCE_ACTION, createStateFromGifs(new ArrayList<>())));
+        helper.dispatchAction(new Action(FakeReducer.FAKE_REDUCE_ACTION,
+                buildAppState(new ArrayList<>())));
 
         Map<String, Object> params = new HashMap<>();
         params.put(PayloadParams.PARAM_GIFS, gifs);
         params.put(PayloadParams.PARAM_HAS_MORE, false);
-        dispatchAction(new Action(GifListActionCreator.GIF_LIST_UPDATED, params));
-        dispatchAction(new Action(GIF_DOWNLOAD_START, "1"));
+        helper.dispatchAction(new Action(GifListActionCreator.GIF_LIST_UPDATED, params));
+        helper.dispatchAction(new Action(GIF_DOWNLOAD_START, "1"));
 
         params = new HashMap<>();
         params.put(PayloadParams.PARAM_PATH, "");
         params.put(PayloadParams.PARAM_UUID, "2");
-        dispatchAction(new Action(GIF_DOWNLOAD_SUCCESS, params));
-        dispatchAction(new Action(GIF_PAUSE, "3"));
+        helper.dispatchAction(new Action(GIF_DOWNLOAD_SUCCESS, params));
+        helper.dispatchAction(new Action(GIF_PAUSE, "3"));
 
         Map expected = new HashMap();
         expected.put("1", buildGif(Gif.Status.DOWNLOADING, "1"));
@@ -187,12 +187,13 @@ public class GifListReducerTest {
                 .hasMoreGifs(false)
                 .build();
 
-        assertEquals(expectedAppState, getApp().getFluxxan().getState());
+        assertEquals(expectedAppState, helper.getFluxxan().getState());
     }
 
-    @Test(timeout = 1000)
+    @Test
     public void whenCompleteAppFlowActions() {
-        dispatchAction(new Action(FakeReducer.FAKE_REDUCE_ACTION, createStateFromGifs(new ArrayList<>())));
+        helper.dispatchAction(new Action(FakeReducer.FAKE_REDUCE_ACTION,
+                buildAppState(new ArrayList<>())));
 
         List gifs = new ArrayList();
         gifs.add(buildGif(Gif.Status.NOT_DOWNLOADED));
@@ -200,57 +201,29 @@ public class GifListReducerTest {
         Map<String, Object> params = new HashMap<>();
         params.put(PayloadParams.PARAM_GIFS, gifs);
         params.put(PayloadParams.PARAM_HAS_MORE, false);
-        dispatchAction(new Action(GifListActionCreator.GIF_LIST_UPDATED, params));
-        dispatchAction(new Action(GIF_DOWNLOAD_START, DEFAULT_UUID));
+        helper.dispatchAction(new Action(GifListActionCreator.GIF_LIST_UPDATED, params));
+        helper.dispatchAction(new Action(GIF_DOWNLOAD_START, DEFAULT_UUID));
 
         params = new HashMap<>();
         params.put(PayloadParams.PARAM_PATH, "");
         params.put(PayloadParams.PARAM_UUID, DEFAULT_UUID);
-        dispatchAction(new Action(GIF_DOWNLOAD_SUCCESS, params));
-        dispatchAction(new Action(GIF_PLAY, DEFAULT_UUID));
-        dispatchAction(new Action(GIF_PAUSE, DEFAULT_UUID));
+        helper.dispatchAction(new Action(GIF_DOWNLOAD_SUCCESS, params));
+        helper.dispatchAction(new Action(GIF_PLAY, DEFAULT_UUID));
+        helper.dispatchAction(new Action(GIF_PAUSE, DEFAULT_UUID));
 
         Map expected = new HashMap();
-        Gif gif = createDefaultImmutableGif().watched(true).status(Gif.Status.PAUSED).build();
+        Gif gif = builderWithDefault()
+                .watched(true)
+                .status(Gif.Status.PAUSED)
+                .build();
+
         expected.put(DEFAULT_UUID, gif);
         AppState expectedAppState = ImmutableAppState.builder()
                 .gifs(expected)
                 .hasMoreGifs(false)
                 .build();
 
-        assertEquals(expectedAppState, getApp().getFluxxan().getState());
-    }
-
-    // Helpers methods to dry up unit tests
-    private void dispatchAction(Action action) {
-        getApp().getFluxxan().getDispatcher().dispatch(action);
-        // Since the dispatcher send actions in background we need wait the response arrives
-        synchronized (mStateChanged){
-            while(!mStateChanged || getApp().getFluxxan().getDispatcher().isDispatching()) {
-                sleep(5);
-            }
-            mStateChanged = false;
-        }
-    }
-
-    private MyApp getApp(){
-        return (MyApp) RuntimeEnvironment.application;
-    }
-
-    private void sleep(long ms){
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException e) {
-            Log.e(getClass().getSimpleName(), "", e);
-        }
-    }
-
-    private void dispatchSomeGifs() {
-        dispatchAction(new Action(FakeReducer.FAKE_REDUCE_ACTION, createStateFromGifs(getFakeGifs())));
-    }
-
-    public void dispatchOneGif(Gif gif) {
-        dispatchAction(new Action(FakeReducer.FAKE_REDUCE_ACTION, createStateFromGif(gif)));
+        assertEquals(expectedAppState, helper.getFluxxan().getState());
     }
 
     private void assertTransition(Gif.Status from, Gif.Status to, String action, Object payload) {
@@ -268,17 +241,17 @@ public class GifListReducerTest {
 
         for (Gif.Status status : statuses) {
             if(from.contains(status) || status == to) continue;
-            dispatchOneGif(buildGif(status, uuid));
-            dispatchAction(new Action(action, payload));
-            assertNotEquals(to, getFluxxan().getState().getGifs().get(uuid).getStatus());
+            helper.dispatchFakeAppState(buildAppState(buildGif(status, uuid)));
+            helper.dispatchAction(new Action(action, payload));
+            assertNotEquals(to, helper.getFluxxan().getState().getGifs().get(uuid).getStatus());
         }
 
         for (Iterator<Gif.Status> iterator = from.iterator(); iterator.hasNext(); ) {
             Gif.Status fromStatus = iterator.next();
 
-            dispatchOneGif(buildGif(fromStatus, uuid));
-            dispatchAction(new Action(action, payload));
-            assertEquals(to, getFluxxan().getState().getGifs().get(uuid).getStatus());
+            helper.dispatchFakeAppState(buildAppState(buildGif(fromStatus, uuid)));
+            helper.dispatchAction(new Action(action, payload));
+            assertEquals(to, helper.getFluxxan().getState().getGifs().get(uuid).getStatus());
         }
     }
 
@@ -291,5 +264,4 @@ public class GifListReducerTest {
         }
         return uuid;
     }
-
 }

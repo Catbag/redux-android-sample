@@ -10,6 +10,7 @@ import br.com.catbag.gifreduxsample.reducers.mocks.ServerMockTestBase;
 import retrofit2.Response;
 
 import static junit.framework.Assert.assertEquals;
+import static shared.TestHelper.DELTA;
 
 /**
  * Created by niltonvasques on 11/2/16.

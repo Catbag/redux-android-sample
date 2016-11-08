@@ -15,15 +15,13 @@ import java.util.Scanner;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import shared.TestBase;
-import shared.TestUtils;
 
 /**
  * JUnit + OkHTTP Mock Server Tests.
  *
  * @author <a href="mailto:jaredsburrows@gmail.com">Jared Burrows</a>
  */
-public abstract class ServerMockTestBase extends TestBase {
+public abstract class ServerMockTestBase {
     @Rule
     public final MockWebServer server = new MockWebServer();
     protected String mockEndPoint;
@@ -39,7 +37,7 @@ public abstract class ServerMockTestBase extends TestBase {
     }
 
     protected void sendMockMessages(String fileName, int statusCode) throws Exception {
-        final InputStream stream = TestUtils.getResourceAsStream(fileName);
+        final InputStream stream = getResourceAsStream(fileName);
         final String mockResponse = new Scanner(stream, Charset.defaultCharset().name())
                 .useDelimiter("\\A").next();
 
@@ -52,6 +50,10 @@ public abstract class ServerMockTestBase extends TestBase {
 
     protected void sendMockMessages(String fileName) throws Exception {
         sendMockMessages(fileName, HttpURLConnection.HTTP_OK);
+    }
+
+    public static InputStream getResourceAsStream(String fileName) {
+        return ServerMockTestBase.class.getResourceAsStream(fileName);
     }
 }
 
