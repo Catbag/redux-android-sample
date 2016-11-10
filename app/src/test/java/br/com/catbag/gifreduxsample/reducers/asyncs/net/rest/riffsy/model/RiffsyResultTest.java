@@ -7,15 +7,16 @@ import java.util.List;
 
 import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.model.RiffsyMedia;
 import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.model.RiffsyResult;
-import shared.TestBase;
 
 import static junit.framework.Assert.assertEquals;
+import static shared.TestHelper.STRING_UNIQUE;
+import static shared.TestHelper.STRING_UNIQUE_2;
 
 /**
  * Created by niltonvasques on 11/3/16.
  */
 
-public class RiffsyResultTest extends TestBase {
+public class RiffsyResultTest {
   private List<RiffsyMedia> medias = new ArrayList<>();
   private RiffsyResult sut = new RiffsyResult.Builder().media(medias).title(STRING_UNIQUE).build();
 

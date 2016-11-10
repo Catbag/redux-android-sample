@@ -2,20 +2,13 @@ package br.com.catbag.gifreduxsample.ui.giflist;
 
 
 import android.content.Intent;
-import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.test.suitebuilder.annotation.LargeTest;
-import android.view.View;
 import android.widget.FrameLayout;
 
-import com.umaplay.fluxxan.Action;
-import com.umaplay.fluxxan.Fluxxan;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,29 +16,28 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.R;
 import br.com.catbag.gifreduxsample.actions.GifListActionCreator;
 import br.com.catbag.gifreduxsample.asyncs.data.DataManager;
-import br.com.catbag.gifreduxsample.helpers.AppStateHelper;
 import br.com.catbag.gifreduxsample.idlings.UiTestLocker;
-import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
-import br.com.catbag.gifreduxsample.models.ImmutableAppState;
-import br.com.catbag.gifreduxsample.models.ImmutableGif;
 import br.com.catbag.gifreduxsample.ui.GifListActivity;
 import br.com.catbag.gifreduxsample.ui.components.FeedComponent;
 import br.com.catbag.gifreduxsample.ui.components.GifComponent;
-import shared.FakeReducer;
+import pl.droidsonroids.gif.GifImageView;
+import shared.ReduxBaseTest;
+import shared.TestHelper;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.view.View.generateViewId;
 import static br.com.catbag.gifreduxsample.matchers.Matchers.withBGColor;
 import static br.com.catbag.gifreduxsample.matchers.Matchers.withGifDrawable;
 import static br.com.catbag.gifreduxsample.matchers.Matchers.withPlayingGifDrawable;
@@ -53,37 +45,41 @@ import static br.com.catbag.gifreduxsample.utils.FileUtils.createFakeGifFile;
 import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.mock;
+import static shared.TestHelper.buildAppState;
+import static shared.TestHelper.gifBuilderWithEmpty;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class GifListActivityTest {
+public class GifListActivityTest extends ReduxBaseTest {
+
+    public GifListActivityTest() {
+        mHelper = new TestHelper(MyApp.getFluxxan());
+    }
 
     @Rule
     public ActivityTestRule<GifListActivity> mActivityTestRule
             = new ActivityTestRule<>(GifListActivity.class, false, false);
 
-    @Before
-    public void setUp(){
+    @Override
+    public void setup() {
+        super.setup();
         GifListActionCreator.getInstance().setDataManager(mock(DataManager.class));
-        getFluxxan().registerReducer(new FakeReducer());
     }
 
-    @After
-    public void cleanUp(){
-        getFluxxan().unregisterReducer(FakeReducer.class);
+    @Override
+    public void cleanup() {
         GifListActionCreator.getInstance().setDataManager(new DataManager());
+        super.cleanup();
     }
 
     @Test
     public void whenGifIsDownloadingTest() {
-        Gif gif = gifBuilder()
+        Gif gif = gifBuilderWithEmpty()
                 .status(Gif.Status.DOWNLOADING)
                 .build();
 
-        dispatchFakeReduceAction(createStateFromGif(gif));
+        mHelper.dispatchFakeAppState(buildAppState(gif));
 
-        /** On activity create the Fluxxan calls onStateChanged synchronously.
-         * So isn't required to use idling resources or others wait conditions **/
         mActivityTestRule.launchActivity(new Intent());
 
         onView(withId(R.id.gif_loading)).check(matches(isDisplayed()));
@@ -92,12 +88,12 @@ public class GifListActivityTest {
     @Test
     public void whenGifIsDownloadedTest() {
         File fakeGifFile = createFakeGifFile();
-        Gif gif = gifBuilder()
+        Gif gif = gifBuilderWithEmpty()
                 .path(fakeGifFile.getAbsolutePath())
                 .status(Gif.Status.DOWNLOADED)
                 .build();
 
-        dispatchFakeReduceAction(createStateFromGif(gif));
+        mHelper.dispatchFakeAppState(buildAppState(gif));
 
         mActivityTestRule.launchActivity(new Intent());
 
@@ -112,12 +108,12 @@ public class GifListActivityTest {
 
     @Test
     public void whenGifIsNotWatchedTest() {
-        Gif gif = gifBuilder()
+        Gif gif = gifBuilderWithEmpty()
                 .status(Gif.Status.DOWNLOADED)
                 .watched(false)
                 .build();
 
-        dispatchFakeReduceAction(createStateFromGif(gif));
+        mHelper.dispatchFakeAppState(buildAppState(gif));
 
         mActivityTestRule.launchActivity(new Intent());
 
@@ -130,12 +126,12 @@ public class GifListActivityTest {
 
     @Test
     public void whenGifIsWatchedTest() {
-        Gif gif = gifBuilder()
+        Gif gif = gifBuilderWithEmpty()
                 .status(Gif.Status.DOWNLOADED)
                 .watched(true)
                 .build();
 
-        dispatchFakeReduceAction(createStateFromGif(gif));
+        mHelper.dispatchFakeAppState(buildAppState(gif));
 
         mActivityTestRule.launchActivity(new Intent());
 
@@ -149,12 +145,12 @@ public class GifListActivityTest {
     @Test
     public void whenPlayGifTest() {
         File fakeGifFile = createFakeGifFile();
-        Gif gif = gifBuilder()
+        Gif gif = gifBuilderWithEmpty()
                 .path(fakeGifFile.getAbsolutePath())
                 .status(Gif.Status.DOWNLOADED)
                 .build();
 
-        dispatchFakeReduceAction(createStateFromGif(gif));
+        mHelper.dispatchFakeAppState(buildAppState(gif));
 
         mActivityTestRule.launchActivity(new Intent());
 
@@ -173,12 +169,12 @@ public class GifListActivityTest {
     @Test
     public void whenPauseGifTest() {
         File fakeGifFile = createFakeGifFile();
-        Gif gif = gifBuilder()
+        Gif gif = gifBuilderWithEmpty()
                 .path(fakeGifFile.getAbsolutePath())
                 .status(Gif.Status.LOOPING)
                 .build();
 
-        dispatchFakeReduceAction(createStateFromGif(gif));
+        mHelper.dispatchFakeAppState(buildAppState(gif));
 
         mActivityTestRule.launchActivity(new Intent());
 
@@ -196,11 +192,11 @@ public class GifListActivityTest {
 
     @Test
     public void whenGifDownloadFailTest() {
-        Gif gif = gifBuilder()
+        Gif gif = gifBuilderWithEmpty()
                 .status(Gif.Status.DOWNLOAD_FAILED)
                 .build();
 
-        dispatchFakeReduceAction(createStateFromGif(gif));
+        mHelper.dispatchFakeAppState(buildAppState(gif));
 
         mActivityTestRule.launchActivity(new Intent());
 
@@ -212,105 +208,105 @@ public class GifListActivityTest {
     }
 
     @Test
-    public void whenLoadGifListWithMultipleItemsTest() {
+    public void whenLoadMultipleGifsOnAppStateTest() {
         int gifListSize = 5;
-        dispatchFakeReduceAction(createStateFromGifs(createFakeGifList(gifListSize)));
+        mHelper.dispatchFakeAppState(buildAppState(createFakeGifList(gifListSize)));
 
         mActivityTestRule.launchActivity(new Intent());
 
-        FeedComponent feed = (FeedComponent) getActivity().findViewById(R.id.feed);
-        RecyclerView recyclerView = (RecyclerView) feed.getChildAt(0);
-        recyclerView.setId(View.generateViewId());
-
         for (int i = 0; i < gifListSize; i++) {
-            onView(withId(recyclerView.getId())).perform(scrollToPosition(i));
+            onView(withId(getRecyclerView().getId())).perform(scrollToPosition(i));
         }
 
-        assertEquals(gifListSize, recyclerView.getAdapter().getItemCount());
-        //Testa repetições, elemento e estados
+        assertEquals(gifListSize, getRecyclerView().getAdapter().getItemCount());
     }
 
     @Test
     public void whenScrollDownAndPlayLastItemTest() {
         int gifListSize = 5;
-        dispatchFakeReduceAction(createStateFromGifs(createFakeGifList(gifListSize)));
+        mHelper.dispatchFakeAppState(buildAppState(createFakeGifList(gifListSize)));
 
         mActivityTestRule.launchActivity(new Intent());
 
-        FeedComponent feed = (FeedComponent) getActivity().findViewById(R.id.feed);
-        RecyclerView recyclerView = (RecyclerView) feed.getChildAt(0);
-        recyclerView.setId(View.generateViewId());
+        int lastItemPos = getRecyclerView().getChildCount()-1;
+        //Initiate lock on first adapter GifComponent
+        UiTestLocker locker = new UiTestLocker(getGifComponent(lastItemPos));
 
-        int lastItemPositionOnScreen = recyclerView.getChildCount()-1;
-        UiTestLocker locker = new UiTestLocker(getGifComponent(lastItemPositionOnScreen));
-
-        onView(withId(recyclerView.getId()))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(gifListSize-1, click()));
+        //Scroll to bottom and click on last adapter GifComponent
+        onView(withId(getRecyclerView().getId()))
+                .perform(actionOnItemAtPosition(gifListSize-1, click()));
 
         locker.registerIdlingResource();
 
-        int lastViewId = View.generateViewId();
-        FrameLayout frame = ((FrameLayout)recyclerView.getChildAt(lastItemPositionOnScreen));
-        View lastView = frame.findViewById(R.id.gif_image);
-        lastView.setId(lastViewId);
+        //Get the first GifImageView and set a unique id
+        int tempId = generateViewId();
+        getGifImgViewAt(R.id.gif_image, lastItemPos).setId(tempId);
 
-        onView(withId(lastViewId))
+        //Checks if it has a playing status
+        onView(withId(tempId))
                 .check(matches(withPlayingGifDrawable()));
 
-        lastView.setId(R.id.gif_image);
+        //clean test modifications
+        getGifImgViewAt(tempId, lastItemPos).setId(R.id.gif_image);
         locker.unregisterIdlingResource();
     }
 
     @Test
     public void whenScrollUpAndPlayFirstItemTest() {
         int gifListSize = 5;
-        dispatchFakeReduceAction(createStateFromGifs(createFakeGifList(gifListSize)));
+        mHelper.dispatchFakeAppState(buildAppState(createFakeGifList(gifListSize)));
 
         mActivityTestRule.launchActivity(new Intent());
 
-        FeedComponent feed = (FeedComponent) getActivity().findViewById(R.id.feed);
-        RecyclerView recyclerView = (RecyclerView) feed.getChildAt(0);
-        recyclerView.setId(View.generateViewId());
-
-        onView(withId(recyclerView.getId())).perform(scrollToPosition(gifListSize-1));
-
+        //Initiate lock on first adapter GifComponent
         UiTestLocker locker = new UiTestLocker(getGifComponent(0));
 
-        onView(withId(recyclerView.getId()))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        //Scroll to bottom
+        onView(withId(getRecyclerView().getId())).perform(scrollToPosition(gifListSize-1));
+
+        //Scroll to top and click on first adapter GifComponent
+        onView(withId(getRecyclerView().getId()))
+                .perform(actionOnItemAtPosition(0, click()));
 
         locker.registerIdlingResource();
 
-        int firstViewId = View.generateViewId();
-        FrameLayout frame = ((FrameLayout)recyclerView.getChildAt(0));
-        View firstView = frame.findViewById(R.id.gif_image);
-        firstView.setId(firstViewId);
+        //Get the first GifImageView and set a unique id
+        int tempId = generateViewId();
+        getGifImgViewAt(R.id.gif_image, 0).setId(tempId);
 
-        onView(withId(firstViewId))
-                .check(matches(withPlayingGifDrawable()));
+        //Checks if it has a playing status
+        onView(withId(tempId)).check(matches(withPlayingGifDrawable()));
 
-        firstView.setId(R.id.gif_image);
+        //clean test modifications
+        getGifImgViewAt(tempId, 0).setId(R.id.gif_image);
         locker.unregisterIdlingResource();
     }
 
-    private void dispatchFakeReduceAction(AppState state) {
-        getFluxxan().getDispatcher()
-                .dispatch(new Action(FakeReducer.FAKE_REDUCE_ACTION, state));
+    private RecyclerView getRecyclerView() {
+        FeedComponent feed = (FeedComponent) getActivity().findViewById(R.id.feed);
+        RecyclerView recyclerView = (RecyclerView) feed.getChildAt(0);
+        recyclerView.setId(generateViewId());
+        return recyclerView;
     }
 
-    private GifListActivity getActivity(){
+    private GifComponent getGifComponent(int screenPos) {
+        FrameLayout frameLayout = (FrameLayout) getRecyclerView().getChildAt(screenPos);
+        return (GifComponent) frameLayout.getChildAt(0);
+    }
+
+    private GifImageView getGifImgViewAt(int viewId, int screenPos) {
+        return (GifImageView) getGifComponent(screenPos).findViewById(viewId);
+    }
+
+    private GifListActivity getActivity() {
         return mActivityTestRule.getActivity();
-    }
-
-    private Fluxxan<AppState> getFluxxan(){
-        return MyApp.getFluxxan();
     }
 
     private List<Gif> createFakeGifList(int size) {
         List<Gif> gifs = new ArrayList<>();
         File fakeGifFile = createFakeGifFile();
         for (int i = 0; i < size; i++) {
-            Gif gif = gifBuilder()
+            Gif gif = gifBuilderWithEmpty()
                     .title("gif"+i)
                     .status(Gif.Status.DOWNLOADED)
                     .path(fakeGifFile.getAbsolutePath())
@@ -319,26 +315,5 @@ public class GifListActivityTest {
         }
 
         return gifs;
-    }
-
-    private GifComponent getGifComponent(int pos) {
-        FeedComponent feed = (FeedComponent) getActivity().findViewById(R.id.feed);
-        RecyclerView recyclerView = (RecyclerView) feed.getChildAt(0);
-        FrameLayout frameLayout = (FrameLayout) recyclerView.getChildAt(pos);
-        return ((GifComponent) frameLayout.getChildAt(0));
-    }
-
-    private AppState createStateFromGif(Gif gif) {
-        return ImmutableAppState.builder().putGifs(gif.getUuid(), gif).build();
-    }
-
-    private AppState createStateFromGifs(List<Gif> gifs) {
-        return ImmutableAppState.builder().putAllGifs(AppStateHelper.gifListToMap(gifs)).build();
-    }
-
-    private ImmutableGif.Builder gifBuilder() {
-        return ImmutableGif.builder().uuid(UUID.randomUUID().toString())
-                .title("")
-                .url("");
     }
 }
