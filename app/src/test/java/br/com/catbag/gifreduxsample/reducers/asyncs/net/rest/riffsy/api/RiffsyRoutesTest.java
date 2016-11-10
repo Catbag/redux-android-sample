@@ -19,7 +19,6 @@ import static shared.TestHelper.DELTA;
 public class RiffsyRoutesTest extends ServerMockTestBase {
     private RiffsyRoutes sut;
 
-    @Before
     @Override
     public void setUp() throws Exception {
         super.setUp();

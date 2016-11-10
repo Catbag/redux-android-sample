@@ -9,17 +9,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.widget.FrameLayout;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.R;
@@ -31,7 +27,7 @@ import br.com.catbag.gifreduxsample.ui.GifListActivity;
 import br.com.catbag.gifreduxsample.ui.components.FeedComponent;
 import br.com.catbag.gifreduxsample.ui.components.GifComponent;
 import pl.droidsonroids.gif.GifImageView;
-import shared.FakeReducer;
+import shared.ReduxBaseTest;
 import shared.TestHelper;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -50,42 +46,39 @@ import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.mock;
 import static shared.TestHelper.buildAppState;
-import static shared.TestHelper.builderWithEmpty;
+import static shared.TestHelper.gifBuilderWithEmpty;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class GifListActivityTest {
+public class GifListActivityTest extends ReduxBaseTest {
 
-    private TestHelper helper = new TestHelper(MyApp.getFluxxan());
-
-    @Rule
-    public Timeout mGlobalTimeout = new Timeout(20, TimeUnit.SECONDS);
+    public GifListActivityTest() {
+        mHelper = new TestHelper(MyApp.getFluxxan());
+    }
 
     @Rule
     public ActivityTestRule<GifListActivity> mActivityTestRule
             = new ActivityTestRule<>(GifListActivity.class, false, false);
 
-    @Before
-    public void setUp() {
+    @Override
+    public void setup() {
+        super.setup();
         GifListActionCreator.getInstance().setDataManager(mock(DataManager.class));
-        helper.getFluxxan().registerReducer(new FakeReducer());
-        helper.activateStateListener();
     }
 
-    @After
-    public void cleanUp() {
-        helper.deactivateStateListener();
-        helper.getFluxxan().unregisterReducer(FakeReducer.class);
+    @Override
+    public void cleanup() {
         GifListActionCreator.getInstance().setDataManager(new DataManager());
+        super.cleanup();
     }
 
     @Test
     public void whenGifIsDownloadingTest() {
-        Gif gif = builderWithEmpty()
+        Gif gif = gifBuilderWithEmpty()
                 .status(Gif.Status.DOWNLOADING)
                 .build();
 
-        helper.dispatchFakeAppState(buildAppState(gif));
+        mHelper.dispatchFakeAppState(buildAppState(gif));
 
         mActivityTestRule.launchActivity(new Intent());
 
@@ -95,12 +88,12 @@ public class GifListActivityTest {
     @Test
     public void whenGifIsDownloadedTest() {
         File fakeGifFile = createFakeGifFile();
-        Gif gif = builderWithEmpty()
+        Gif gif = gifBuilderWithEmpty()
                 .path(fakeGifFile.getAbsolutePath())
                 .status(Gif.Status.DOWNLOADED)
                 .build();
 
-        helper.dispatchFakeAppState(buildAppState(gif));
+        mHelper.dispatchFakeAppState(buildAppState(gif));
 
         mActivityTestRule.launchActivity(new Intent());
 
@@ -115,12 +108,12 @@ public class GifListActivityTest {
 
     @Test
     public void whenGifIsNotWatchedTest() {
-        Gif gif = builderWithEmpty()
+        Gif gif = gifBuilderWithEmpty()
                 .status(Gif.Status.DOWNLOADED)
                 .watched(false)
                 .build();
 
-        helper.dispatchFakeAppState(buildAppState(gif));
+        mHelper.dispatchFakeAppState(buildAppState(gif));
 
         mActivityTestRule.launchActivity(new Intent());
 
@@ -133,12 +126,12 @@ public class GifListActivityTest {
 
     @Test
     public void whenGifIsWatchedTest() {
-        Gif gif = builderWithEmpty()
+        Gif gif = gifBuilderWithEmpty()
                 .status(Gif.Status.DOWNLOADED)
                 .watched(true)
                 .build();
 
-        helper.dispatchFakeAppState(buildAppState(gif));
+        mHelper.dispatchFakeAppState(buildAppState(gif));
 
         mActivityTestRule.launchActivity(new Intent());
 
@@ -152,12 +145,12 @@ public class GifListActivityTest {
     @Test
     public void whenPlayGifTest() {
         File fakeGifFile = createFakeGifFile();
-        Gif gif = builderWithEmpty()
+        Gif gif = gifBuilderWithEmpty()
                 .path(fakeGifFile.getAbsolutePath())
                 .status(Gif.Status.DOWNLOADED)
                 .build();
 
-        helper.dispatchFakeAppState(buildAppState(gif));
+        mHelper.dispatchFakeAppState(buildAppState(gif));
 
         mActivityTestRule.launchActivity(new Intent());
 
@@ -176,12 +169,12 @@ public class GifListActivityTest {
     @Test
     public void whenPauseGifTest() {
         File fakeGifFile = createFakeGifFile();
-        Gif gif = builderWithEmpty()
+        Gif gif = gifBuilderWithEmpty()
                 .path(fakeGifFile.getAbsolutePath())
                 .status(Gif.Status.LOOPING)
                 .build();
 
-        helper.dispatchFakeAppState(buildAppState(gif));
+        mHelper.dispatchFakeAppState(buildAppState(gif));
 
         mActivityTestRule.launchActivity(new Intent());
 
@@ -199,11 +192,11 @@ public class GifListActivityTest {
 
     @Test
     public void whenGifDownloadFailTest() {
-        Gif gif = builderWithEmpty()
+        Gif gif = gifBuilderWithEmpty()
                 .status(Gif.Status.DOWNLOAD_FAILED)
                 .build();
 
-        helper.dispatchFakeAppState(buildAppState(gif));
+        mHelper.dispatchFakeAppState(buildAppState(gif));
 
         mActivityTestRule.launchActivity(new Intent());
 
@@ -217,7 +210,7 @@ public class GifListActivityTest {
     @Test
     public void whenLoadMultipleGifsOnAppStateTest() {
         int gifListSize = 5;
-        helper.dispatchFakeAppState(buildAppState(createFakeGifList(gifListSize)));
+        mHelper.dispatchFakeAppState(buildAppState(createFakeGifList(gifListSize)));
 
         mActivityTestRule.launchActivity(new Intent());
 
@@ -231,7 +224,7 @@ public class GifListActivityTest {
     @Test
     public void whenScrollDownAndPlayLastItemTest() {
         int gifListSize = 5;
-        helper.dispatchFakeAppState(buildAppState(createFakeGifList(gifListSize)));
+        mHelper.dispatchFakeAppState(buildAppState(createFakeGifList(gifListSize)));
 
         mActivityTestRule.launchActivity(new Intent());
 
@@ -261,7 +254,7 @@ public class GifListActivityTest {
     @Test
     public void whenScrollUpAndPlayFirstItemTest() {
         int gifListSize = 5;
-        helper.dispatchFakeAppState(buildAppState(createFakeGifList(gifListSize)));
+        mHelper.dispatchFakeAppState(buildAppState(createFakeGifList(gifListSize)));
 
         mActivityTestRule.launchActivity(new Intent());
 
@@ -302,8 +295,7 @@ public class GifListActivityTest {
     }
 
     private GifImageView getGifImgViewAt(int viewId, int screenPos) {
-        FrameLayout frameLayout = (FrameLayout) getRecyclerView().getChildAt(screenPos);
-        return (GifImageView) frameLayout.findViewById(viewId);
+        return (GifImageView) getGifComponent(screenPos).findViewById(viewId);
     }
 
     private GifListActivity getActivity() {
@@ -314,7 +306,7 @@ public class GifListActivityTest {
         List<Gif> gifs = new ArrayList<>();
         File fakeGifFile = createFakeGifFile();
         for (int i = 0; i < size; i++) {
-            Gif gif = builderWithEmpty()
+            Gif gif = gifBuilderWithEmpty()
                     .title("gif"+i)
                     .status(Gif.Status.DOWNLOADED)
                     .path(fakeGifFile.getAbsolutePath())

@@ -134,7 +134,7 @@ public class TestHelper {
     }
 
     public static Gif buildGif() {
-        return builderWithDefault().build();
+        return gifBuilderWithDefault().build();
     }
 
     public static Gif buildGif(Gif.Status status) {
@@ -142,20 +142,20 @@ public class TestHelper {
     }
 
     public static Gif buildGif(Gif.Status status, String uuid) {
-        return builderWithDefault()
+        return gifBuilderWithDefault()
                 .uuid(uuid)
                 .status(status)
                 .build();
     }
 
-    public static ImmutableGif.Builder builderWithEmpty() {
+    public static ImmutableGif.Builder gifBuilderWithEmpty() {
         return ImmutableGif.builder()
                 .uuid(UUID.randomUUID().toString())
                 .title("")
                 .url("");
     }
 
-    public static ImmutableGif.Builder builderWithDefault() {
+    public static ImmutableGif.Builder gifBuilderWithDefault() {
         return ImmutableGif.builder()
                 .uuid(DEFAULT_UUID)
                 .title("Gif")
