@@ -1,6 +1,5 @@
 package br.com.catbag.gifreduxsample.reducers.asyncs.net.rest.riffsy.api;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import br.com.catbag.gifreduxsample.asyncs.net.rest.retrofit.RetrofitBuilder;

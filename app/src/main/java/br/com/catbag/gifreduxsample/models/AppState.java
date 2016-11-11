@@ -15,8 +15,7 @@ public abstract class AppState {
 
     @Value.Default
     public Map<String, Gif> getGifs() {
-        Map<String, Gif> gifs = new HashMap<>();
-        return gifs;
+        return new HashMap<>();
     }
 
     @Value.Default
