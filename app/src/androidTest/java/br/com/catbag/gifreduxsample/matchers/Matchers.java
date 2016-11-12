@@ -8,7 +8,6 @@ import android.view.View;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
-import br.com.catbag.gifreduxsample.R;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -46,16 +45,32 @@ public class Matchers {
         };
     }
 
-    public static Matcher<View> withGifDrawable() {
+    public static Matcher<View> withEqualsDrawable(final Drawable drawable) {
         return new BoundedMatcher<View, View>(View.class) {
             @Override
             public boolean matchesSafely(View view) {
-                GifImageView gifImageView = (GifImageView) view.findViewById(R.id.gif_image);
-                return gifImageView.getDrawable() != null;
+                if (!(view instanceof ImageView)) return false;
+                return ((ImageView) view).getDrawable().equals(drawable);
             }
+
             @Override
             public void describeTo(Description description) {
-                description.appendText("with gif image view not null");
+                description.appendText("with equals drawable");
+            }
+        };
+    }
+
+    public static Matcher<View> withDrawable() {
+        return new BoundedMatcher<View, View>(View.class) {
+            @Override
+            public boolean matchesSafely(View view) {
+                if (!(view instanceof ImageView)) return false;
+                return ((ImageView) view).getDrawable() != null;
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("with a not null drawable");
             }
         };
     }

@@ -2,6 +2,7 @@ package br.com.catbag.gifreduxsample.ui.giflist;
 
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -42,7 +43,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.view.View.generateViewId;
 import static br.com.catbag.gifreduxsample.matchers.Matchers.withBGColor;
-import static br.com.catbag.gifreduxsample.matchers.Matchers.withGifDrawable;
+import static br.com.catbag.gifreduxsample.matchers.Matchers.withDrawable;
+import static br.com.catbag.gifreduxsample.matchers.Matchers.withEqualsDrawable;
 import static br.com.catbag.gifreduxsample.matchers.Matchers.withPlayingGifDrawable;
 import static br.com.catbag.gifreduxsample.utils.FileUtils.createFakeGifFile;
 import static junit.framework.Assert.assertEquals;
@@ -105,7 +107,7 @@ public class GifListActivityTest extends ReduxBaseTest {
 
         onView(withId(R.id.gif_image)).check(matches(isDisplayed()));
 
-        onView(withId(R.id.gif_image)).check(matches(withGifDrawable()));
+        onView(withId(R.id.gif_image)).check(matches(withDrawable()));
 
         onView(withId(R.id.gif_image)).check(matches(not(withPlayingGifDrawable())));
     }
@@ -310,6 +312,64 @@ public class GifListActivityTest extends ReduxBaseTest {
 
     private FeedComponent getFeedComponent() {
         return (FeedComponent) getActivity().findViewById(R.id.feed);
+    }
+
+    @Test
+    public void whenListKeepOrderedAfterPlayTest() {
+        int gifListSize = 20;
+        mHelper.dispatchFakeAppState(buildAppState(createFakeGifList(gifListSize)));
+
+        mActivityTestRule.launchActivity(new Intent());
+
+        for (int i = 0; i < gifListSize-1; i++) {
+            //Store the drawables that are shown on screen
+            List<Drawable> gifsDrawableBackup = new ArrayList<>();
+            int gifsOnScreen = getRecyclerView().getChildCount();
+            for (int x = 0; x < gifsOnScreen; x++) {
+                gifsDrawableBackup.add(getGifImgViewAt(R.id.gif_image, x).getDrawable());
+            }
+
+            //Initiate lock on first shown screen GifComponent
+            UiTestLocker playLocker = new UiTestLocker(getGifComponent(0));
+
+            //Click on adapter item that is on 'i' position
+            onView(withId(getRecyclerView().getId()))
+                    .perform(actionOnItemAtPosition(i, click()));
+
+            playLocker.registerIdlingResource();
+
+            for (int z = 0; z < gifsOnScreen; z++) {
+                //Get the 'z' GifImageView on screen and set a unique id
+                int tempId = generateViewId();
+                getGifImgViewAt(R.id.gif_image, z).setId(tempId);
+
+                //Here the lock waits for click/play rendering
+                //Checks if it has the same drawable that it have before Gif play
+                onView(withId(tempId)).check(matches(withEqualsDrawable(gifsDrawableBackup.get(z))));
+
+                //clean test modifications
+                getGifImgViewAt(tempId, z).setId(R.id.gif_image);
+            }
+            playLocker.unregisterIdlingResource();
+
+            //Initiate lock on next Zero pos item after scroll
+            UiTestLocker scrollLocker = new UiTestLocker(getGifComponent(1));
+
+            onView(withId(getRecyclerView().getId())).perform(scrollToPosition(i + 1));
+
+            scrollLocker.registerIdlingResource();
+
+            //Get the first GifImageView and set a unique id
+            int tempId = generateViewId();
+            getGifImgViewAt(R.id.gif_image, 0).setId(tempId);
+
+            //Checks if it has a playing status
+            onView(withId(tempId)).check(matches(withPlayingGifDrawable()));
+
+            //clean test modifications
+            getGifImgViewAt(tempId, 0).setId(R.id.gif_image);
+            scrollLocker.unregisterIdlingResource();
+        }
     }
 
     private RecyclerView getRecyclerView() {
