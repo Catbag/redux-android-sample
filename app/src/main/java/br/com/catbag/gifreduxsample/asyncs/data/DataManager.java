@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.snappydb.SnappydbException;
 import com.umaplay.fluxxan.StateListener;
+import com.umaplay.fluxxan.util.ThreadUtils;
 
 import java.io.IOException;
 
@@ -29,6 +30,7 @@ import br.com.catbag.gifreduxsample.models.ImmutableGif;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import trikita.anvil.Anvil;
 
 /**
  * Created by felipe on 26/10/16.
@@ -40,7 +42,7 @@ public class DataManager implements StateListener<AppState> {
 
     private Database mDatabase;
     private boolean mIsSavingAppState = false;
-    private SaveAppStateTask mNextSaveAppStateTask;
+    private SaveAppStateRunnable mNextSaveAppStateRunnable;
 
     public DataManager(Context context) {
         mDatabase = new Database(context);
@@ -63,7 +65,7 @@ public class DataManager implements StateListener<AppState> {
 
     @Override
     public void onStateChanged(AppState appState) {
-        mNextSaveAppStateTask = new SaveAppStateTask(appState);
+        mNextSaveAppStateRunnable = new SaveAppStateRunnable(appState);
         executeSaveAppStateTask();
     }
 
@@ -102,16 +104,18 @@ public class DataManager implements StateListener<AppState> {
     }
 
     private void executeSaveAppStateTask() {
-        if (mNextSaveAppStateTask != null && !mIsSavingAppState) {
+        if (mNextSaveAppStateRunnable != null && !mIsSavingAppState) {
             mIsSavingAppState = true;
-            mNextSaveAppStateTask.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-            mNextSaveAppStateTask = null;
+            ThreadUtils.runInBackground(mNextSaveAppStateRunnable);
+            mNextSaveAppStateRunnable = null;
         }
     }
 
     private void onFinishedSaveAppStateTask() {
-        mIsSavingAppState = false;
-        executeSaveAppStateTask();
+        ThreadUtils.runOnMain(() -> {
+            mIsSavingAppState = false;
+            executeSaveAppStateTask();
+        });
     }
 
     @NonNull
@@ -139,28 +143,24 @@ public class DataManager implements StateListener<AppState> {
         void onLoaded(List<Gif> gifs, boolean hasMore);
     }
 
-    private class SaveAppStateTask extends AsyncTask<Void, Void, Boolean> {
+    private class SaveAppStateRunnable implements Runnable {
+
         private AppState mAppState;
 
-        public SaveAppStateTask(AppState appState) {
+        public SaveAppStateRunnable(AppState appState) {
             mAppState = appState;
         }
 
-        protected Boolean doInBackground(Void... params) {
+        @Override
+        public void run() {
             try {
                 mDatabase.saveAppState(mAppState);
             } catch (SnappydbException | JsonProcessingException e) {
                 Log.e(getClass().getSimpleName(), "unsaved appstate", e);
-                return false;
             }
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
             onFinishedSaveAppStateTask();
         }
+
     }
 
 }
