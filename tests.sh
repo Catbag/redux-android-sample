@@ -22,7 +22,6 @@ INTEGRATION_STATUS=$?
 kill $LOGCAT_PID
 
 # Uploading artifacts to github pages
-git remote add upstream git@github.com:Catbag/redux-android-sample.git
 git checkout --orphan gh-pages
 git reset HEAD -- .
 git add app/build/reports/ -f
@@ -30,8 +29,8 @@ git add logcat.log -f
 git config --global user.name "Drone CI"
 git config --global user.email "developer@catbag.com.br"
 git commit -am "Publish results from test #$DRONE_BUILD_NUMBER"
-git pull -s recursive -X theirs upstream gh-pages --rebase
-git push -f upstream gh-pages
+git pull -s recursive -X theirs origin gh-pages --rebase
+git push -f origin gh-pages
 
 # Computing build status
 BUILD_STATUS=$((UNIT_STATUS + INTEGRATION_STATUS))
