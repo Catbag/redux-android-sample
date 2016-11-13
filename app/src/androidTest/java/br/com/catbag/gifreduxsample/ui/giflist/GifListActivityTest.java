@@ -2,12 +2,15 @@ package br.com.catbag.gifreduxsample.ui.giflist;
 
 
 import android.content.Intent;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.widget.FrameLayout;
+
+import com.umaplay.fluxxan.Middleware;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,9 +24,11 @@ import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.R;
 import br.com.catbag.gifreduxsample.actions.GifListActionCreator;
 import br.com.catbag.gifreduxsample.asyncs.data.DataManager;
+import br.com.catbag.gifreduxsample.asyncs.net.downloader.FileDownloader;
 import br.com.catbag.gifreduxsample.idlings.AnvilTestLocker;
 import br.com.catbag.gifreduxsample.idlings.FeedTestLocker;
 import br.com.catbag.gifreduxsample.matchers.RecyclerViewMatcher;
+import br.com.catbag.gifreduxsample.middlewares.RestMiddleware;
 import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.ui.GifListActivity;
 import br.com.catbag.gifreduxsample.ui.components.FeedComponent;
@@ -31,6 +36,7 @@ import br.com.catbag.gifreduxsample.ui.components.GifComponent;
 import shared.ReduxBaseTest;
 import shared.TestHelper;
 
+import static android.support.test.InstrumentationRegistry.getContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
@@ -66,12 +72,19 @@ public class GifListActivityTest extends ReduxBaseTest {
     @Override
     public void setup() {
         super.setup();
-        GifListActionCreator.getInstance().setDataManager(mock(DataManager.class));
+        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
+        Middleware restMiddleware = new RestMiddleware(getContext(), mock(DataManager.class),
+                new FileDownloader());
+        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
+        mHelper.getFluxxan().getDispatcher().registerMiddleware(restMiddleware);
     }
 
     @Override
     public void cleanup() {
-        GifListActionCreator.getInstance().setDataManager(new DataManager());
+        Middleware restMiddleware = new RestMiddleware(getContext(), new DataManager(),
+                new FileDownloader());
+        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
+        mHelper.getFluxxan().getDispatcher().registerMiddleware(restMiddleware);
         super.cleanup();
     }
 

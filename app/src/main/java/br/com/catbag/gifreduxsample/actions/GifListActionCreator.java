@@ -16,10 +16,9 @@ import br.com.catbag.gifreduxsample.asyncs.data.DataManager;
 public final class GifListActionCreator extends BaseActionCreator {
 
     public static final String GIF_LIST_UPDATED = "GIF_LIST_UPDATED";
+    public static final String GIF_LIST_FETCHING = "GIF_LIST_FETCHING";
 
     private static GifListActionCreator sInstance;
-
-    private DataManager mDataManager = new DataManager();
 
     private GifListActionCreator() {
         MyApp.getFluxxan().inject(this);
@@ -33,18 +32,6 @@ public final class GifListActionCreator extends BaseActionCreator {
     }
 
     public void loadGifs() {
-        if (MyApp.getFluxxan().getState().getHasMoreGifs()) {
-            mDataManager.fetchGifs((gifs, hasMore) -> {
-                Map<String, Object> params = new HashMap<>();
-                params.put(PayloadParams.PARAM_GIFS, gifs);
-                params.put(PayloadParams.PARAM_HAS_MORE, hasMore);
-                dispatch(new Action(GIF_LIST_UPDATED, params));
-            });
-        }
+        dispatch(new Action(GIF_LIST_FETCHING));
     }
-
-    public void setDataManager(DataManager dataManager) {
-        mDataManager = dataManager;
-    }
-
 }
