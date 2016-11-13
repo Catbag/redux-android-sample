@@ -5,6 +5,8 @@ build:
     - cp -a /drone/.gradle /root/ && rm -Rf /drone/.gradle
     - ./tests.sh
     - cp -a /root/.gradle /drone/
+  environment:
+    GITHUB_ACCESS_TOKEN: $$GITHUB_ACCESS_TOKEN
 cache:
   mount:
     - /drone/.gradle
