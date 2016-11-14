@@ -16,7 +16,7 @@ adb logcat > logcat.log &
 LOGCAT_PID=$!
 
 # Running integration tests
-./gradlew cC -i --daemon -PdisablePreDex --stacktrace
+./gradlew connectedCheck -i --daemon -PdisablePreDex --stacktrace
 INTEGRATION_STATUS=$?
 
 kill $LOGCAT_PID
