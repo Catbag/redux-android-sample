@@ -21,22 +21,25 @@ import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.R;
 import br.com.catbag.gifreduxsample.actions.GifListActionCreator;
 import br.com.catbag.gifreduxsample.asyncs.data.DataManager;
-import br.com.catbag.gifreduxsample.idlings.UiTestLocker;
+import br.com.catbag.gifreduxsample.idlings.AnvilTestLocker;
+import br.com.catbag.gifreduxsample.idlings.FeedTestLocker;
+import br.com.catbag.gifreduxsample.matchers.RecyclerViewMatcher;
 import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.ui.GifListActivity;
 import br.com.catbag.gifreduxsample.ui.components.FeedComponent;
 import br.com.catbag.gifreduxsample.ui.components.GifComponent;
-import pl.droidsonroids.gif.GifImageView;
 import shared.ReduxBaseTest;
 import shared.TestHelper;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.view.View.generateViewId;
 import static br.com.catbag.gifreduxsample.matchers.Matchers.withBGColor;
 import static br.com.catbag.gifreduxsample.matchers.Matchers.withGifDrawable;
@@ -80,6 +83,7 @@ public class GifListActivityTest extends ReduxBaseTest {
 
         mHelper.dispatchFakeAppState(buildAppState(gif));
 
+        //Espresso waits for activity completely launch
         mActivityTestRule.launchActivity(new Intent());
 
         onView(withId(R.id.gif_loading)).check(matches(isDisplayed()));
@@ -154,7 +158,7 @@ public class GifListActivityTest extends ReduxBaseTest {
 
         mActivityTestRule.launchActivity(new Intent());
 
-        UiTestLocker locker = new UiTestLocker(getGifComponent(0));
+        AnvilTestLocker locker = new AnvilTestLocker(getGifComponent(0));
 
         onView(withId(R.id.gif_image)).perform(click());
 
@@ -178,7 +182,7 @@ public class GifListActivityTest extends ReduxBaseTest {
 
         mActivityTestRule.launchActivity(new Intent());
 
-        UiTestLocker locker = new UiTestLocker(getGifComponent(0));
+        AnvilTestLocker locker = new AnvilTestLocker(getGifComponent(0));
 
         onView(withId(R.id.gif_image)).perform(click());
 
@@ -228,27 +232,36 @@ public class GifListActivityTest extends ReduxBaseTest {
 
         mActivityTestRule.launchActivity(new Intent());
 
-        int lastItemPos = getRecyclerView().getChildCount()-1;
-        //Initiate lock on first adapter GifComponent
-        UiTestLocker locker = new UiTestLocker(getGifComponent(lastItemPos));
+        //Create a locker that waits X times feed rendering (x = count of gifs on screen)
+        FeedTestLocker scrollLocker = new FeedTestLocker(getFeedComponent(),
+                getRecyclerView().getChildCount());
 
-        //Scroll to bottom and click on last adapter GifComponent
+        int lastAdapterPos = gifListSize-1;
+        //Scroll to last adapter item
+        onView(withId(getRecyclerView().getId())).perform(scrollToPosition(lastAdapterPos));
+
+        //Wait for scroll consequent rendering to finish
+        scrollLocker.registerIdlingResource();
+        espressoWaiter();
+        scrollLocker.unregisterIdlingResource();
+
+        int lastScreenPos = getRecyclerView().getChildCount()-1;
+        //Initiate lock on bottom GifComponent
+        AnvilTestLocker playLocker
+                = new AnvilTestLocker(getGifComponent(lastScreenPos));
+
+        //Click on GifComponent that represents the last adapter item.
         onView(withId(getRecyclerView().getId()))
-                .perform(actionOnItemAtPosition(gifListSize-1, click()));
+                .perform(actionOnItemAtPosition(lastAdapterPos, click()));
 
-        locker.registerIdlingResource();
-
-        //Get the first GifImageView and set a unique id
-        int tempId = generateViewId();
-        getGifImgViewAt(R.id.gif_image, lastItemPos).setId(tempId);
+        playLocker.registerIdlingResource();
 
         //Checks if it has a playing status
-        onView(withId(tempId))
+        onView(withRecyclerView(getRecyclerView().getId())
+                .atPosition(lastScreenPos))
                 .check(matches(withPlayingGifDrawable()));
 
-        //clean test modifications
-        getGifImgViewAt(tempId, lastItemPos).setId(R.id.gif_image);
-        locker.unregisterIdlingResource();
+        playLocker.unregisterIdlingResource();
     }
 
     @Test
@@ -258,33 +271,49 @@ public class GifListActivityTest extends ReduxBaseTest {
 
         mActivityTestRule.launchActivity(new Intent());
 
-        //Initiate lock on first adapter GifComponent
-        UiTestLocker locker = new UiTestLocker(getGifComponent(0));
+        //Create a locker that waits X times feed rendering (x = count of gifs on screen)
+        FeedTestLocker scrollLocker = new FeedTestLocker(getFeedComponent(),
+                getRecyclerView().getChildCount());
 
-        //Scroll to bottom
+        //Scroll to last adapter item
         onView(withId(getRecyclerView().getId())).perform(scrollToPosition(gifListSize-1));
 
-        //Scroll to top and click on first adapter GifComponent
+        //Wait for scroll consequent rendering to finish
+        scrollLocker.registerIdlingResource();
+        espressoWaiter();
+        scrollLocker.unregisterIdlingResource();
+
+        //Scroll to first adapter item (no need to wait: top items already rendered)
+        onView(withId(getRecyclerView().getId())).perform(scrollToPosition(0));
+
+        //Initiate lock on top GifComponent
+        AnvilTestLocker playLocker
+                = new AnvilTestLocker(getGifComponent(0));
+
+        //Click on GifComponent that represents the first adapter item.
         onView(withId(getRecyclerView().getId()))
                 .perform(actionOnItemAtPosition(0, click()));
 
-        locker.registerIdlingResource();
-
-        //Get the first GifImageView and set a unique id
-        int tempId = generateViewId();
-        getGifImgViewAt(R.id.gif_image, 0).setId(tempId);
+        playLocker.registerIdlingResource();
 
         //Checks if it has a playing status
-        onView(withId(tempId)).check(matches(withPlayingGifDrawable()));
+        onView(withRecyclerView(getRecyclerView().getId())
+                .atPosition(0))
+                .check(matches(withPlayingGifDrawable()));
 
-        //clean test modifications
-        getGifImgViewAt(tempId, 0).setId(R.id.gif_image);
-        locker.unregisterIdlingResource();
+        playLocker.unregisterIdlingResource();
+    }
+
+    public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
+        return new RecyclerViewMatcher(recyclerViewId);
+    }
+
+    private FeedComponent getFeedComponent() {
+        return (FeedComponent) getActivity().findViewById(R.id.feed);
     }
 
     private RecyclerView getRecyclerView() {
-        FeedComponent feed = (FeedComponent) getActivity().findViewById(R.id.feed);
-        RecyclerView recyclerView = (RecyclerView) feed.getChildAt(0);
+        RecyclerView recyclerView = (RecyclerView) getFeedComponent().getChildAt(0);
         recyclerView.setId(generateViewId());
         return recyclerView;
     }
@@ -292,10 +321,6 @@ public class GifListActivityTest extends ReduxBaseTest {
     private GifComponent getGifComponent(int screenPos) {
         FrameLayout frameLayout = (FrameLayout) getRecyclerView().getChildAt(screenPos);
         return (GifComponent) frameLayout.getChildAt(0);
-    }
-
-    private GifImageView getGifImgViewAt(int viewId, int screenPos) {
-        return (GifImageView) getGifComponent(screenPos).findViewById(viewId);
     }
 
     private GifListActivity getActivity() {
@@ -315,5 +340,9 @@ public class GifListActivityTest extends ReduxBaseTest {
         }
 
         return gifs;
+    }
+
+    private void espressoWaiter() {
+        onView(withText("espressoWaiter")).check(doesNotExist());
     }
 }
