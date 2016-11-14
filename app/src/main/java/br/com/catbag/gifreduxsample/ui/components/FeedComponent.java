@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.umaplay.fluxxan.StateListener;
-import com.umaplay.fluxxan.util.ThreadUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,6 +68,7 @@ public class FeedComponent extends RenderableView implements StateListener<AppSt
                 renderGifView(mGifs.get(viewHolder.getAdapterPosition()));
             }));
         });
+        if (mAnvilRenderListener != null) mAnvilRenderListener.onAnvilRendered();
     }
 
     @Override
@@ -79,10 +79,7 @@ public class FeedComponent extends RenderableView implements StateListener<AppSt
     @Override
     public void onStateChanged(AppState appState) {
         mGifs = AppStateHelper.extractGifList(appState);
-        ThreadUtils.runOnMain(() -> {
-            Anvil.render();
-            if (mAnvilRenderListener != null) mAnvilRenderListener.onAnvilRendered();
-        });
+        Anvil.render();
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.view.View;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
+import br.com.catbag.gifreduxsample.R;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -35,7 +36,7 @@ public class Matchers {
         return new BoundedMatcher<View, View>(View.class) {
             @Override
             public boolean matchesSafely(View view) {
-                GifImageView gifImageView = (GifImageView) view;
+                GifImageView gifImageView = (GifImageView) view.findViewById(R.id.gif_image);
                 return ((GifDrawable)gifImageView.getDrawable()).isPlaying();
             }
             @Override
@@ -49,7 +50,7 @@ public class Matchers {
         return new BoundedMatcher<View, View>(View.class) {
             @Override
             public boolean matchesSafely(View view) {
-                GifImageView gifImageView = (GifImageView) view;
+                GifImageView gifImageView = (GifImageView) view.findViewById(R.id.gif_image);
                 return gifImageView.getDrawable() != null;
             }
             @Override

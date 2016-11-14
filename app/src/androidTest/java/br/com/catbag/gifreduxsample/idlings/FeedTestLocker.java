@@ -10,14 +10,16 @@ import br.com.catbag.gifreduxsample.ui.AnvilRenderListener;
  * Created by niltonvasques on 10/24/16.
  */
 
-public class UiTestLocker implements IdlingResource, AnvilRenderListener {
+public class FeedTestLocker implements IdlingResource, AnvilRenderListener {
 
+    private int mUntilRenderTimes;
+    private int mRenderTimes = 0;
     private AnvilRenderComponent mAnvilRenderComponent;
-    private boolean mIdle;
     protected ResourceCallback mResourceCallback;
 
-    public UiTestLocker(AnvilRenderComponent anvilRenderComponent){
+    public FeedTestLocker(AnvilRenderComponent anvilRenderComponent, int untilRenderTimes){
         mAnvilRenderComponent = anvilRenderComponent;
+        mUntilRenderTimes = untilRenderTimes;
         mAnvilRenderComponent.setAnvilRenderListener(this);
     }
 
@@ -28,7 +30,7 @@ public class UiTestLocker implements IdlingResource, AnvilRenderListener {
 
     @Override
     public String getName() {
-        return UiTestLocker.class.getClass().getSimpleName();
+        return FeedTestLocker.class.getClass().getSimpleName();
     }
 
     /**
@@ -37,10 +39,11 @@ public class UiTestLocker implements IdlingResource, AnvilRenderListener {
      **/
     @Override
     public boolean isIdleNow() {
-        if (mIdle && mResourceCallback != null) {
+        boolean isIdle = mRenderTimes == mUntilRenderTimes;
+        if (isIdle && mResourceCallback != null) {
             mResourceCallback.onTransitionToIdle();
         }
-        return mIdle;
+        return isIdle;
     }
 
     /** Register idling resources don't stop flow when junit asserts is used **/
@@ -51,11 +54,11 @@ public class UiTestLocker implements IdlingResource, AnvilRenderListener {
     public void unregisterIdlingResource(){
         Espresso.unregisterIdlingResources(this);
         mAnvilRenderComponent.setAnvilRenderListener(null);
-        mIdle = false;
+        mRenderTimes = 0;
     }
 
     @Override
     public void onAnvilRendered() {
-        mIdle = true;
+        mRenderTimes++;
     }
 }
