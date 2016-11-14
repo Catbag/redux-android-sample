@@ -7,7 +7,7 @@ build:
     - ./gradlew check --daemon -PdisablePreDex --stacktrace
     - ./gradlew assembleDebugAndroidTest --daemon -PdisablePreDex --stacktrace
     - unlock_emulator
-    - ./gradlew cC --daemon -PdisablePreDex --stacktrace --debug
+    - ./gradlew cC --daemon -PdisablePreDex --stacktrace
     - cp -a /root/.gradle /drone/
 cache:
   mount:
