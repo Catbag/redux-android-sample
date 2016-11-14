@@ -32,7 +32,6 @@ import static br.com.catbag.gifreduxsample.actions.GifActionCreator.GIF_DOWNLOAD
 import static br.com.catbag.gifreduxsample.actions.GifActionCreator.GIF_PAUSE;
 import static br.com.catbag.gifreduxsample.actions.GifActionCreator.GIF_PLAY;
 import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static shared.TestHelper.DEFAULT_UUID;
@@ -48,12 +47,6 @@ public class GifListReducerTest extends ReduxBaseTest {
 
     public GifListReducerTest() {
         mHelper = new TestHelper(((MyApp) RuntimeEnvironment.application).getFluxxan());
-    }
-
-    @Test
-    public void initialAppState() throws Exception {
-        assertTrue(mHelper.getFluxxan().getState().getGifs().isEmpty());
-        assertTrue(mHelper.getFluxxan().getState().getHasMoreGifs());
     }
 
     @Test

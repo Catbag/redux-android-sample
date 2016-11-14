@@ -42,30 +42,4 @@ public abstract class AppState {
         return mapper.readValue(json, AppState.class);
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof AppState))
-            return false;
-        if (obj == this)
-            return true;
-
-        AppState state = (AppState) obj;
-        if (state.getGifs() == null)
-            return false;
-        if (this.getGifs().size() != state.getGifs().size())
-            return false;
-
-        for (String key : this.getGifs().keySet()) {
-            if (!state.getGifs().containsKey(key)) return false;
-            if (!state.getGifs().get(key).equals(this.getGifs().get(key))) return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
 }

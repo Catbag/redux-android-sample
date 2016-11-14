@@ -16,7 +16,7 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
 
 import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
@@ -24,6 +24,7 @@ import br.com.catbag.gifreduxsample.models.ImmutableAppState;
 import br.com.catbag.gifreduxsample.models.ImmutableGif;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * Created by felipe on 03/11/16.
@@ -47,23 +48,43 @@ public class DataManagerTest {
     }
 
     @Test(timeout = 1000)
-    public void whenAppStateChangesOnceTime() throws SnappydbException {
-        AppState oldAppState = createAppState();
-        AppState newAppState = createAppStateFrom(oldAppState, 1);
+    public void whenAppStateChangesOnceTime() {
+        AppState newAppState = buildAppState(1);
         mDataManager.onStateChanged(newAppState);
         assertSaveAppState(newAppState);
     }
 
     @Test(timeout = 1000)
-    public void whenAppStateChangesSeveralTime() throws SnappydbException {
-        AppState oldAppState = createAppState();
+    public void whenAppStateChangesSeveralTime() {
         AppState newAppState = null;
-        for (int i=0; i<100; i++) {
-            newAppState = createAppStateFrom(oldAppState, i);
+        for (int i=0; i<20; i++) {
+            newAppState = buildAppState(i);
             mDataManager.onStateChanged(newAppState);
-            oldAppState = newAppState;
+            getAppStateFromDB();
         }
         assertSaveAppState(newAppState);
+    }
+
+    @Test(timeout = 1000)
+    public void whenLoadAlreadySavedAppState() throws InterruptedException {
+        final CountDownLatch signal = new CountDownLatch(1);
+        AppState appState = buildAppState();
+        saveAppState(appState);
+        mDataManager.getAppState(appStateLoaded -> {
+            assertEquals(appState, appStateLoaded);
+            signal.countDown();
+        });
+        signal.await();
+    }
+
+    @Test(timeout = 1000)
+    public void whenLoadAlreadyUnsavedAppState() throws InterruptedException {
+        final CountDownLatch signal = new CountDownLatch(1);
+        mDataManager.getAppState(appStateLoaded -> {
+            assertTrue(appStateLoaded != null);
+            signal.countDown();
+        });
+        signal.await();
     }
 
     private void assertSaveAppState(AppState appState) {
@@ -89,28 +110,36 @@ public class DataManagerTest {
         return appstate;
     }
 
-    private AppState createAppState() {
+    private void saveAppState(AppState appState) {
+        try {
+            DB db = DBFactory.open(InstrumentationRegistry.getTargetContext());
+            db.put(TAG_APP_STATE, appState.toJson());
+            db.close();
+        } catch (SnappydbException | IOException e) {
+            Log.e(getClass().getSimpleName(), "error", e);
+        }
+    }
+
+    private AppState buildAppState() {
         return ImmutableAppState.builder().build();
     }
 
-    private AppState createAppStateFrom(AppState fromState, int amountGifs) {
-        return ImmutableAppState.builder()
-                .from(fromState)
-                .putAllGifs(createGifsMap(amountGifs))
-                .build();
+    private AppState buildAppState(int amountGifs) {
+        return ImmutableAppState.builder().putAllGifs(buildGifs(amountGifs)).build();
     }
 
-    private Map<String, Gif> createGifsMap(int amountGifs) {
-        Map<String, Gif> gifsMap = new HashMap<>();
-        for (int i=0; i<amountGifs; i++) {
-            Gif gif = createGif(i);
-            gifsMap.put(gif.getUuid(), gif);
+    private Map<String, Gif> buildGifs(int amount) {
+        Map<String, Gif> gifs = new HashMap<>();
+        for (int i=0; i<amount; i++) {
+            Gif gif = buildGif(i);
+            gifs.put(gif.getUuid(), gif);
         }
-        return gifsMap;
+        return gifs;
     }
 
-    private Gif createGif(int index) {
-        return ImmutableGif.builder().uuid(UUID.randomUUID().toString())
+    private Gif buildGif(int index) {
+        return ImmutableGif.builder()
+                .uuid("" + index)
                 .title("Title " + index)
                 .url("url" + index)
                 .status(Gif.Status.values()[index%Gif.Status.values().length])
