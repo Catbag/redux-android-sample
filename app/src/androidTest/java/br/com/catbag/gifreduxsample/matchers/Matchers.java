@@ -1,6 +1,7 @@
 package br.com.catbag.gifreduxsample.matchers;
 
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.internal.util.Checks;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.View;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
+import br.com.catbag.gifreduxsample.R;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -45,12 +47,12 @@ public class Matchers {
         };
     }
 
-    public static Matcher<View> withEqualsDrawable(final Drawable drawable) {
+    public static Matcher<View> withEqualsGifDrawable(final Drawable drawable) {
         return new BoundedMatcher<View, View>(View.class) {
             @Override
             public boolean matchesSafely(View view) {
-                if (!(view instanceof ImageView)) return false;
-                return ((ImageView) view).getDrawable().equals(drawable);
+                GifImageView gifImageView = (GifImageView) view.findViewById(R.id.gif_image);
+                return gifImageView.getDrawable().equals(drawable);
             }
 
             @Override
@@ -60,12 +62,12 @@ public class Matchers {
         };
     }
 
-    public static Matcher<View> withDrawable() {
+    public static Matcher<View> withGifDrawable() {
         return new BoundedMatcher<View, View>(View.class) {
             @Override
             public boolean matchesSafely(View view) {
-                if (!(view instanceof ImageView)) return false;
-                return ((ImageView) view).getDrawable() != null;
+                GifImageView gifImageView = (GifImageView) view.findViewById(R.id.gif_image);
+                return gifImageView.getDrawable() != null;
             }
 
             @Override
