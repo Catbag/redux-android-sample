@@ -3,6 +3,9 @@ BUILD_STATUS=0
 
 start_emulator && wait_emulator 
 
+# Clean gradle tasks cache from old builds
+./gradlew clean --daemon -PdisablePreDex --stacktrace
+
 ./gradlew check --daemon -PdisablePreDex --stacktrace
 UNIT_STATUS=$?
 
