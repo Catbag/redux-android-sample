@@ -54,13 +54,15 @@ public class RestMiddlewareTest extends ReduxBaseTest {
 
     public static final boolean EXPECTED_HAS_MORE = false;
     public static final List EXPECTED_LIST = new ArrayList<>();
+
     private Fluxxan<AppState> mFluxxan;
     private CountDownLatch mSignal;
+    private Action mLastAction;
 
     private Middleware mInterceptMiddleware = new BaseMiddleware() {
         @Override
         public void intercept(Object o, Action action) throws Exception {
-            lastAction = action;
+            mLastAction = action;
             mSignal.countDown();
         }
     };
@@ -86,7 +88,6 @@ public class RestMiddlewareTest extends ReduxBaseTest {
         mFluxxan.getDispatcher().unregisterMiddleware(mInterceptMiddleware.getClass());
     }
 
-    private Action lastAction;
     @Test
     public void whenInterceptListFetching() throws Exception {
         RestMiddleware middleware = new RestMiddleware(RuntimeEnvironment.application,
@@ -95,9 +96,9 @@ public class RestMiddlewareTest extends ReduxBaseTest {
         middleware.intercept(mFluxxan.getState(), new Action(GIF_LIST_FETCHING));
         mSignal.await();
 
-        assertEquals(GIF_LIST_UPDATED, lastAction.Type);
-        assertEquals(lastAction.Payload.getClass(), HashMap.class);
-        Map params = (Map) lastAction.Payload;
+        assertEquals(GIF_LIST_UPDATED, mLastAction.Type);
+        assertEquals(mLastAction.Payload.getClass(), HashMap.class);
+        Map params = (Map) mLastAction.Payload;
         assertEquals(params.get(PayloadParams.PARAM_HAS_MORE), EXPECTED_HAS_MORE);
         assertEquals(((List)params.get(PayloadParams.PARAM_GIFS)).size(), EXPECTED_LIST.size());
     }
@@ -140,9 +141,9 @@ public class RestMiddlewareTest extends ReduxBaseTest {
         middleware.intercept(state, new Action(GIF_DOWNLOAD_START, gif.getUuid()));
         mSignal.await();
 
-        assertEquals(GIF_DOWNLOAD_SUCCESS, lastAction.Type);
-        assertEquals(lastAction.Payload.getClass(), HashMap.class);
-        Map params = (Map) lastAction.Payload;
+        assertEquals(GIF_DOWNLOAD_SUCCESS, mLastAction.Type);
+        assertEquals(mLastAction.Payload.getClass(), HashMap.class);
+        Map params = (Map) mLastAction.Payload;
         assertTrue(params.containsKey(PayloadParams.PARAM_PATH));
         assertTrue(params.containsKey(PayloadParams.PARAM_UUID));
     }
@@ -158,8 +159,8 @@ public class RestMiddlewareTest extends ReduxBaseTest {
         middleware.intercept(state, new Action(GIF_DOWNLOAD_START, gif.getUuid()));
         mSignal.await();
 
-        assertEquals(GIF_DOWNLOAD_FAILURE, lastAction.Type);
-        assertEquals(lastAction.Payload, gif.getUuid());
+        assertEquals(GIF_DOWNLOAD_FAILURE, mLastAction.Type);
+        assertEquals(mLastAction.Payload, gif.getUuid());
     }
 
     private DataManager mockDataManager() {
