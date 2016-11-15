@@ -14,6 +14,7 @@ import br.com.catbag.gifreduxsample.ui.AnvilRenderListener;
 
 public class AnvilTestLocker implements IdlingResource, AnvilRenderListener {
 
+    private static final int FORCE_IS_IDLE_NOW_DELAY = 250;
     private AnvilRenderComponent mAnvilRenderComponent;
     private ResourceCallback mResourceCallback;
     private int mRenderTimes = 0;
@@ -46,7 +47,7 @@ public class AnvilTestLocker implements IdlingResource, AnvilRenderListener {
             if (isIdle) {
                 mResourceCallback.onTransitionToIdle();
             } else {
-                mHandler.postDelayed(mForceIsIdleNow, 250);
+                mHandler.postDelayed(mForceIsIdleNow, FORCE_IS_IDLE_NOW_DELAY);
             }
         }
         return isIdle;
