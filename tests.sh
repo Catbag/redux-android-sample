@@ -34,7 +34,7 @@ git config --global user.name "Drone CI"
 git config --global user.email "developer@catbag.com.br"
 git commit -am "Publish results from test #$DRONE_BUILD_NUMBER"
 git fetch upstream gh-pages
-git pull -X theirs --rebase upstream/gh-pages
+git rebase -X theirs upstream/gh-pages
 git push -f upstream gh-pages
 
 # Computing build status
