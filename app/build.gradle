@@ -18,7 +18,7 @@ android {
     defaultConfig {
         applicationId "br.com.catbag.gifreduxsample"
         minSdkVersion 19
-        targetSdkVersion 24
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

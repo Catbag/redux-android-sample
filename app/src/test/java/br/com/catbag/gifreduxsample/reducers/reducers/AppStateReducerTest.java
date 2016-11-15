@@ -37,7 +37,7 @@ public class AppStateReducerTest extends ReduxBaseTest {
     }
 
     @Test
-    public void whenSendManyActions2() {
+    public void whenSendAppStateLoaded() {
         AppState expectedAppState = TestHelper.buildAppState(TestHelper.buildFiveGifs());
         mHelper.dispatchAction(new Action(AppStateActionCreator.APP_STATE_LOADED, expectedAppState));
         assertEquals(expectedAppState, mHelper.getFluxxan().getState());

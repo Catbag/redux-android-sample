@@ -10,7 +10,9 @@ import com.snappydb.SnappydbException;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
@@ -36,6 +38,9 @@ public class DataManagerTest {
     private static final String TAG_APP_STATE = "TAG_APP_STATE";
     private DataManager mDataManager;
 
+    @Rule
+    public Timeout globalTimeout = Timeout.seconds(30);
+
     @Before
     public void setup() {
         mDataManager = new DataManager(InstrumentationRegistry.getTargetContext());
@@ -47,25 +52,24 @@ public class DataManagerTest {
         db.destroy();
     }
 
-    @Test(timeout = 1000)
+    @Test
     public void whenAppStateChangesOnceTime() {
         AppState newAppState = buildAppState(1);
         mDataManager.onStateChanged(newAppState);
         assertSaveAppState(newAppState);
     }
 
-    @Test(timeout = 1000)
+    @Test
     public void whenAppStateChangesSeveralTime() {
         AppState newAppState = null;
         for (int i=0; i<20; i++) {
             newAppState = buildAppState(i);
             mDataManager.onStateChanged(newAppState);
-            getAppStateFromDB();
         }
         assertSaveAppState(newAppState);
     }
 
-    @Test(timeout = 1000)
+    @Test
     public void whenLoadAlreadySavedAppState() throws InterruptedException {
         final CountDownLatch signal = new CountDownLatch(1);
         AppState appState = buildAppState();
@@ -77,7 +81,7 @@ public class DataManagerTest {
         signal.await();
     }
 
-    @Test(timeout = 1000)
+    @Test
     public void whenLoadAlreadyUnsavedAppState() throws InterruptedException {
         final CountDownLatch signal = new CountDownLatch(1);
         mDataManager.getAppState(appStateLoaded -> {
