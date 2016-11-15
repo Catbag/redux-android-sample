@@ -31,7 +31,7 @@ public class RestMiddleware extends BaseMiddleware<AppState> {
     private final FileDownloader mFileDownloader;
     private DataManager mDataManager = new DataManager();
 
-    public RestMiddleware(Context context, DataManager dataManager, FileDownloader fileDownloader){
+    public RestMiddleware(Context context, DataManager dataManager, FileDownloader fileDownloader) {
         super();
         mContext = context;
         mDataManager = dataManager;
@@ -46,6 +46,8 @@ public class RestMiddleware extends BaseMiddleware<AppState> {
                 break;
             case GIF_LIST_FETCHING:
                 fetchGifs(appState);
+                break;
+            default:
                 break;
         }
     }

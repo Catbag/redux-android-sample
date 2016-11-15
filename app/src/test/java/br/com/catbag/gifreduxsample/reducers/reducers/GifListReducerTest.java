@@ -2,7 +2,6 @@ package br.com.catbag.gifreduxsample.reducers.reducers;
 
 import com.umaplay.fluxxan.Action;
 
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -22,7 +21,6 @@ import br.com.catbag.gifreduxsample.BuildConfig;
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.actions.GifListActionCreator;
 import br.com.catbag.gifreduxsample.actions.PayloadParams;
-import br.com.catbag.gifreduxsample.middlewares.LoggerMiddleware;
 import br.com.catbag.gifreduxsample.middlewares.RestMiddleware;
 import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
@@ -54,7 +52,6 @@ public class GifListReducerTest extends ReduxBaseTest {
     public GifListReducerTest() {
         mHelper = new TestHelper(((MyApp) RuntimeEnvironment.application).getFluxxan());
         mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
-        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(LoggerMiddleware.class);
     }
 
     @Test

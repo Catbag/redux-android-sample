@@ -13,6 +13,7 @@ import org.mockito.ArgumentCaptor;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
+import org.robolectric.util.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -174,7 +175,7 @@ public class RestMiddlewareTest extends ReduxBaseTest {
                     try {
                         Thread.sleep(5);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Logger.error(e.getMessage(), e);
                     }
                 }
                 listenerCaptor.getValue().onLoaded(EXPECTED_LIST, EXPECTED_HAS_MORE);

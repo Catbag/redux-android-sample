@@ -5,12 +5,7 @@ import android.content.Context;
 import com.umaplay.fluxxan.Action;
 import com.umaplay.fluxxan.impl.BaseActionCreator;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import br.com.catbag.gifreduxsample.MyApp;
-import br.com.catbag.gifreduxsample.asyncs.net.downloader.FileDownloader;
 import br.com.catbag.gifreduxsample.models.Gif;
 
 /**

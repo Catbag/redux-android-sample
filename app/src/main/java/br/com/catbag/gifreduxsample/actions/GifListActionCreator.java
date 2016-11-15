@@ -3,11 +3,7 @@ package br.com.catbag.gifreduxsample.actions;
 import com.umaplay.fluxxan.Action;
 import com.umaplay.fluxxan.impl.BaseActionCreator;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import br.com.catbag.gifreduxsample.MyApp;
-import br.com.catbag.gifreduxsample.asyncs.data.DataManager;
 
 /**
  * Created by niltonvasques on 10/12/16.
