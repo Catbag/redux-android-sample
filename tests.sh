@@ -3,6 +3,9 @@ BUILD_STATUS=0
 
 start_emulator && wait_emulator 
 
+# Clean gradle tasks cache from old builds
+./gradlew clean --daemon -PdisablePreDex --stacktrace
+
 ./gradlew check --daemon -PdisablePreDex --stacktrace
 UNIT_STATUS=$?
 
@@ -16,7 +19,7 @@ adb logcat > logcat.log &
 LOGCAT_PID=$!
 
 # Running integration tests
-./gradlew cC -i --daemon -PdisablePreDex --stacktrace
+./gradlew connectedCheck -i --daemon -PdisablePreDex --stacktrace
 INTEGRATION_STATUS=$?
 
 kill $LOGCAT_PID
@@ -30,7 +33,7 @@ git add logcat.log -f
 git config --global user.name "Drone CI"
 git config --global user.email "developer@catbag.com.br"
 git commit -am "Publish results from test #$DRONE_BUILD_NUMBER"
-git pull -s recursive -X theirs origin gh-pages --rebase
+git pull -X theirs --rebase upstream gh-pages
 git push -f upstream gh-pages
 
 # Computing build status
