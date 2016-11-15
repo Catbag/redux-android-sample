@@ -1,9 +1,9 @@
 package br.com.catbag.gifreduxsample.helpers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
@@ -24,8 +24,8 @@ public final class AppStateHelper {
         return new ArrayList<>(state.getGifs().values());
     }
 
-    public static Map<String, Gif> gifListToMap(List<Gif> gifs) {
-        Map<String, Gif> map = new HashMap<>();
+    public static SortedMap<String, Gif> gifListToMap(List<Gif> gifs) {
+        SortedMap<String, Gif> map = new TreeMap<>();
         for (Gif gif : gifs) map.put(gif.getUuid(), gif);
         return map;
     }

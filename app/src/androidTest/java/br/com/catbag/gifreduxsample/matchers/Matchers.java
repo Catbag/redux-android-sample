@@ -1,6 +1,7 @@
 package br.com.catbag.gifreduxsample.matchers;
 
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.internal.util.Checks;
 import android.view.View;
@@ -46,6 +47,21 @@ public class Matchers {
         };
     }
 
+    public static Matcher<View> withEqualsGifDrawable(final Drawable drawable) {
+        return new BoundedMatcher<View, View>(View.class) {
+            @Override
+            public boolean matchesSafely(View view) {
+                GifImageView gifImageView = (GifImageView) view.findViewById(R.id.gif_image);
+                return gifImageView.getDrawable().equals(drawable);
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("with equals drawable");
+            }
+        };
+    }
+
     public static Matcher<View> withGifDrawable() {
         return new BoundedMatcher<View, View>(View.class) {
             @Override
@@ -53,9 +69,10 @@ public class Matchers {
                 GifImageView gifImageView = (GifImageView) view.findViewById(R.id.gif_image);
                 return gifImageView.getDrawable() != null;
             }
+
             @Override
             public void describeTo(Description description) {
-                description.appendText("with gif image view not null");
+                description.appendText("with a not null drawable");
             }
         };
     }
