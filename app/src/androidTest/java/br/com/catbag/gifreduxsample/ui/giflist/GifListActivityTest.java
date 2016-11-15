@@ -12,8 +12,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.umaplay.fluxxan.Middleware;
-
 import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
@@ -74,19 +72,16 @@ public class GifListActivityTest extends ReduxBaseTest {
     @Override
     public void setup() {
         super.setup();
-        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
-        Middleware restMiddleware = new RestMiddleware(getContext(), mock(DataManager.class),
+        RestMiddleware restMiddleware = new RestMiddleware(getContext(), mock(DataManager.class),
                 new FileDownloader());
-        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
-        mHelper.getFluxxan().getDispatcher().registerMiddleware(restMiddleware);
+        replaceRestMiddleware(restMiddleware);
     }
 
     @Override
     public void cleanup() {
-        Middleware restMiddleware = new RestMiddleware(getContext(), new DataManager(),
+        RestMiddleware restMiddleware = new RestMiddleware(getContext(), new DataManager(),
                 new FileDownloader());
-        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
-        mHelper.getFluxxan().getDispatcher().registerMiddleware(restMiddleware);
+        replaceRestMiddleware(restMiddleware);
         super.cleanup();
     }
 
@@ -395,5 +390,10 @@ public class GifListActivityTest extends ReduxBaseTest {
         locker.registerIdlingResource();
         onView(withText("espressoWaiter")).check(doesNotExist());
         locker.unregisterIdlingResource();
+    }
+
+    private void replaceRestMiddleware(RestMiddleware middleware) {
+        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
+        mHelper.getFluxxan().getDispatcher().registerMiddleware(middleware);
     }
 }

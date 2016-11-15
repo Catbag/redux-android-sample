@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.util.Logger;
 
@@ -46,6 +45,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.robolectric.RuntimeEnvironment.application;
 import static shared.TestHelper.buildGif;
 
 // Roboeletric still not supports API 24 stuffs
@@ -69,8 +69,7 @@ public class RestMiddlewareTest extends ReduxBaseTest {
     };
 
     public RestMiddlewareTest() {
-        AppState state = ImmutableAppState.builder().build();
-        mFluxxan = new Fluxxan<>(state);
+        mFluxxan = new Fluxxan<>(ImmutableAppState.builder().build());
         mHelper = new TestHelper(mFluxxan);
         mFluxxan.start();
     }
@@ -91,8 +90,8 @@ public class RestMiddlewareTest extends ReduxBaseTest {
 
     @Test
     public void whenInterceptListFetching() throws Exception {
-        RestMiddleware middleware = new RestMiddleware(RuntimeEnvironment.application,
-                mockDataManager(), any(FileDownloader.class));
+        RestMiddleware middleware = new RestMiddleware(application, mockDataManager(),
+                any(FileDownloader.class));
         middleware.setDispatcher(mFluxxan.getDispatcher());
         middleware.intercept(mFluxxan.getState(), new Action(GIF_LIST_FETCHING));
         mSignal.await();
@@ -108,8 +107,8 @@ public class RestMiddlewareTest extends ReduxBaseTest {
     public void whenInterceptListFetchingAndDontHasMoreGifs() throws Exception {
         AppState state = ImmutableAppState.builder().hasMoreGifs(false).build();
         DataManager dataManager = mockDataManager();
-        RestMiddleware middleware = new RestMiddleware(RuntimeEnvironment.application,
-                dataManager, null);
+        RestMiddleware middleware = new RestMiddleware(application,
+                mockDataManager(), null);
         middleware.setDispatcher(mFluxxan.getDispatcher());
         middleware.intercept(state, new Action(GIF_LIST_FETCHING));
 
@@ -121,7 +120,7 @@ public class RestMiddlewareTest extends ReduxBaseTest {
         AppState state = ImmutableAppState.builder().hasMoreGifs(false).build();
         DataManager dataManager = mockDataManager();
         FileDownloader fileDownloader = mock(FileDownloader.class);
-        RestMiddleware middleware = new RestMiddleware(RuntimeEnvironment.application,
+        RestMiddleware middleware = new RestMiddleware(application,
                 dataManager, fileDownloader);
         middleware.setDispatcher(mFluxxan.getDispatcher());
         middleware.intercept(state, new Action("RANDOM_ACTION"));
@@ -136,7 +135,7 @@ public class RestMiddlewareTest extends ReduxBaseTest {
     public void whenInterceptGifDownloadStartWithSuccess() throws Exception {
         Gif gif = buildGif();
         AppState state = TestHelper.buildAppState(gif);
-        RestMiddleware middleware = new RestMiddleware(RuntimeEnvironment.application,
+        RestMiddleware middleware = new RestMiddleware(application,
                 mockDataManager(), mockFileDownloaderWithSuccess());
         middleware.setDispatcher(mFluxxan.getDispatcher());
         middleware.intercept(state, new Action(GIF_DOWNLOAD_START, gif.getUuid()));
@@ -153,7 +152,7 @@ public class RestMiddlewareTest extends ReduxBaseTest {
     public void whenInterceptGifDownloadStartWithFailure() throws Exception {
         Gif gif = buildGif();
         AppState state = TestHelper.buildAppState(gif);
-        Middleware middleware = new RestMiddleware(RuntimeEnvironment.application,
+        Middleware middleware = new RestMiddleware(application,
                 mockDataManager(), mockFileDownloaderFailure());
         middleware.setDispatcher(mFluxxan.getDispatcher());
 
