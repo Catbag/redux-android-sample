@@ -30,7 +30,7 @@ git add logcat.log -f
 git config --global user.name "Drone CI"
 git config --global user.email "developer@catbag.com.br"
 git commit -am "Publish results from test #$DRONE_BUILD_NUMBER"
-git pull -s recursive -X theirs origin gh-pages --rebase
+git pull -X theirs --rebase upstream gh-pages
 git push -f upstream gh-pages
 
 # Computing build status
