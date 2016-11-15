@@ -1,5 +1,7 @@
 package br.com.catbag.gifreduxsample.idlings;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingResource;
 
@@ -12,9 +14,13 @@ import br.com.catbag.gifreduxsample.ui.AnvilRenderListener;
 
 public class AnvilTestLocker implements IdlingResource, AnvilRenderListener {
 
+    private static final int FORCE_IS_IDLE_NOW_DELAY = 250;
     private AnvilRenderComponent mAnvilRenderComponent;
-    private boolean mIdle;
-    protected ResourceCallback mResourceCallback;
+    private ResourceCallback mResourceCallback;
+    private int mRenderTimes = 0;
+    private int mLastRenderTimes = 0;
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private Runnable mForceIsIdleNow = () -> isIdleNow();
 
     public AnvilTestLocker(AnvilRenderComponent anvilRenderComponent){
         mAnvilRenderComponent = anvilRenderComponent;
@@ -31,16 +37,20 @@ public class AnvilTestLocker implements IdlingResource, AnvilRenderListener {
         return AnvilTestLocker.class.getClass().getSimpleName();
     }
 
-    /**
-     * Is important that onStateChanged inside activity control when the Anvil finalize all renders,
-     * eg. putting both flag and the Anvil.render(); inside same thread like GifListActivity does.
-     **/
     @Override
     public boolean isIdleNow() {
-        if (mIdle && mResourceCallback != null) {
-            mResourceCallback.onTransitionToIdle();
+        mHandler.removeCallbacks(mForceIsIdleNow);
+        boolean isIdle = mRenderTimes != 0 && mRenderTimes == mLastRenderTimes;
+        mLastRenderTimes = mRenderTimes;
+
+        if (mResourceCallback != null) {
+            if (isIdle) {
+                mResourceCallback.onTransitionToIdle();
+            } else {
+                mHandler.postDelayed(mForceIsIdleNow, FORCE_IS_IDLE_NOW_DELAY);
+            }
         }
-        return mIdle;
+        return isIdle;
     }
 
     /** Register idling resources don't stop flow when junit asserts is used **/
@@ -49,13 +59,13 @@ public class AnvilTestLocker implements IdlingResource, AnvilRenderListener {
     }
 
     public void unregisterIdlingResource(){
-        Espresso.unregisterIdlingResources(this);
+        mHandler.removeCallbacks(mForceIsIdleNow);
         mAnvilRenderComponent.setAnvilRenderListener(null);
-        mIdle = false;
+        Espresso.unregisterIdlingResources(this);
     }
 
     @Override
     public void onAnvilRendered() {
-        mIdle = true;
+        mRenderTimes++;
     }
 }

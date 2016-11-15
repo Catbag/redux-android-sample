@@ -3,9 +3,10 @@ package br.com.catbag.gifreduxsample.reducers;
 import com.umaplay.fluxxan.annotation.BindAction;
 import com.umaplay.fluxxan.impl.BaseAnnotatedReducer;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import br.com.catbag.gifreduxsample.actions.GifActionCreator;
 import br.com.catbag.gifreduxsample.actions.GifListActionCreator;
@@ -62,7 +63,7 @@ public class AppStateReducer extends BaseAnnotatedReducer<AppState> {
 
     //Business Logic
     private AppState reduceGifState(AppState state, Gif gif) {
-        Map<String, Gif> gifs = new HashMap<>(state.getGifs());
+        SortedMap<String, Gif> gifs = new TreeMap<>(state.getGifs());
         gifs.put(gif.getUuid(), gif);
         return createImmutableAppBuilder(state)
                 .gifs(gifs)

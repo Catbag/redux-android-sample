@@ -15,6 +15,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import br.com.catbag.gifreduxsample.BuildConfig;
 import br.com.catbag.gifreduxsample.MyApp;
@@ -166,7 +168,7 @@ public class GifListReducerTest extends ReduxBaseTest {
         mHelper.dispatchAction(new Action(GIF_DOWNLOAD_SUCCESS, params));
         mHelper.dispatchAction(new Action(GIF_PAUSE, "3"));
 
-        Map expected = new HashMap();
+        SortedMap expected = new TreeMap();
         expected.put("1", buildGif(Gif.Status.DOWNLOADING, "1"));
         expected.put("2", buildGif(Gif.Status.DOWNLOADED, "2"));
         expected.put("3", buildGif(Gif.Status.PAUSED, "3"));
@@ -199,7 +201,7 @@ public class GifListReducerTest extends ReduxBaseTest {
         mHelper.dispatchAction(new Action(GIF_PLAY, DEFAULT_UUID));
         mHelper.dispatchAction(new Action(GIF_PAUSE, DEFAULT_UUID));
 
-        Map expected = new HashMap();
+        SortedMap expected = new TreeMap();
         Gif gif = gifBuilderWithDefault()
                 .watched(true)
                 .status(Gif.Status.PAUSED)
