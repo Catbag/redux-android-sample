@@ -23,10 +23,11 @@ import java.util.List;
 
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.R;
-import br.com.catbag.gifreduxsample.actions.GifListActionCreator;
 import br.com.catbag.gifreduxsample.asyncs.data.DataManager;
+import br.com.catbag.gifreduxsample.asyncs.net.downloader.FileDownloader;
 import br.com.catbag.gifreduxsample.idlings.AnvilTestLocker;
 import br.com.catbag.gifreduxsample.matchers.RecyclerViewMatcher;
+import br.com.catbag.gifreduxsample.middlewares.RestMiddleware;
 import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.ui.GifListActivity;
 import br.com.catbag.gifreduxsample.ui.components.FeedComponent;
@@ -34,6 +35,7 @@ import br.com.catbag.gifreduxsample.ui.components.GifComponent;
 import shared.ReduxBaseTest;
 import shared.TestHelper;
 
+import static android.support.test.InstrumentationRegistry.getContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
@@ -70,12 +72,16 @@ public class GifListActivityTest extends ReduxBaseTest {
     @Override
     public void setup() {
         super.setup();
-        GifListActionCreator.getInstance().setDataManager(mock(DataManager.class));
+        RestMiddleware restMiddleware = new RestMiddleware(getContext(), mock(DataManager.class),
+                new FileDownloader());
+        replaceRestMiddleware(restMiddleware);
     }
 
     @Override
     public void cleanup() {
-        GifListActionCreator.getInstance().setDataManager(new DataManager());
+        RestMiddleware restMiddleware = new RestMiddleware(getContext(), new DataManager(),
+                new FileDownloader());
+        replaceRestMiddleware(restMiddleware);
         super.cleanup();
     }
 
@@ -384,5 +390,10 @@ public class GifListActivityTest extends ReduxBaseTest {
         locker.registerIdlingResource();
         onView(withText("espressoWaiter")).check(doesNotExist());
         locker.unregisterIdlingResource();
+    }
+
+    private void replaceRestMiddleware(RestMiddleware middleware) {
+        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
+        mHelper.getFluxxan().getDispatcher().registerMiddleware(middleware);
     }
 }
