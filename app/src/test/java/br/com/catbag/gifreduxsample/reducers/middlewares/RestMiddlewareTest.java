@@ -107,8 +107,7 @@ public class RestMiddlewareTest extends ReduxBaseTest {
     public void whenInterceptListFetchingAndDontHasMoreGifs() throws Exception {
         AppState state = ImmutableAppState.builder().hasMoreGifs(false).build();
         DataManager dataManager = mockDataManager();
-        RestMiddleware middleware = new RestMiddleware(application,
-                mockDataManager(), null);
+        RestMiddleware middleware = new RestMiddleware(application, dataManager, null);
         middleware.setDispatcher(mFluxxan.getDispatcher());
         middleware.intercept(state, new Action(GIF_LIST_FETCHING));
 
