@@ -57,6 +57,7 @@ public class FeedComponent extends RenderableView implements StateListener<AppSt
 
     @Override
     public void view() {
+        final List<Gif> gifs = mGifs;
         Recycler.view(() -> {
             if (mLayoutManager == null) {
                 mLayoutManager = new LinearLayoutManager(getContext(),
@@ -64,8 +65,8 @@ public class FeedComponent extends RenderableView implements StateListener<AppSt
             }
             Recycler.layoutManager(mLayoutManager);
             Recycler.hasFixedSize(true);
-            Recycler.adapter(Recycler.Adapter.simple(mGifs, (viewHolder) -> {
-                renderGifView(mGifs.get(viewHolder.getAdapterPosition()));
+            Recycler.adapter(Recycler.Adapter.simple(gifs, (viewHolder) -> {
+                renderGifView(gifs.get(viewHolder.getAdapterPosition()));
             }));
         });
         if (mAnvilRenderListener != null) mAnvilRenderListener.onAnvilRendered();
