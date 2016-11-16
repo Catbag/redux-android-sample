@@ -17,7 +17,7 @@ public class ReduxBaseTest {
     protected TestHelper mHelper = null;
 
     @Rule
-    public Timeout mGlobalTimeout = new Timeout(20, TimeUnit.SECONDS);
+    public Timeout mGlobalTimeout = new Timeout(1, TimeUnit.MINUTES);
 
     @Before
     public void setup() {

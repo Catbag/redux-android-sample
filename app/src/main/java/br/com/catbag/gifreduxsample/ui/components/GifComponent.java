@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.umaplay.fluxxan.StateListener;
-import com.umaplay.fluxxan.util.ThreadUtils;
 
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.R;
@@ -83,6 +82,7 @@ public class GifComponent extends RenderableView implements StateListener<AppSta
                 visibility(mGif.getStatus() == DOWNLOADING);
             });
         });
+        if (mAnvilRenderListener != null) mAnvilRenderListener.onAnvilRendered();
     }
 
     @Override
@@ -93,10 +93,7 @@ public class GifComponent extends RenderableView implements StateListener<AppSta
     @Override
     public void onStateChanged(AppState appState) {
         withGifState(AppStateHelper.getGifStateByUuid(mGif.getUuid(), appState));
-        ThreadUtils.runOnMain(() -> {
-            Anvil.render();
-            if (mAnvilRenderListener != null) mAnvilRenderListener.onAnvilRendered();
-        });
+        Anvil.render();
     }
 
     @Override

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'jacoco-everywhere'
 apply plugin: 'me.tatarka.retrolambda'
 apply from: 'inspect/inspect.gradle'
 
@@ -28,6 +29,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            testCoverageEnabled = true
         }
     }
     compileOptions {

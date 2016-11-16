@@ -49,3 +49,4 @@ gen-external-apklibs
 
 # Keystore files
 *.jks
+secrets.yml
