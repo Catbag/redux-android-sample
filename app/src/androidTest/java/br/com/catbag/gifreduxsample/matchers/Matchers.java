@@ -17,13 +17,16 @@ import pl.droidsonroids.gif.GifImageView;
  * Created by niltonvasques on 10/14/16.
  */
 
-public class Matchers {
+public final class Matchers {
+    private Matchers() {
+    }
+
     public static Matcher<View> withBGColor(final int color) {
         Checks.checkNotNull(color);
         return new BoundedMatcher<View, View>(View.class) {
             @Override
             public boolean matchesSafely(View view) {
-                int currentColor = ((ColorDrawable)view.getBackground()).getColor();
+                int currentColor = ((ColorDrawable) view.getBackground()).getColor();
                 return color == currentColor;
             }
             @Override
@@ -38,7 +41,7 @@ public class Matchers {
             @Override
             public boolean matchesSafely(View view) {
                 GifImageView gifImageView = (GifImageView) view.findViewById(R.id.gif_image);
-                return ((GifDrawable)gifImageView.getDrawable()).isPlaying();
+                return ((GifDrawable) gifImageView.getDrawable()).isPlaying();
             }
             @Override
             public void describeTo(Description description) {

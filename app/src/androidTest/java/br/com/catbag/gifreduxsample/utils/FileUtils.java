@@ -19,9 +19,11 @@ public final class FileUtils {
     private FileUtils() { }
 
     public static File createFakeGifFile() {
-        File dst = new File(getInstrumentation().getTargetContext().getExternalCacheDir() +"/test.gif");
+        File dst = new File(getInstrumentation().getTargetContext()
+                .getExternalCacheDir() + "/test.gif");
         try {
-            InputStream iStream = getInstrumentation().getContext().getResources().getAssets().open("test.gif");
+            InputStream iStream = getInstrumentation().getContext()
+                    .getResources().getAssets().open("test.gif");
             OutputStream out = new FileOutputStream(dst);
             // Transfer bytes from in to out
             byte[] buf = new byte[1024];

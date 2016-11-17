@@ -35,7 +35,8 @@ import static trikita.anvil.DSL.onClick;
  * Created by felipe on 26/10/16.
  */
 
-public class GifComponent extends RenderableView implements StateListener<AppState>, AnvilRenderComponent {
+public class GifComponent extends RenderableView
+        implements StateListener<AppState>, AnvilRenderComponent {
 
     private Gif mGif;
     private GifDrawable mGifDrawable;

@@ -14,10 +14,10 @@ import java.util.concurrent.TimeUnit;
  */
 
 public class ReduxBaseTest {
-    protected TestHelper mHelper = null;
-
     @Rule
     public Timeout mGlobalTimeout = new Timeout(1, TimeUnit.MINUTES);
+
+    protected TestHelper mHelper = null;
 
     @Before
     public void setup() {

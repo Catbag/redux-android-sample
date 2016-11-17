@@ -49,7 +49,7 @@ import static org.robolectric.RuntimeEnvironment.application;
 import static shared.TestHelper.buildGif;
 
 // Roboeletric still not supports API 24 stuffs
-@Config(sdk = 23, constants=BuildConfig.class)
+@Config(sdk = 23, constants = BuildConfig.class)
 @RunWith(RobolectricTestRunner.class)
 public class RestMiddlewareTest extends ReduxBaseTest {
 
@@ -100,7 +100,7 @@ public class RestMiddlewareTest extends ReduxBaseTest {
         assertEquals(mLastAction.Payload.getClass(), HashMap.class);
         Map params = (Map) mLastAction.Payload;
         assertEquals(params.get(PayloadParams.PARAM_HAS_MORE), EXPECTED_HAS_MORE);
-        assertEquals(((List)params.get(PayloadParams.PARAM_GIFS)).size(), EXPECTED_LIST.size());
+        assertEquals(((List) params.get(PayloadParams.PARAM_GIFS)).size(), EXPECTED_LIST.size());
     }
 
     @Test
@@ -164,12 +164,12 @@ public class RestMiddlewareTest extends ReduxBaseTest {
 
     private DataManager mockDataManager() {
         DataManager dataManager = mock(DataManager.class);
-        ArgumentCaptor<GifListLoadListener> listenerCaptor =
-                ArgumentCaptor.forClass(GifListLoadListener.class);
+        ArgumentCaptor<GifListLoadListener> listenerCaptor
+                = ArgumentCaptor.forClass(GifListLoadListener.class);
         doAnswer((invocationOnMock) -> {
             new Thread(() -> {
                 // The fluxxan don't let we dispatch when it's dispatching
-                while(mFluxxan.getDispatcher().isDispatching()) {
+                while (mFluxxan.getDispatcher().isDispatching()) {
                     try {
                         Thread.sleep(5);
                     } catch (InterruptedException e) {
@@ -185,8 +185,8 @@ public class RestMiddlewareTest extends ReduxBaseTest {
 
     private FileDownloader mockFileDownloaderWithSuccess() {
         FileDownloader downloader = mock(FileDownloader.class);
-        ArgumentCaptor<FileDownloader.SuccessDownloadListener> successCaptor =
-                ArgumentCaptor.forClass(FileDownloader.SuccessDownloadListener.class);
+        ArgumentCaptor<FileDownloader.SuccessDownloadListener> successCaptor
+                = ArgumentCaptor.forClass(FileDownloader.SuccessDownloadListener.class);
         doAnswer(invocation -> {
             successCaptor.getValue().onSuccess();
             return null;
@@ -197,8 +197,8 @@ public class RestMiddlewareTest extends ReduxBaseTest {
 
     private FileDownloader mockFileDownloaderFailure() {
         FileDownloader downloader = mock(FileDownloader.class);
-        ArgumentCaptor<FileDownloader.FailureDownloadListener> failureCaptor =
-                ArgumentCaptor.forClass(FileDownloader.FailureDownloadListener.class);
+        ArgumentCaptor<FileDownloader.FailureDownloadListener> failureCaptor
+                = ArgumentCaptor.forClass(FileDownloader.FailureDownloadListener.class);
         doAnswer(invocation -> {
             failureCaptor.getValue().onFailure(any(Exception.class));
             return null;

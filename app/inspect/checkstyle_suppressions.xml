@@ -28,9 +28,10 @@
     <suppress checks="JavadocVariable" files="."/>
     <!-- Temporary Supressions -->
 
+    <suppress checks="VisibilityModifier" files="Test" />
+
     <suppress checks="[a-zA-Z0-9]*" files="R.java"/>
     <suppress checks="[a-zA-Z0-9]*" files="BuildConfig.java"/>
-    <suppress checks="[a-zA-Z0-9]*" files="Test"/>
     <suppress checks="[a-zA-Z0-9]*" files="Dagger*"/>
     <suppress checks="[a-zA-Z0-9]*" files=".*_.*Factory.java"/>
     <suppress checks="[a-zA-Z0-9]*" files=".*ViewInjector.java"/>

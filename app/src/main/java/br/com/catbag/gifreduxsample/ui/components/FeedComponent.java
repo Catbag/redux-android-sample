@@ -32,7 +32,8 @@ import static trikita.anvil.BaseDSL.v;
 /**
  * Created by niltonvasques on 10/26/16.
  */
-public class FeedComponent extends RenderableView implements StateListener<AppState>, AnvilRenderComponent {
+public class FeedComponent extends RenderableView
+        implements StateListener<AppState>, AnvilRenderComponent {
 
     private List<Gif> mGifs;
     private DrawableCache mDrawables = new DrawableCache();

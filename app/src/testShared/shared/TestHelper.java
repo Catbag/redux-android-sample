@@ -78,7 +78,7 @@ public class TestHelper {
     public void dispatchAction(Action action) {
         getFluxxan().getDispatcher().dispatch(action);
         // Since the dispatcher send actions in background we need wait the response arrives
-        while(!isStateChanged() || getFluxxan().getDispatcher().isDispatching()) {
+        while (!isStateChanged() || getFluxxan().getDispatcher().isDispatching()) {
             sleep(5);
         }
         setStateChanged(false);
@@ -159,7 +159,7 @@ public class TestHelper {
         return ImmutableGif.builder()
                 .uuid(DEFAULT_UUID)
                 .title("Gif")
-                .url( "https://media.giphy.com/media/l0HlE56oAxpngfnWM/giphy.gif")
+                .url("https://media.giphy.com/media/l0HlE56oAxpngfnWM/giphy.gif")
                 .status(Gif.Status.NOT_DOWNLOADED);
 
     }
