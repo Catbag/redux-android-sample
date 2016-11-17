@@ -14,6 +14,7 @@ public abstract class Gif {
         PAUSED, LOOPING, DOWNLOADING, DOWNLOADED, NOT_DOWNLOADED, DOWNLOAD_FAILED
     }
 
+    //abstract method are immutable by default
     public abstract String getUuid();
 
     @Value.Default
