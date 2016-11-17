@@ -23,17 +23,18 @@ import okhttp3.mockwebserver.MockWebServer;
  */
 public abstract class ServerMockTestBase {
     @Rule
-    public final MockWebServer server = new MockWebServer();
-    protected String mockEndPoint;
+    public final MockWebServer mServer = new MockWebServer();
+
+    protected String mMockEndPoint;
 
     @Before
     public void setUp() throws Exception {
-        mockEndPoint = server.url("/").toString();
+        mMockEndPoint = mServer.url("/").toString();
     }
 
     @After
     public void tearDown() throws Exception {
-        server.shutdown();
+        mServer.shutdown();
     }
 
     protected void sendMockMessages(String fileName, int statusCode) throws Exception {
@@ -41,7 +42,7 @@ public abstract class ServerMockTestBase {
         final String mockResponse = new Scanner(stream, Charset.defaultCharset().name())
                 .useDelimiter("\\A").next();
 
-        server.enqueue(new MockResponse()
+        mServer.enqueue(new MockResponse()
                 .setResponseCode(statusCode)
                 .setBody(mockResponse));
 

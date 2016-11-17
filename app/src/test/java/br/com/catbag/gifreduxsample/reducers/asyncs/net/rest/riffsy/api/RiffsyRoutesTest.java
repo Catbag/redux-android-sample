@@ -16,12 +16,12 @@ import static shared.TestHelper.DELTA;
  */
 
 public class RiffsyRoutesTest extends ServerMockTestBase {
-    private RiffsyRoutes sut;
+    private RiffsyRoutes mSut;
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        sut = RetrofitBuilder.getInstance().createApiEndpoint(RiffsyRoutes.class, mockEndPoint);
+        mSut = RetrofitBuilder.getInstance().createApiEndpoint(RiffsyRoutes.class, mMockEndPoint);
     }
 
     @Test
@@ -30,7 +30,7 @@ public class RiffsyRoutesTest extends ServerMockTestBase {
         sendMockMessages("/trending_results.json");
 
         // Request
-        Response<RiffsyResponse> response = sut
+        Response<RiffsyResponse> response = mSut
                 .getTrendingResults(RiffsyRoutes.DEFAULT_LIMIT_COUNT, null)
                 .execute();
 

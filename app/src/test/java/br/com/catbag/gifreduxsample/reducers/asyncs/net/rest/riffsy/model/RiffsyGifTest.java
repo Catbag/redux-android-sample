@@ -13,32 +13,32 @@ import static shared.TestHelper.STRING_UNIQUE_3;
  * Created by niltonvasques on 11/3/16.
  */
 public final class RiffsyGifTest {
-    private RiffsyGif sut = new RiffsyGif.Builder()
+    private RiffsyGif mSut = new RiffsyGif.Builder()
             .url(STRING_UNIQUE)
             .preview(STRING_UNIQUE_2)
             .build();
 
     @Test
     public void testGetUrl() {
-        assertEquals(sut.url(), STRING_UNIQUE);
+        assertEquals(mSut.url(), STRING_UNIQUE);
     }
 
     @Test
     public void testSetUrl() {
-        sut = sut.newBuilder().url(STRING_UNIQUE_2).build();
+        mSut = mSut.newBuilder().url(STRING_UNIQUE_2).build();
 
-        assertEquals(sut.url(), STRING_UNIQUE_2);
+        assertEquals(mSut.url(), STRING_UNIQUE_2);
     }
 
     @Test
     public void testGetPreview() {
-        assertEquals(sut.preview(), STRING_UNIQUE_2);
+        assertEquals(mSut.preview(), STRING_UNIQUE_2);
     }
 
     @Test
     public void testSetPreview() {
-        sut = sut.newBuilder().preview(STRING_UNIQUE_3).build();
+        mSut = mSut.newBuilder().preview(STRING_UNIQUE_3).build();
 
-        assertEquals(sut.preview(), STRING_UNIQUE_3);
+        assertEquals(mSut.preview(), STRING_UNIQUE_3);
     }
 }

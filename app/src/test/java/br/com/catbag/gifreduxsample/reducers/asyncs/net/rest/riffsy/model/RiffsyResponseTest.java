@@ -17,34 +17,34 @@ import static shared.TestHelper.FLOAT_RANDOM;
  */
 
 public class RiffsyResponseTest {
-    private List<RiffsyResult> results = new ArrayList<>();
-    private RiffsyResponse sut = new RiffsyResponse.Builder()
-            .results(results)
+    private List<RiffsyResult> mResults = new ArrayList<>();
+    private RiffsyResponse mSut = new RiffsyResponse.Builder()
+            .results(mResults)
             .next(FLOAT_RANDOM)
             .build();
 
     @Test
     public void testGetRiffsyResults() {
-        assertEquals(sut.results(), results);
+        assertEquals(mSut.results(), mResults);
     }
 
     @Test public void testSetRiffsyResults() {
         final List<RiffsyResult> expected = new ArrayList<>();
 
-        sut = sut.newBuilder().results(expected).build();
+        mSut = mSut.newBuilder().results(expected).build();
 
-        assertEquals(sut.results(), expected);
+        assertEquals(mSut.results(), expected);
     }
 
     @Test
     public void testGetNext() {
-        assertEquals(sut.next(), FLOAT_RANDOM, DELTA);
+        assertEquals(mSut.next(), FLOAT_RANDOM, DELTA);
     }
 
     @Test
     public void testSetNext() {
-        sut = sut.newBuilder().next(FLOAT_RANDOM + 1).build();
+        mSut = mSut.newBuilder().next(FLOAT_RANDOM + 1).build();
 
-        assertEquals(sut.next(), FLOAT_RANDOM + 1, DELTA);
+        assertEquals(mSut.next(), FLOAT_RANDOM + 1, DELTA);
     }
 }

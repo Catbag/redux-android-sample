@@ -39,7 +39,8 @@ public class FileDownloader {
                         readFromNetAndWriteToDisk(response.body().byteStream(), pathToSave);
                     } catch (IOException e) {
                         if (failureDownloadListener != null) {
-                            failureDownloadListener.onFailure(new FileNotFoundException("Not found"));
+                            failureDownloadListener
+                                    .onFailure(new FileNotFoundException("Not found"));
                         }
                     }
 

@@ -45,7 +45,7 @@ import static shared.TestHelper.buildGif;
 import static shared.TestHelper.gifBuilderWithDefault;
 
 // Roboeletric still not supports API 24 stuffs
-@Config(sdk = 23, constants=BuildConfig.class)
+@Config(sdk = 23, constants = BuildConfig.class)
 @RunWith(RobolectricTestRunner.class)
 public class GifListReducerTest extends ReduxBaseTest {
 
@@ -120,7 +120,8 @@ public class GifListReducerTest extends ReduxBaseTest {
 
         assertTransition(Gif.Status.DOWNLOADING, Gif.Status.DOWNLOADED, GIF_DOWNLOAD_SUCCESS,
                 params);
-        assertEquals(expectedPath, mHelper.getFluxxan().getState().getGifs().get(DEFAULT_UUID).getPath());
+        assertEquals(expectedPath,
+                mHelper.getFluxxan().getState().getGifs().get(DEFAULT_UUID).getPath());
     }
 
     @Test
@@ -220,20 +221,21 @@ public class GifListReducerTest extends ReduxBaseTest {
     }
 
     /** @param payload should be equals to reducers payload usage **/
-    private void assertTransition(HashSet<Gif.Status> from, Gif.Status to, String action, Object payload) {
-        Gif.Status[] statuses = { Gif.Status.NOT_DOWNLOADED, Gif.Status.DOWNLOADING,
-                Gif.Status.DOWNLOADED, Gif.Status.LOOPING, Gif.Status.PAUSED };
+    private void assertTransition(HashSet<Gif.Status> from, Gif.Status to,
+                                  String action, Object payload) {
+        Gif.Status[] statuses = {Gif.Status.NOT_DOWNLOADED, Gif.Status.DOWNLOADING,
+                Gif.Status.DOWNLOADED, Gif.Status.LOOPING, Gif.Status.PAUSED};
 
         String uuid = extractUuidFromPayload(payload);
 
         for (Gif.Status status : statuses) {
-            if(from.contains(status) || status == to) continue;
+            if (from.contains(status) || status == to) continue;
             mHelper.dispatchFakeAppState(buildAppState(buildGif(status, uuid)));
             mHelper.dispatchAction(new Action(action, payload));
             assertNotEquals(to, mHelper.getFluxxan().getState().getGifs().get(uuid).getStatus());
         }
 
-        for (Iterator<Gif.Status> iterator = from.iterator(); iterator.hasNext(); ) {
+        for (Iterator<Gif.Status> iterator = from.iterator(); iterator.hasNext();) {
             Gif.Status fromStatus = iterator.next();
 
             mHelper.dispatchFakeAppState(buildAppState(buildGif(fromStatus, uuid)));
@@ -245,9 +247,9 @@ public class GifListReducerTest extends ReduxBaseTest {
     private String extractUuidFromPayload(Object payload) {
         String uuid = DEFAULT_UUID;
         if (payload instanceof String) {
-            uuid = (String)payload;
-        } else if (payload instanceof Map){
-            uuid = (String) ((Map)payload).get(PayloadParams.PARAM_UUID);
+            uuid = (String) payload;
+        } else if (payload instanceof Map) {
+            uuid = (String) ((Map) payload).get(PayloadParams.PARAM_UUID);
         }
         return uuid;
     }

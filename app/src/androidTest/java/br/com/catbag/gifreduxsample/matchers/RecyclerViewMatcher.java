@@ -12,10 +12,10 @@ import org.hamcrest.TypeSafeMatcher;
  * from https://github.com/dannyroa/espresso-samples
  */
 public class RecyclerViewMatcher {
-    private final int recyclerViewId;
+    private final int mRecyclerViewId;
 
     public RecyclerViewMatcher(int recyclerViewId) {
-        this.recyclerViewId = recyclerViewId;
+        this.mRecyclerViewId = recyclerViewId;
     }
 
     public Matcher<View> atPosition(final int position) {
@@ -25,18 +25,19 @@ public class RecyclerViewMatcher {
     public Matcher<View> atPositionOnView(final int position, final int targetViewId) {
 
         return new TypeSafeMatcher<View>() {
-            Resources resources = null;
-            View childView;
+            private Resources mResources = null;
+            private View mChildView;
 
             public void describeTo(Description description) {
-                String idDescription = Integer.toString(recyclerViewId);
-                if (this.resources != null) {
+                String idDescription = Integer.toString(mRecyclerViewId);
+                if (this.mResources != null) {
                     try {
-                        idDescription = this.resources.getResourceName(recyclerViewId);
+                        idDescription = this.mResources.getResourceName(mRecyclerViewId);
                     } catch (Resources.NotFoundException var4) {
                         idDescription = String.format("%s (resource name not found)",
-                                new Object[] { Integer.valueOf
-                                        (recyclerViewId) });
+                                new Object[] {
+                                        Integer.valueOf(mRecyclerViewId)
+                                });
                     }
                 }
 
@@ -45,13 +46,13 @@ public class RecyclerViewMatcher {
 
             public boolean matchesSafely(View view) {
 
-                this.resources = view.getResources();
+                this.mResources = view.getResources();
 
-                if (childView == null) {
-                    RecyclerView recyclerView =
-                            (RecyclerView) view.getRootView().findViewById(recyclerViewId);
-                    if (recyclerView != null && recyclerView.getId() == recyclerViewId) {
-                        childView = recyclerView.getChildAt(position);
+                if (mChildView == null) {
+                    RecyclerView recyclerView
+                            = (RecyclerView) view.getRootView().findViewById(mRecyclerViewId);
+                    if (recyclerView != null && recyclerView.getId() == mRecyclerViewId) {
+                        mChildView = recyclerView.getChildAt(position);
                     }
                     else {
                         return false;
@@ -59,9 +60,9 @@ public class RecyclerViewMatcher {
                 }
 
                 if (targetViewId == -1) {
-                    return view == childView;
+                    return view == mChildView;
                 } else {
-                    View targetView = childView.findViewById(targetViewId);
+                    View targetView = mChildView.findViewById(targetViewId);
                     return view == targetView;
                 }
 

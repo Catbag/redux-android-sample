@@ -14,7 +14,6 @@ public abstract class Gif {
         PAUSED, LOOPING, DOWNLOADING, DOWNLOADED, NOT_DOWNLOADED, DOWNLOAD_FAILED
     }
 
-    @Value
     public abstract String getUuid();
 
     @Value.Default
@@ -22,10 +21,8 @@ public abstract class Gif {
         return "";
     }
 
-    @Value
     public abstract String getUrl();
-
-    @Value
+    
     public abstract String getTitle();
 
     @Value.Default
