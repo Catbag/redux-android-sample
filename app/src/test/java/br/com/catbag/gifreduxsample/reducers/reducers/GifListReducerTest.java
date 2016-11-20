@@ -8,14 +8,11 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import br.com.catbag.gifreduxsample.BuildConfig;
 import br.com.catbag.gifreduxsample.MyApp;
@@ -68,7 +65,7 @@ public class GifListReducerTest extends ReduxBaseTest {
 
     @Test
     public void whenSendLoadListAction() throws Exception {
-        List<Gif> fakeGifs = buildFiveGifs();
+        Map<String, Gif> fakeGifs = buildFiveGifs();
 
         Map<String, Object> params = new HashMap<>();
         params.put(PayloadParams.PARAM_GIFS, fakeGifs);
@@ -79,21 +76,21 @@ public class GifListReducerTest extends ReduxBaseTest {
         assertEquals(fakeGifs.size(), gifsStates.size());
         assertFalse(mHelper.getFluxxan().getState().getHasMoreGifs());
 
-        for (Gif expectedGif : fakeGifs) {
+        for (Gif expectedGif : fakeGifs.values()) {
             assertEquals(expectedGif, gifsStates.get(expectedGif.getUuid()));
         }
     }
 
     @Test
     public void whenSendLoadListWithANonEmptyListAction() throws Exception {
-        List<Gif> fakeGifs = buildFiveGifs();
+        Map<String, Gif> fakeGifs = buildFiveGifs();
 
         Map<String, Object> params = new HashMap<>();
         params.put(PayloadParams.PARAM_GIFS, fakeGifs);
         params.put(PayloadParams.PARAM_HAS_MORE, true);
         mHelper.dispatchAction(new Action(GifListActionCreator.GIF_LIST_UPDATED, params));
 
-        List<Gif> fakeGifs2 = buildFiveGifs();
+        Map<String, Gif> fakeGifs2 = buildFiveGifs();
         params = new HashMap<>();
         params.put(PayloadParams.PARAM_GIFS, fakeGifs2);
         params.put(PayloadParams.PARAM_HAS_MORE, false);
@@ -103,10 +100,10 @@ public class GifListReducerTest extends ReduxBaseTest {
         assertEquals(fakeGifs.size() + fakeGifs2.size(), gifsStates.size());
         assertFalse(mHelper.getFluxxan().getState().getHasMoreGifs());
 
-        for (Gif expectedGif : fakeGifs) {
+        for (Gif expectedGif : fakeGifs.values()) {
             assertEquals(expectedGif, gifsStates.get(expectedGif.getUuid()));
         }
-        for (Gif expectedGif : fakeGifs2) {
+        for (Gif expectedGif : fakeGifs2.values()) {
             assertEquals(expectedGif, gifsStates.get(expectedGif.getUuid()));
         }
     }
@@ -146,30 +143,34 @@ public class GifListReducerTest extends ReduxBaseTest {
 
     @Test
     public void whenSendManyActions() {
-        List gifs = new ArrayList();
-        gifs.add(buildGif(Gif.Status.NOT_DOWNLOADED, "1"));
-        gifs.add(buildGif(Gif.Status.DOWNLOADING, "2"));
-        gifs.add(buildGif(Gif.Status.LOOPING, "3"));
+        String uid1 = "1";
+        String uid2 = "2";
+        String uid3 = "3";
+
+        Map<String, Gif> gifs = new LinkedHashMap<>();
+        gifs.put(uid1, buildGif(Gif.Status.NOT_DOWNLOADED, uid1));
+        gifs.put(uid2, buildGif(Gif.Status.DOWNLOADING, uid2));
+        gifs.put(uid3, buildGif(Gif.Status.LOOPING, uid3));
 
         mHelper.dispatchAction(new Action(FakeReducer.FAKE_REDUCE_ACTION,
-                buildAppState(new ArrayList<>())));
+                buildAppState(new LinkedHashMap<>())));
 
         Map<String, Object> params = new HashMap<>();
         params.put(PayloadParams.PARAM_GIFS, gifs);
         params.put(PayloadParams.PARAM_HAS_MORE, false);
         mHelper.dispatchAction(new Action(GifListActionCreator.GIF_LIST_UPDATED, params));
-        mHelper.dispatchAction(new Action(GIF_DOWNLOAD_START, "1"));
+        mHelper.dispatchAction(new Action(GIF_DOWNLOAD_START, uid1));
 
         params = new HashMap<>();
         params.put(PayloadParams.PARAM_PATH, "");
-        params.put(PayloadParams.PARAM_UUID, "2");
+        params.put(PayloadParams.PARAM_UUID, uid2);
         mHelper.dispatchAction(new Action(GIF_DOWNLOAD_SUCCESS, params));
         mHelper.dispatchAction(new Action(GIF_PAUSE, "3"));
 
-        SortedMap expected = new TreeMap();
-        expected.put("1", buildGif(Gif.Status.DOWNLOADING, "1"));
-        expected.put("2", buildGif(Gif.Status.DOWNLOADED, "2"));
-        expected.put("3", buildGif(Gif.Status.PAUSED, "3"));
+        Map<String, Gif> expected = new LinkedHashMap();
+        expected.put(uid1, buildGif(Gif.Status.DOWNLOADING, uid1));
+        expected.put(uid2, buildGif(Gif.Status.DOWNLOADED, uid2));
+        expected.put(uid3, buildGif(Gif.Status.PAUSED, uid3));
         AppState expectedAppState = ImmutableAppState.builder()
                 .gifs(expected)
                 .hasMoreGifs(false)
@@ -181,10 +182,11 @@ public class GifListReducerTest extends ReduxBaseTest {
     @Test
     public void whenCompleteAppFlowActions() {
         mHelper.dispatchAction(new Action(FakeReducer.FAKE_REDUCE_ACTION,
-                buildAppState(new ArrayList<>())));
+                buildAppState(new LinkedHashMap<>())));
 
-        List gifs = new ArrayList();
-        gifs.add(buildGif(Gif.Status.NOT_DOWNLOADED));
+        Map<String, Gif> gifs = new LinkedHashMap<>();
+        Gif gifToTest = buildGif(Gif.Status.NOT_DOWNLOADED);
+        gifs.put(gifToTest.getUuid(), gifToTest);
 
         Map<String, Object> params = new HashMap<>();
         params.put(PayloadParams.PARAM_GIFS, gifs);
@@ -199,7 +201,7 @@ public class GifListReducerTest extends ReduxBaseTest {
         mHelper.dispatchAction(new Action(GIF_PLAY, DEFAULT_UUID));
         mHelper.dispatchAction(new Action(GIF_PAUSE, DEFAULT_UUID));
 
-        SortedMap expected = new TreeMap();
+        Map<String, Gif> expected = new LinkedHashMap();
         Gif gif = gifBuilderWithDefault()
                 .watched(true)
                 .status(Gif.Status.PAUSED)

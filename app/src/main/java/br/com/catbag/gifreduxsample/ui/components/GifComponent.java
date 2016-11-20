@@ -10,7 +10,6 @@ import com.umaplay.fluxxan.StateListener;
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.R;
 import br.com.catbag.gifreduxsample.actions.GifActionCreator;
-import br.com.catbag.gifreduxsample.helpers.AppStateHelper;
 import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.models.ImmutableGif;
@@ -58,7 +57,7 @@ public class GifComponent extends RenderableView
         initialState();
     }
 
-    public GifComponent withGifState(Gif gif) {
+    public GifComponent withGif(Gif gif) {
         if (gif != null) {
             mGif = gif;
         }
@@ -68,6 +67,10 @@ public class GifComponent extends RenderableView
     public GifComponent withGifDrawable(GifDrawable gifDrawable) {
         mGifDrawable = gifDrawable;
         return this;
+    }
+
+    public Gif getGif() {
+        return mGif;
     }
 
     @Override
@@ -88,12 +91,13 @@ public class GifComponent extends RenderableView
 
     @Override
     public boolean hasStateChanged(AppState newState, AppState oldState) {
-        return newState.getGifs().get(mGif.getUuid()) != mGif;
+        Gif newGif = newState.getGifs().get(mGif.getUuid());
+        return newGif != null && !newGif.equals(mGif);
     }
 
     @Override
     public void onStateChanged(AppState appState) {
-        withGifState(AppStateHelper.getGifStateByUuid(mGif.getUuid(), appState));
+        withGif(appState.getGifs().get(mGif.getUuid()));
         Anvil.render();
     }
 
@@ -124,7 +128,6 @@ public class GifComponent extends RenderableView
 
         mIsRegisteredOnStateChange = true;
         MyApp.getFluxxan().addListener(this);
-        onStateChanged(MyApp.getFluxxan().getState()); //let's refesh the ui
     }
 
     private void unregisterOnStateChange() {
@@ -147,7 +150,7 @@ public class GifComponent extends RenderableView
 
     private void requestContent() {
         if (mGif.getStatus() == NOT_DOWNLOADED) {
-            GifActionCreator.getInstance().gifDownloadStart(mGif, getContext());
+            GifActionCreator.getInstance().gifDownloadStart(mGif);
         }
     }
 

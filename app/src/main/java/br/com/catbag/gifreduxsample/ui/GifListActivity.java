@@ -30,7 +30,6 @@ public class GifListActivity extends StateListenerActivity<AppState>
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gif_list);
         bindingViews();
-        mActionCreator.loadGifs();
     }
 
     @Override
@@ -39,11 +38,25 @@ public class GifListActivity extends StateListenerActivity<AppState>
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        mActionCreator.loadGifs();
+    }
+
+    @Override
+    public boolean hasStateChanged(AppState newState, AppState oldState) {
+        return !newState.equals(oldState);
+    }
+
+    @Override
     public void onStateChanged(AppState appState) {
-        if (!appState.getGifs().isEmpty()) {
+        if (!appState.getGifs().isEmpty() && mGifProgressVisibility) {
             mGifProgressVisibility = false;
+            anvilRender();
         }
-        //TODO this can be controlled by a singleton class that manage broadcasters and listeners
+    }
+
+    private void anvilRender() {
         ThreadUtils.runOnMain(() -> {
             Anvil.render();
             if (mAnvilRenderListener != null) mAnvilRenderListener.onAnvilRendered();

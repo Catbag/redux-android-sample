@@ -1,7 +1,5 @@
 package br.com.catbag.gifreduxsample.actions;
 
-import android.content.Context;
-
 import com.umaplay.fluxxan.Action;
 import com.umaplay.fluxxan.impl.BaseActionCreator;
 
@@ -32,7 +30,7 @@ public final class GifActionCreator extends BaseActionCreator {
         return sInstance;
     }
 
-    public void gifDownloadStart(Gif gif, Context context) {
+    public void gifDownloadStart(Gif gif) {
         dispatch(new Action(GIF_DOWNLOAD_START, gif.getUuid()));
     }
 
