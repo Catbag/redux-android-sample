@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 
 import com.umaplay.fluxxan.StateListener;
 
@@ -93,20 +92,19 @@ public class FeedComponent extends RenderableView
         mAnvilRenderListener = listener;
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        super.onWindowFocusChanged(hasWindowFocus);
+        if (hasWindowFocus) {
+            registerOnStateChange();
+        }
+        else {
+            unregisterOnStateChange();
+        }
+    }
+
     private void initialState() {
-        onStateChanged(MyApp.getFluxxan().getState()); //let's refresh the ui
-
-        addOnAttachStateChangeListener(new OnAttachStateChangeListener() {
-            @Override
-            public void onViewAttachedToWindow(View view) {
-                registerOnStateChange();
-            }
-
-            @Override
-            public void onViewDetachedFromWindow(View view) {
-                unregisterOnStateChange();
-            }
-        });
+        mGifs = MyApp.getFluxxan().getState().getGifs();
     }
 
     private void registerOnStateChange() {
@@ -114,6 +112,8 @@ public class FeedComponent extends RenderableView
 
         mIsRegisteredOnStateChange = true;
         MyApp.getFluxxan().addListener(this);
+
+        onStateChanged(MyApp.getFluxxan().getState()); //let's refresh the ui
     }
 
     private void unregisterOnStateChange() {

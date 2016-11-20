@@ -3,7 +3,6 @@ package br.com.catbag.gifreduxsample.ui.components;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.umaplay.fluxxan.StateListener;
 
@@ -106,21 +105,20 @@ public class GifComponent extends RenderableView
         mAnvilRenderListener = listener;
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        super.onWindowFocusChanged(hasWindowFocus);
+        if (hasWindowFocus) {
+            registerOnStateChange();
+        }
+        else {
+            unregisterOnStateChange();
+        }
+    }
+
     private void initialState() {
         mGif = ImmutableGif.builder().url("").path("").title("").uuid("")
                 .build();
-
-        addOnAttachStateChangeListener(new OnAttachStateChangeListener() {
-            @Override
-            public void onViewAttachedToWindow(View view) {
-                registerOnStateChange();
-            }
-
-            @Override
-            public void onViewDetachedFromWindow(View view) {
-                unregisterOnStateChange();
-            }
-        });
     }
 
     private void registerOnStateChange() {
