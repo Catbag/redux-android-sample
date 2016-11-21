@@ -12,7 +12,6 @@ import java.util.Map;
 import br.com.catbag.gifreduxsample.actions.PayloadParams;
 import br.com.catbag.gifreduxsample.asyncs.data.DataManager;
 import br.com.catbag.gifreduxsample.asyncs.net.downloader.FileDownloader;
-import br.com.catbag.gifreduxsample.helpers.AppStateHelper;
 import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
 
@@ -64,7 +63,7 @@ public class RestMiddleware extends BaseMiddleware<AppState> {
     }
 
     private void downloadGif(AppState appState, Action action) {
-        Gif gif = AppStateHelper.getGifStateByUuid(action.Payload.toString(), appState);
+        Gif gif = appState.getGifs().get(action.Payload.toString());
         String pathToSave = mContext.getExternalFilesDir(null) + File.separator
                 + gif.getUuid() + ".gif";
 

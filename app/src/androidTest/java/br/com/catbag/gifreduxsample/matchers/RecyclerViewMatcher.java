@@ -53,8 +53,7 @@ public class RecyclerViewMatcher {
                             = (RecyclerView) view.getRootView().findViewById(mRecyclerViewId);
                     if (recyclerView != null && recyclerView.getId() == mRecyclerViewId) {
                         mChildView = recyclerView.getChildAt(position);
-                    }
-                    else {
+                    } else {
                         return false;
                     }
                 }

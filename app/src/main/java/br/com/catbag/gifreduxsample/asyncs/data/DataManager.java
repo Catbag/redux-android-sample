@@ -3,8 +3,9 @@ package br.com.catbag.gifreduxsample.asyncs.data;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import br.com.catbag.gifreduxsample.asyncs.data.storage.Database;
@@ -39,7 +40,7 @@ public class DataManager {
         call.enqueue(new Callback<RiffsyResponse>() {
             @Override
             public void onResponse(Call<RiffsyResponse> call, Response<RiffsyResponse> response) {
-                List<Gif> gifs = extractGifsFromRiffsyResponse(response);
+                Map<String, Gif> gifs = extractGifsFromRiffsyResponse(response);
 
                 sRiffsyNext = response.body().next();
                 boolean hasMore = sRiffsyNext != null;
@@ -54,9 +55,9 @@ public class DataManager {
     }
 
     @NonNull
-    private List<Gif> extractGifsFromRiffsyResponse(Response<RiffsyResponse> response) {
+    private Map<String, Gif> extractGifsFromRiffsyResponse(Response<RiffsyResponse> response) {
         List<RiffsyResult> results = response.body().results();
-        List<Gif> gifs = new ArrayList<Gif>();
+        Map<String, Gif> gifs = new LinkedHashMap<>();
         for (RiffsyResult result : results) {
             List<RiffsyMedia> riffsyMedias = result.media();
             if (riffsyMedias.size() > 0) {
@@ -64,14 +65,14 @@ public class DataManager {
                         .url(riffsyMedias.get(0).gif().url())
                         .title(result.title())
                         .uuid(UUID.randomUUID().toString()).build();
-                gifs.add(gif);
+                gifs.put(gif.getUuid(), gif);
             }
         }
         return gifs;
     }
 
     public interface GifListLoadListener {
-        void onLoaded(List<Gif> gifs, boolean hasMore);
+        void onLoaded(Map<String, Gif> gifs, boolean hasMore);
     }
 
 }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import com.umaplay.fluxxan.Fluxxan;
 import com.umaplay.fluxxan.ui.StateListenerActivity;
-import com.umaplay.fluxxan.util.ThreadUtils;
 
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.R;
@@ -30,7 +29,6 @@ public class GifListActivity extends StateListenerActivity<AppState>
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gif_list);
         bindingViews();
-        mActionCreator.loadGifs();
     }
 
     @Override
@@ -39,15 +37,21 @@ public class GifListActivity extends StateListenerActivity<AppState>
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        mActionCreator.loadGifs();
+    }
+
+    @Override
+    public boolean hasStateChanged(AppState newState, AppState oldState) {
+        return !newState.equals(oldState);
+    }
+
+    @Override
     public void onStateChanged(AppState appState) {
-        if (!appState.getGifs().isEmpty()) {
+        if (!appState.getGifs().isEmpty() && mGifProgressVisibility) {
             mGifProgressVisibility = false;
         }
-        //TODO this can be controlled by a singleton class that manage broadcasters and listeners
-        ThreadUtils.runOnMain(() -> {
-            Anvil.render();
-            if (mAnvilRenderListener != null) mAnvilRenderListener.onAnvilRendered();
-        });
     }
 
     @Override
@@ -61,6 +65,8 @@ public class GifListActivity extends StateListenerActivity<AppState>
             withId(R.id.loading, () -> {
                 visibility(mGifProgressVisibility);
             });
+
+            if (mAnvilRenderListener != null) mAnvilRenderListener.onAnvilRendered();
         });
     }
 }

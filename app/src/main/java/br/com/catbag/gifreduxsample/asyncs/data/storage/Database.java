@@ -1,7 +1,7 @@
 package br.com.catbag.gifreduxsample.asyncs.data.storage;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import br.com.catbag.gifreduxsample.models.Gif;
@@ -13,8 +13,8 @@ import br.com.catbag.gifreduxsample.models.ImmutableGif;
 
 public class Database {
 
-    public List<Gif> getAllGifs() {
-        List<Gif> gifs = new ArrayList<>();
+    public Map<String, Gif> getAllGifs() {
+        Map<String, Gif> gifs = new LinkedHashMap<>();
 
         String[] titles = {"Gif 1", "Gif 2", "Gif 3", "Gif 4", "Gif 5" };
         String[] urls = {
@@ -32,7 +32,7 @@ public class Database {
                     .title(titles[i])
                     .url(urls[i])
                     .build();
-            gifs.add(gif);
+            gifs.put(gif.getUuid(), gif);
         }
         return gifs;
     }

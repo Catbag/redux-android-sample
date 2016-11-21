@@ -1,15 +1,16 @@
 package br.com.catbag.gifreduxsample.matchers;
 
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.internal.util.Checks;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
 import br.com.catbag.gifreduxsample.R;
+import br.com.catbag.gifreduxsample.ui.components.GifComponent;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -50,17 +51,17 @@ public final class Matchers {
         };
     }
 
-    public static Matcher<View> withEqualsGifDrawable(final Drawable drawable) {
+    public static Matcher<View> withEqualsGifUuid(final String uuid) {
         return new BoundedMatcher<View, View>(View.class) {
             @Override
             public boolean matchesSafely(View view) {
-                GifImageView gifImageView = (GifImageView) view.findViewById(R.id.gif_image);
-                return gifImageView.getDrawable().equals(drawable);
+                GifComponent gifComponent = (GifComponent) ((FrameLayout) view).getChildAt(0);
+                return gifComponent.getGif().getUuid().equals(uuid);
             }
 
             @Override
             public void describeTo(Description description) {
-                description.appendText("with equals drawable");
+                description.appendText("with equals Gif UUID");
             }
         };
     }

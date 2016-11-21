@@ -14,9 +14,8 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.util.Logger;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
@@ -54,7 +53,7 @@ import static shared.TestHelper.buildGif;
 public class RestMiddlewareTest extends ReduxBaseTest {
 
     public static final boolean EXPECTED_HAS_MORE = false;
-    public static final List EXPECTED_LIST = new ArrayList<>();
+    public static final Map EXPECTED_GIFS = new LinkedHashMap<>();
 
     private Fluxxan<AppState> mFluxxan;
     private CountDownLatch mSignal;
@@ -100,7 +99,8 @@ public class RestMiddlewareTest extends ReduxBaseTest {
         assertEquals(mLastAction.Payload.getClass(), HashMap.class);
         Map params = (Map) mLastAction.Payload;
         assertEquals(params.get(PayloadParams.PARAM_HAS_MORE), EXPECTED_HAS_MORE);
-        assertEquals(((List) params.get(PayloadParams.PARAM_GIFS)).size(), EXPECTED_LIST.size());
+        Map<String, Gif> gotGifs = (Map) params.get(PayloadParams.PARAM_GIFS);
+        assertEquals(gotGifs.size(), EXPECTED_GIFS.size());
     }
 
     @Test
@@ -176,7 +176,7 @@ public class RestMiddlewareTest extends ReduxBaseTest {
                         Logger.error(e.getMessage(), e);
                     }
                 }
-                listenerCaptor.getValue().onLoaded(EXPECTED_LIST, EXPECTED_HAS_MORE);
+                listenerCaptor.getValue().onLoaded(EXPECTED_GIFS, EXPECTED_HAS_MORE);
             }).start();
             return null;
         }).when(dataManager).fetchGifs(listenerCaptor.capture());
