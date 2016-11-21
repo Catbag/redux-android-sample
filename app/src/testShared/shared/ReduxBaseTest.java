@@ -24,8 +24,7 @@ public class ReduxBaseTest {
         if (mHelper != null) {
             mHelper.getFluxxan().registerReducer(new FakeReducer());
             mHelper.activateStateListener();
-        }
-        else {
+        } else {
             informTestHelperNotInitialized();
         }
     }
@@ -35,8 +34,7 @@ public class ReduxBaseTest {
         if (mHelper != null) {
             mHelper.deactivateStateListener();
             mHelper.getFluxxan().unregisterReducer(FakeReducer.class);
-        }
-        else {
+        } else {
             informTestHelperNotInitialized();
         }
     }

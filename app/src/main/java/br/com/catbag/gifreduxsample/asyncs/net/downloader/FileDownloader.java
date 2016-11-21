@@ -45,8 +45,7 @@ public class FileDownloader {
                     }
 
                     if (successDownloadListener != null) successDownloadListener.onSuccess();
-                }
-                else if (failureDownloadListener != null) {
+                } else if (failureDownloadListener != null) {
                     failureDownloadListener.onFailure(new FileNotFoundException("Not found"));
                 }
             }

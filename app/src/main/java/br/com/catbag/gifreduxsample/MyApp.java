@@ -28,7 +28,7 @@ public class MyApp extends Application {
 
     private void initializeFluxxan() {
         AppState state = ImmutableAppState.builder().build();
-        sFluxxan = new Fluxxan(state);
+        sFluxxan = new MyFluxxan(state);
         sFluxxan.registerReducer(new AppStateReducer());
         Middleware restMiddleware = new RestMiddleware(getBaseContext(),
                 new DataManager(), new FileDownloader());

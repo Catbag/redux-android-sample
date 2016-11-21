@@ -130,6 +130,10 @@
                                            PLUS, QUESTION, SL, SR, STAR"/>
         </module>
 
+        <!-- Checks the policy on the right curly within next word line. !-->
+        <!-- See http://checkstyle.sourceforge.net/property_types.html#rcurly !-->
+        <module name="RightCurly"/>
+
         <!-- Checks the policy on the padding of parentheses. !-->
         <!-- See http://checkstyle.sf.net/config_whitespace.html !-->
         <module name="ParenPad">

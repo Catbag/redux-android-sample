@@ -4,19 +4,12 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
-import com.umaplay.fluxxan.StateListener;
-
-import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.R;
 import br.com.catbag.gifreduxsample.actions.GifActionCreator;
 import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.models.ImmutableGif;
-import br.com.catbag.gifreduxsample.ui.AnvilRenderComponent;
-import br.com.catbag.gifreduxsample.ui.AnvilRenderListener;
 import pl.droidsonroids.gif.GifDrawable;
-import trikita.anvil.Anvil;
-import trikita.anvil.RenderableView;
 
 import static br.com.catbag.gifreduxsample.models.Gif.Status.DOWNLOADING;
 import static br.com.catbag.gifreduxsample.models.Gif.Status.DOWNLOAD_FAILED;
@@ -33,31 +26,27 @@ import static trikita.anvil.DSL.onClick;
  * Created by felipe on 26/10/16.
  */
 
-public class GifComponent extends RenderableView
-        implements StateListener<AppState>, AnvilRenderComponent {
+public class GifComponent extends RenderableComponent {
 
     private Gif mGif;
     private GifDrawable mGifDrawable;
-    private AnvilRenderListener mAnvilRenderListener;
-    private boolean mIsRegisteredOnStateChange = false;
+    private boolean mHasRequestedDownload = false;
 
     public GifComponent(Context context) {
         super(context);
-        initialState();
     }
 
     public GifComponent(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initialState();
     }
 
     public GifComponent(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initialState();
     }
 
     public GifComponent withGif(Gif gif) {
         if (gif != null) {
+            if (!gif.getUuid().equals(mGif.getUuid())) mHasRequestedDownload = false;
             mGif = gif;
         }
         return this;
@@ -85,7 +74,7 @@ public class GifComponent extends RenderableView
                 visibility(mGif.getStatus() == DOWNLOADING);
             });
         });
-        if (mAnvilRenderListener != null) mAnvilRenderListener.onAnvilRendered();
+        onAnvilRendered();
     }
 
     @Override
@@ -97,40 +86,17 @@ public class GifComponent extends RenderableView
     @Override
     public void onStateChanged(AppState appState) {
         withGif(appState.getGifs().get(mGif.getUuid()));
-        Anvil.render();
-    }
 
-    @Override
-    public void setAnvilRenderListener(AnvilRenderListener listener) {
-        mAnvilRenderListener = listener;
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasWindowFocus) {
-        super.onWindowFocusChanged(hasWindowFocus);
-        if (hasWindowFocus) {
-            registerOnStateChange();
-        }
-        else {
-            unregisterOnStateChange();
+        if (mGif.getStatus() == DOWNLOAD_FAILED) {
+            mHasRequestedDownload = false;
         }
     }
 
-    private void initialState() {
+    @Override
+    protected void initialState() {
+        super.initialState();
         mGif = ImmutableGif.builder().url("").path("").title("").uuid("")
                 .build();
-    }
-
-    private void registerOnStateChange() {
-        if (mIsRegisteredOnStateChange) return;
-
-        mIsRegisteredOnStateChange = true;
-        MyApp.getFluxxan().addListener(this);
-    }
-
-    private void unregisterOnStateChange() {
-        mIsRegisteredOnStateChange = false;
-        MyApp.getFluxxan().removeListener(this);
     }
 
     private void setBackground() {
@@ -147,7 +113,8 @@ public class GifComponent extends RenderableView
     }
 
     private void requestContent() {
-        if (mGif.getStatus() == NOT_DOWNLOADED) {
+        if (mGif.getStatus() == NOT_DOWNLOADED && !mHasRequestedDownload) {
+            mHasRequestedDownload = true;
             GifActionCreator.getInstance().gifDownloadStart(mGif);
         }
     }

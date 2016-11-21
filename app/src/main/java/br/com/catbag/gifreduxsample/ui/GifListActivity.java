@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import com.umaplay.fluxxan.Fluxxan;
 import com.umaplay.fluxxan.ui.StateListenerActivity;
-import com.umaplay.fluxxan.util.ThreadUtils;
 
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.R;
@@ -52,15 +51,7 @@ public class GifListActivity extends StateListenerActivity<AppState>
     public void onStateChanged(AppState appState) {
         if (!appState.getGifs().isEmpty() && mGifProgressVisibility) {
             mGifProgressVisibility = false;
-            anvilRender();
         }
-    }
-
-    private void anvilRender() {
-        ThreadUtils.runOnMain(() -> {
-            Anvil.render();
-            if (mAnvilRenderListener != null) mAnvilRenderListener.onAnvilRendered();
-        });
     }
 
     @Override
@@ -74,6 +65,8 @@ public class GifListActivity extends StateListenerActivity<AppState>
             withId(R.id.loading, () -> {
                 visibility(mGifProgressVisibility);
             });
+
+            if (mAnvilRenderListener != null) mAnvilRenderListener.onAnvilRendered();
         });
     }
 }

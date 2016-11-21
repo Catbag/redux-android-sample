@@ -5,8 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.umaplay.fluxxan.StateListener;
-
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -14,11 +12,8 @@ import java.util.Map;
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
-import br.com.catbag.gifreduxsample.ui.AnvilRenderComponent;
-import br.com.catbag.gifreduxsample.ui.AnvilRenderListener;
 import pl.droidsonroids.gif.GifDrawable;
 import trikita.anvil.Anvil;
-import trikita.anvil.RenderableView;
 import trikita.anvil.recyclerview.Recycler;
 
 import static br.com.catbag.gifreduxsample.models.Gif.Status.DOWNLOADING;
@@ -30,29 +25,23 @@ import static trikita.anvil.BaseDSL.v;
 /**
  * Created by niltonvasques on 10/26/16.
  */
-public class FeedComponent extends RenderableView
-        implements StateListener<AppState>, AnvilRenderComponent {
+public class FeedComponent extends RenderableComponent {
 
     private Map<String, Gif> mGifs;
     private DrawableCache mDrawables = new DrawableCache();
     private LinearLayoutManager mLayoutManager;
-    private AnvilRenderListener mAnvilRenderListener;
-    private boolean mIsRegisteredOnStateChange = false;
     private GifsAdapter mGifsAdapter;
 
     public FeedComponent(Context context) {
         super(context);
-        initialState();
     }
 
     public FeedComponent(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initialState();
     }
 
     public FeedComponent(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initialState();
     }
 
     @Override
@@ -62,18 +51,21 @@ public class FeedComponent extends RenderableView
                 mLayoutManager = new LinearLayoutManager(getContext(),
                         LinearLayoutManager.VERTICAL, false);
             }
-            Recycler.layoutManager(mLayoutManager);
-            Recycler.hasFixedSize(true);
             if (mGifsAdapter == null) {
                 mGifsAdapter = gifsAdapter(mGifs, (gif) -> renderGifView(gif));
-                Recycler.adapter(mGifsAdapter);
             }
-            else if (!mGifs.equals(mGifsAdapter.getGifs())) {
+
+            Recycler.layoutManager(mLayoutManager);
+            Recycler.adapter(mGifsAdapter);
+            Recycler.hasFixedSize(true);
+
+            if (!mGifs.equals(mGifsAdapter.getGifs())) {
                 mGifsAdapter.setGifs(mGifs);
                 mGifsAdapter.notifyDataSetChanged();
             }
         });
-        if (mAnvilRenderListener != null) mAnvilRenderListener.onAnvilRendered();
+
+        onAnvilRendered();
     }
 
     @Override
@@ -84,41 +76,12 @@ public class FeedComponent extends RenderableView
     @Override
     public void onStateChanged(AppState appState) {
         mGifs = appState.getGifs();
-        Anvil.render();
     }
 
     @Override
-    public void setAnvilRenderListener(AnvilRenderListener listener) {
-        mAnvilRenderListener = listener;
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasWindowFocus) {
-        super.onWindowFocusChanged(hasWindowFocus);
-        if (hasWindowFocus) {
-            registerOnStateChange();
-        }
-        else {
-            unregisterOnStateChange();
-        }
-    }
-
-    private void initialState() {
+    protected void initialState() {
+        super.initialState();
         mGifs = MyApp.getFluxxan().getState().getGifs();
-    }
-
-    private void registerOnStateChange() {
-        if (mIsRegisteredOnStateChange) return;
-
-        mIsRegisteredOnStateChange = true;
-        MyApp.getFluxxan().addListener(this);
-
-        onStateChanged(MyApp.getFluxxan().getState()); //let's refresh the ui
-    }
-
-    private void unregisterOnStateChange() {
-        mIsRegisteredOnStateChange = false;
-        MyApp.getFluxxan().removeListener(this);
     }
 
     private void renderGifView(Gif gif) {
@@ -127,7 +90,7 @@ public class FeedComponent extends RenderableView
                     .withGifDrawable(createDrawable(gif))
                     .withGif(gif);
         });
-        if (mAnvilRenderListener != null) mAnvilRenderListener.onAnvilRendered();
+        onAnvilRendered();
     }
 
     private GifDrawable createDrawable(Gif gif) {

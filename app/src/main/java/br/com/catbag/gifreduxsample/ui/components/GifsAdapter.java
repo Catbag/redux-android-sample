@@ -2,8 +2,6 @@ package br.com.catbag.gifreduxsample.ui.components;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.google.common.collect.ImmutableMap;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +34,7 @@ public final class GifsAdapter extends RenderableRecyclerViewAdapter {
     }
 
     public void setGifs(Map<String, Gif> gifs) {
-        mGifs = ImmutableMap.copyOf(gifs);
+        mGifs = gifs;
         mUuids = Arrays.asList(mGifs.keySet().toArray());
     }
 
@@ -49,7 +47,7 @@ public final class GifsAdapter extends RenderableRecyclerViewAdapter {
     }
 
     public int getItemViewType(int pos) {
-        Object item = mGifs.get(pos);
+        Object item = mGifs.get(mUuids.get(pos));
         return item == null ? 0 : item.getClass().hashCode();
     }
 
