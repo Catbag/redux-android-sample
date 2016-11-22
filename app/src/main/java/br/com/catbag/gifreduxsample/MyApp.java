@@ -20,18 +20,12 @@ import br.com.catbag.gifreduxsample.reducers.AppStateReducer;
 public class MyApp extends Application {
 
     private static Fluxxan<AppState> sFluxxan = null;
-    private DataManager mDataManager = null;
     private PersistenceMiddleware mPersistenceMiddleware = null;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        initializeDataManager();
         initializeFluxxan();
-    }
-
-    private void initializeDataManager() {
-        mDataManager = new DataManager(getBaseContext());
     }
 
     private void initializeFluxxan() {
@@ -39,11 +33,12 @@ public class MyApp extends Application {
         sFluxxan = new MyFluxxan(state);
         sFluxxan.registerReducer(new AppStateReducer());
 
-        Middleware restMiddleware = new RestMiddleware(getBaseContext(), mDataManager,
-                new FileDownloader());
+        DataManager dm = new DataManager(getBaseContext());
+
+        Middleware restMiddleware = new RestMiddleware(getBaseContext(), dm, new FileDownloader());
         sFluxxan.getDispatcher().registerMiddleware(restMiddleware);
 
-        mPersistenceMiddleware = new PersistenceMiddleware(mDataManager);
+        mPersistenceMiddleware = new PersistenceMiddleware(dm);
         sFluxxan.getDispatcher().registerMiddleware(mPersistenceMiddleware);
         sFluxxan.addListener(mPersistenceMiddleware);
         sFluxxan.start();

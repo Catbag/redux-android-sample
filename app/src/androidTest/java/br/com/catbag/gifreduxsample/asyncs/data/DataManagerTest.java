@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
@@ -134,7 +135,7 @@ public class DataManagerTest {
     }
 
     private Map<String, Gif> buildGifs(int amount) {
-        Map<String, Gif> gifs = new HashMap<>();
+        Map<String, Gif> gifs = new LinkedHashMap<>();
         for (int i = 0; i < amount; i++) {
             Gif gif = buildGif(i);
             gifs.put(gif.getUuid(), gif);
