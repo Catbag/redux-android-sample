@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="5.9">
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/androidTest/java/br/com/catbag/gifreduxsample/asyncs/data/DataManagerTest.java">
+<error line="19" column="8" severity="error" message="Unused import - java.util.HashMap." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+</file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/androidTest/java/br/com/catbag/gifreduxsample/lockers/AnvilTestLocker.java">
 </file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/androidTest/java/br/com/catbag/gifreduxsample/matchers/Matchers.java">
@@ -15,6 +18,8 @@
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/MyDispatcherImpl.java">
 </file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/MyFluxxan.java">
+</file>
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/actions/AppStateActionCreator.java">
 </file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/actions/GifActionCreator.java">
 </file>
@@ -39,6 +44,8 @@
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/net/rest/riffsy/model/RiffsyResponse.java">
 </file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/net/rest/riffsy/model/RiffsyResult.java">
+</file>
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/middlewares/PersistenceMiddleware.java">
 </file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/middlewares/RestMiddleware.java">
 </file>
@@ -77,6 +84,12 @@
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/test/java/br/com/catbag/gifreduxsample/reducers/middlewares/RestMiddlewareTest.java">
 </file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/test/java/br/com/catbag/gifreduxsample/reducers/mocks/ServerMockTestBase.java">
+</file>
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/test/java/br/com/catbag/gifreduxsample/reducers/models/AppStateTest.java">
+</file>
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/test/java/br/com/catbag/gifreduxsample/reducers/models/GifTest.java">
+</file>
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/test/java/br/com/catbag/gifreduxsample/reducers/reducers/AppStateReducerTest.java">
 </file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/test/java/br/com/catbag/gifreduxsample/reducers/reducers/GifListReducerTest.java">
 </file>

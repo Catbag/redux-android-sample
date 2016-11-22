@@ -22,19 +22,19 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">11</div>
+<div class="counter">3</div>
 <p>tests</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">0</div>
+<div class="counter">3</div>
 <p>failures</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">44.171s</div>
+<div class="counter">1m8.38s</div>
 <p>duration</p>
 </div>
 </td>
@@ -43,8 +43,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox success" id="successRate">
-<div class="percent">100%</div>
+<div class="infoBox failures" id="successRate">
+<div class="percent">0%</div>
 <p>successful</p>
 </div>
 </td>
@@ -54,10 +54,75 @@
 <div id="tabs">
 <ul class="tabLinks">
 <li>
-<a href="#tab0">Tests</a>
+<a href="#tab0">Failed tests</a>
+</li>
+<li>
+<a href="#tab1">Tests</a>
 </li>
 </ul>
 <div id="tab0" class="tab">
+<h2>Failed tests</h2>
+<div class="test">
+<a name="whenGifIsDownloadingTest"></a>
+<h3 class="failures">whenGifIsDownloadingTest</h3>
+<span class="code">
+<pre>Test failed to run to completion. Reason: 'Instrumentation run failed due to 'Process crashed.''. Check device logcat for details</pre>
+</span>
+</div>
+<div class="test">
+<a name="whenGifIsNotWatchedTest"></a>
+<h3 class="failures">whenGifIsNotWatchedTest</h3>
+<span class="code">
+<pre>java.lang.RuntimeException: Waited for the root of the view hierarchy to have window focus and not be requesting layout for over 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus. Otherwise, something is seriously wrong. Selected Root:
+Root{application-window-token=android.view.ViewRootImpl$W@ca484a, window-token=android.view.ViewRootImpl$W@ca484a, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
+. All Roots:
+Root{application-window-token=android.view.ViewRootImpl$W@ca484a, window-token=android.view.ViewRootImpl$W@ca484a, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
+at android.support.test.espresso.base.RootViewPicker.get(RootViewPicker.java:99)
+at android.support.test.espresso.ViewInteractionModule.provideRootView(ViewInteractionModule.java:69)
+at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:23)
+at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:9)
+at android.support.test.espresso.base.ViewFinderImpl.getView(ViewFinderImpl.java:68)
+at android.support.test.espresso.ViewInteraction$2.run(ViewInteraction.java:166)
+at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:428)
+at java.util.concurrent.FutureTask.run(FutureTask.java:237)
+at android.os.Handler.handleCallback(Handler.java:751)
+at android.os.Handler.dispatchMessage(Handler.java:95)
+at android.os.Looper.loop(Looper.java:154)
+at android.app.ActivityThread.main(ActivityThread.java:6077)
+at java.lang.reflect.Method.invoke(Native Method)
+at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:865)
+at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="whenScrollDownAndPlayLastItemTest"></a>
+<h3 class="failures">whenScrollDownAndPlayLastItemTest</h3>
+<span class="code">
+<pre>java.lang.RuntimeException: Waited for the root of the view hierarchy to have window focus and not be requesting layout for over 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus. Otherwise, something is seriously wrong. Selected Root:
+Root{application-window-token=android.view.ViewRootImpl$W@75377cf, window-token=android.view.ViewRootImpl$W@75377cf, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
+. All Roots:
+Root{application-window-token=android.view.ViewRootImpl$W@75377cf, window-token=android.view.ViewRootImpl$W@75377cf, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
+at android.support.test.espresso.base.RootViewPicker.get(RootViewPicker.java:99)
+at android.support.test.espresso.ViewInteractionModule.provideRootView(ViewInteractionModule.java:69)
+at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:23)
+at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:9)
+at android.support.test.espresso.base.ViewFinderImpl.getView(ViewFinderImpl.java:68)
+at android.support.test.espresso.ViewInteraction$1.run(ViewInteraction.java:120)
+at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:428)
+at java.util.concurrent.FutureTask.run(FutureTask.java:237)
+at android.os.Handler.handleCallback(Handler.java:751)
+at android.os.Handler.dispatchMessage(Handler.java:95)
+at android.os.Looper.loop(Looper.java:154)
+at android.app.ActivityThread.main(ActivityThread.java:6077)
+at java.lang.reflect.Method.invoke(Native Method)
+at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:865)
+at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
+</pre>
+</span>
+</div>
+</div>
+<div id="tab1" class="tab">
 <h2>Tests</h2>
 <table>
 <thead>
@@ -67,55 +132,23 @@
 </tr>
 </thead>
 <tr>
-<td>whenGifDownloadFailTest</td>
-<td class="success">passed (0.735s)</td>
-</tr>
-<tr>
-<td>whenGifIsDownloadedTest</td>
-<td class="success">passed (1.414s)</td>
-</tr>
-<tr>
 <td>whenGifIsDownloadingTest</td>
-<td class="success">passed (1.049s)</td>
+<td class="failures">failed (3.129s)</td>
 </tr>
 <tr>
 <td>whenGifIsNotWatchedTest</td>
-<td class="success">passed (1.662s)</td>
-</tr>
-<tr>
-<td>whenGifIsWatchedTest</td>
-<td class="success">passed (1.436s)</td>
-</tr>
-<tr>
-<td>whenListKeepOrderedAfterPlayTest</td>
-<td class="success">passed (22.977s)</td>
-</tr>
-<tr>
-<td>whenLoadMultipleGifsOnAppStateTest</td>
-<td class="success">passed (3.511s)</td>
-</tr>
-<tr>
-<td>whenPauseGifTest</td>
-<td class="success">passed (1.739s)</td>
-</tr>
-<tr>
-<td>whenPlayGifTest</td>
-<td class="success">passed (1.919s)</td>
+<td class="failures">failed (31.531s)</td>
 </tr>
 <tr>
 <td>whenScrollDownAndPlayLastItemTest</td>
-<td class="success">passed (5.151s)</td>
-</tr>
-<tr>
-<td>whenScrollUpAndPlayFirstItemTest</td>
-<td class="success">passed (2.578s)</td>
+<td class="failures">failed (33.724s)</td>
 </tr>
 </table>
 </div>
 </div>
 <div id="footer">
 <p>Generated by 
-<a href="http://www.gradle.org">Gradle 2.14.1</a> at Nov 22, 2016 3:37:37 PM</p>
+<a href="http://www.gradle.org">Gradle 2.14.1</a> at Nov 22, 2016 4:53:18 PM</p>
 </div>
 </div>
 </body>
