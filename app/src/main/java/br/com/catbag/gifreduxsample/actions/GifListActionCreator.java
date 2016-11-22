@@ -3,9 +3,6 @@ package br.com.catbag.gifreduxsample.actions;
 import com.umaplay.fluxxan.Action;
 import com.umaplay.fluxxan.impl.BaseActionCreator;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import br.com.catbag.gifreduxsample.MyApp;
 
 /**
@@ -15,6 +12,8 @@ import br.com.catbag.gifreduxsample.MyApp;
 public final class GifListActionCreator extends BaseActionCreator {
 
     public static final String GIF_LIST_UPDATED = "GIF_LIST_UPDATED";
+    public static final String GIF_LIST_FETCHING = "GIF_LIST_FETCHING";
+
     private static GifListActionCreator sInstance;
 
     private GifListActionCreator() {
@@ -29,14 +28,6 @@ public final class GifListActionCreator extends BaseActionCreator {
     }
 
     public void loadGifs() {
-        if (MyApp.getFluxxan().getState().getHasMoreGifs()) {
-            MyApp.getDataManager().fetchGifs((gifs, hasMore) -> {
-                Map<String, Object> params = new HashMap<>();
-                params.put(PayloadParams.PARAM_GIFS, gifs);
-                params.put(PayloadParams.PARAM_HAS_MORE, hasMore);
-                dispatch(new Action(GIF_LIST_UPDATED, params));
-            });
-        }
+        dispatch(new Action(GIF_LIST_FETCHING));
     }
-
 }

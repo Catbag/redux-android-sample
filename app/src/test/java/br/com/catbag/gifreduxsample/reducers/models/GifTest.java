@@ -28,9 +28,9 @@ public class GifTest {
     }
 
     private String getDefaultJSON() {
-        return "{\"uuid\":\"1\",\"path\":\"\",\"url\":\"https://media.giphy" +
-                ".com/media/l0HlE56oAxpngfnWM/giphy.gif\",\"title\":\"Gif Default\"," +
-                "\"watched\":false,\"status\":\"DOWNLOADED\"}";
+        return "{\"uuid\":\"1\",\"path\":\"\",\"url\":\"https://media.giphy.com/media/"
+                + "l0HlE56oAxpngfnWM/giphy.gif\",\"title\":\"Gif Default\","
+                + "\"watched\":false,\"status\":\"DOWNLOADED\"}";
     }
 
     private Gif getDefaultGif() {

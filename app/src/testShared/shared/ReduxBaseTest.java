@@ -14,18 +14,17 @@ import java.util.concurrent.TimeUnit;
  */
 
 public class ReduxBaseTest {
-    protected TestHelper mHelper = null;
-
     @Rule
     public Timeout mGlobalTimeout = new Timeout(1, TimeUnit.MINUTES);
+
+    protected TestHelper mHelper = null;
 
     @Before
     public void setup() {
         if (mHelper != null) {
             mHelper.getFluxxan().registerReducer(new FakeReducer());
             mHelper.activateStateListener();
-        }
-        else {
+        } else {
             informTestHelperNotInitialized();
         }
     }
@@ -35,8 +34,7 @@ public class ReduxBaseTest {
         if (mHelper != null) {
             mHelper.deactivateStateListener();
             mHelper.getFluxxan().unregisterReducer(FakeReducer.class);
-        }
-        else {
+        } else {
             informTestHelperNotInitialized();
         }
     }

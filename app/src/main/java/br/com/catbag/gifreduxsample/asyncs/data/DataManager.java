@@ -6,15 +6,14 @@ import android.util.Log;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.snappydb.SnappydbException;
-import com.umaplay.fluxxan.StateListener;
 import com.umaplay.fluxxan.util.ThreadUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
-import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.asyncs.data.storage.Database;
 import br.com.catbag.gifreduxsample.asyncs.net.rest.retrofit.RetrofitBuilder;
 import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.api.RiffsyRoutes;
@@ -29,13 +28,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static br.com.catbag.gifreduxsample.helpers.AppStateHelper.gifListToMap;
-
 /**
  * Created by felipe on 26/10/16.
  */
 
-public class DataManager implements StateListener<AppState> {
+public class DataManager {
     private static Float sRiffsyNext = null;
     private final RiffsyRoutes mRiffsyRoutes;
 
@@ -49,30 +46,16 @@ public class DataManager implements StateListener<AppState> {
                 .createApiEndpoint(RiffsyRoutes.class, RiffsyRoutes.BASE_URL);
     }
 
-    public void start() {
-        MyApp.getFluxxan().addListener(this);
-    }
-
-    public void stop() {
-        MyApp.getFluxxan().removeListener(this);
-    }
-
-    @Override
-    public boolean hasStateChanged(AppState newState, AppState oldState) {
-        return newState != oldState;
-    }
-
-    @Override
-    public void onStateChanged(AppState appState) {
-        mNextSaveAppStateRunnable = new SaveAppStateRunnable(appState);
-        executeSaveAppStateTask();
-    }
-
     public boolean isSavingAppState() {
         return mIsSavingAppState;
     }
 
-    public void getAppState(final LoadAppStateListener listener) {
+    public void saveAppState(AppState appState) {
+        mNextSaveAppStateRunnable = new DataManager.SaveAppStateRunnable(appState);
+        executeSaveAppStateTask();
+    }
+
+    public void loadAppState(final LoadAppStateListener listener) {
         new Thread(() -> {
             try {
                 listener.onLoaded(mDatabase.getAppState());
@@ -88,7 +71,7 @@ public class DataManager implements StateListener<AppState> {
         call.enqueue(new Callback<RiffsyResponse>() {
             @Override
             public void onResponse(Call<RiffsyResponse> call, Response<RiffsyResponse> response) {
-                List<Gif> gifs = extractGifsFromRiffsyResponse(response);
+                Map<String, Gif> gifs = extractGifsFromRiffsyResponse(response);
 
                 sRiffsyNext = response.body().next();
                 boolean hasMore = sRiffsyNext != null;
@@ -118,9 +101,9 @@ public class DataManager implements StateListener<AppState> {
     }
 
     @NonNull
-    private List<Gif> extractGifsFromRiffsyResponse(Response<RiffsyResponse> response) {
+    private Map<String, Gif> extractGifsFromRiffsyResponse(Response<RiffsyResponse> response) {
         List<RiffsyResult> results = response.body().results();
-        List<Gif> gifs = new ArrayList<Gif>();
+        Map<String, Gif> gifs = new LinkedHashMap<>();
         for (RiffsyResult result : results) {
             List<RiffsyMedia> riffsyMedias = result.media();
             if (riffsyMedias.size() > 0) {
@@ -128,7 +111,7 @@ public class DataManager implements StateListener<AppState> {
                         .url(riffsyMedias.get(0).gif().url())
                         .title(result.title())
                         .uuid(UUID.randomUUID().toString()).build();
-                gifs.add(gif);
+                gifs.put(gif.getUuid(), gif);
             }
         }
         return gifs;
@@ -146,12 +129,13 @@ public class DataManager implements StateListener<AppState> {
                 "https://media.giphy.com/media/3oriNQHSU0bVcFW5sA/giphy.gif"
         };
 
-        List<Gif> gifs = new ArrayList<>();
+        Map<String, Gif> gifs = new LinkedHashMap<>();
         for (int i = 0; i < titles.length; i++) {
-            gifs.add(buildGif(uuids[i], titles[i], urls[i]));
+            Gif gif = buildGif(uuids[i], titles[i], urls[i]);
+            gifs.put(gif.getUuid(), gif);
         }
 
-        return ImmutableAppState.builder().putAllGifs(gifListToMap(gifs)).build();
+        return ImmutableAppState.builder().putAllGifs(gifs).build();
     }
 
     private Gif buildGif(String uuid, String title, String url) {
@@ -163,7 +147,7 @@ public class DataManager implements StateListener<AppState> {
     }
 
     public interface GifListLoadListener {
-        void onLoaded(List<Gif> gifs, boolean hasMore);
+        void onLoaded(Map<String, Gif> gifs, boolean hasMore);
     }
 
     private class SaveAppStateRunnable implements Runnable {

@@ -6,12 +6,11 @@ import com.umaplay.fluxxan.Action;
 import com.umaplay.fluxxan.Fluxxan;
 import com.umaplay.fluxxan.StateListener;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
-import br.com.catbag.gifreduxsample.helpers.AppStateHelper;
 import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.models.ImmutableAppState;
@@ -78,7 +77,7 @@ public class TestHelper {
     public void dispatchAction(Action action) {
         getFluxxan().getDispatcher().dispatch(action);
         // Since the dispatcher send actions in background we need wait the response arrives
-        while(!isStateChanged() || getFluxxan().getDispatcher().isDispatching()) {
+        while (!isStateChanged() || getFluxxan().getDispatcher().isDispatching()) {
             sleep(5);
         }
         setStateChanged(false);
@@ -89,9 +88,9 @@ public class TestHelper {
     }
 
     public Gif firstAppStateGif() {
-        AppState state = getFluxxan().getState();
-        if (state.getGifs().size() <= 0) return null;
-        return (Gif) state.getGifs().values().toArray()[0];
+        Map<String, Gif> gifs = getFluxxan().getState().getGifs();
+        if (gifs.size() <= 0) return null;
+        return gifs.values().iterator().next();
     }
 
     private void sleep(long ms) {
@@ -106,11 +105,11 @@ public class TestHelper {
         return ImmutableAppState.builder().putGifs(gif.getUuid(), gif).build();
     }
 
-    public static AppState buildAppState(List<Gif> gifs) {
-        return ImmutableAppState.builder().putAllGifs(AppStateHelper.gifListToMap(gifs)).build();
+    public static AppState buildAppState(Map<String, Gif> gifs) {
+        return ImmutableAppState.builder().putAllGifs(gifs).build();
     }
 
-    public static List<Gif> buildFiveGifs() {
+    public static Map<String, Gif> buildFiveGifs() {
         String[] titles = {"Gif 1", "Gif 2", "Gif 3", "Gif 4", "Gif 5" };
         String[] urls = {
                 "https://media.giphy.com/media/l0HlE56oAxpngfnWM/giphy.gif",
@@ -121,13 +120,13 @@ public class TestHelper {
                 "https://media.giphy.com/media/3oriNQHSU0bVcFW5sA/giphy.gif"
         };
 
-        List<Gif> gifs = new ArrayList<>();
+        Map<String, Gif> gifs = new LinkedHashMap<>();
         for (int i = 0; i < titles.length; i++) {
             Gif gif = ImmutableGif.builder().uuid(UUID.randomUUID().toString())
                     .title(titles[i])
                     .url(urls[i])
                     .build();
-            gifs.add(gif);
+            gifs.put(gif.getUuid(), gif);
         }
 
         return gifs;
@@ -159,7 +158,7 @@ public class TestHelper {
         return ImmutableGif.builder()
                 .uuid(DEFAULT_UUID)
                 .title("Gif")
-                .url( "https://media.giphy.com/media/l0HlE56oAxpngfnWM/giphy.gif")
+                .url("https://media.giphy.com/media/l0HlE56oAxpngfnWM/giphy.gif")
                 .status(Gif.Status.NOT_DOWNLOADED);
 
     }

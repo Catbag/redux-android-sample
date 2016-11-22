@@ -36,10 +36,11 @@ import static junit.framework.Assert.assertTrue;
 public class DataManagerTest {
 
     private static final String TAG_APP_STATE = "TAG_APP_STATE";
-    private DataManager mDataManager;
 
     @Rule
     public Timeout globalTimeout = Timeout.seconds(30);
+
+    private DataManager mDataManager;
 
     @Before
     public void setup() {
@@ -53,28 +54,28 @@ public class DataManagerTest {
     }
 
     @Test
-    public void whenAppStateChangesOnceTime() {
+    public void whenAppStateSavedOnceTime() {
         AppState newAppState = buildAppState(1);
-        mDataManager.onStateChanged(newAppState);
+        mDataManager.saveAppState(newAppState);
         assertSaveAppState(newAppState);
     }
 
     @Test
-    public void whenAppStateChangesSeveralTime() {
+    public void whenAppStateSavedSeveralTime() {
         AppState newAppState = null;
-        for (int i=0; i<20; i++) {
+        for (int i = 0; i < 20; i++) {
             newAppState = buildAppState(i);
-            mDataManager.onStateChanged(newAppState);
+            mDataManager.saveAppState(newAppState);
         }
         assertSaveAppState(newAppState);
     }
 
     @Test
-    public void whenLoadAlreadySavedAppState() throws InterruptedException {
+    public void whenSavedAppStateIsLoaded() throws InterruptedException {
         final CountDownLatch signal = new CountDownLatch(1);
         AppState appState = buildAppState();
         saveAppState(appState);
-        mDataManager.getAppState(appStateLoaded -> {
+        mDataManager.loadAppState(appStateLoaded -> {
             assertEquals(appState, appStateLoaded);
             signal.countDown();
         });
@@ -82,9 +83,9 @@ public class DataManagerTest {
     }
 
     @Test
-    public void whenLoadAlreadyUnsavedAppState() throws InterruptedException {
+    public void whenUnsavedAppStateIsLoaded() throws InterruptedException {
         final CountDownLatch signal = new CountDownLatch(1);
-        mDataManager.getAppState(appStateLoaded -> {
+        mDataManager.loadAppState(appStateLoaded -> {
             assertTrue(appStateLoaded != null);
             signal.countDown();
         });
@@ -92,7 +93,7 @@ public class DataManagerTest {
     }
 
     private void assertSaveAppState(AppState appState) {
-        while(mDataManager.isSavingAppState()) {
+        while (mDataManager.isSavingAppState()) {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
@@ -134,7 +135,7 @@ public class DataManagerTest {
 
     private Map<String, Gif> buildGifs(int amount) {
         Map<String, Gif> gifs = new HashMap<>();
-        for (int i=0; i<amount; i++) {
+        for (int i = 0; i < amount; i++) {
             Gif gif = buildGif(i);
             gifs.put(gif.getUuid(), gif);
         }
@@ -146,7 +147,7 @@ public class DataManagerTest {
                 .uuid("" + index)
                 .title("Title " + index)
                 .url("url" + index)
-                .status(Gif.Status.values()[index%Gif.Status.values().length])
+                .status(Gif.Status.values()[index % Gif.Status.values().length])
                 .build();
     }
 

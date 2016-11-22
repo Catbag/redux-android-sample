@@ -26,14 +26,19 @@ kill $LOGCAT_PID
 
 # Uploading artifacts to github pages
 git remote add upstream "https://$GITHUB_ACCESS_TOKEN@github.com/Catbag/redux-android-sample.git"
-git checkout --orphan gh-pages
-git reset HEAD -- .
-git add app/build/reports/ -f
-git add logcat.log -f
 git config --global user.name "Drone CI"
 git config --global user.email "developer@catbag.com.br"
+mv app/build/reports /tmp/
+mv logcat.log /tmp/
+git fetch upstream gh-pages
+git checkout upstream/gh-pages -m
+rm -Rf app/build/reports logcat.log
+mv /tmp/reports app/build/
+mv /tmp/logcat.log .
+git add app/build/reports/ -f
+git add logcat.log -f
 git commit -am "Publish results from test #$DRONE_BUILD_NUMBER"
-git pull -X theirs --rebase upstream gh-pages
+git checkout -b gh-pages
 git push -f upstream gh-pages
 
 # Computing build status

@@ -1,4 +1,4 @@
-package br.com.catbag.gifreduxsample.idlings;
+package br.com.catbag.gifreduxsample.lockers;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -22,7 +22,7 @@ public class AnvilTestLocker implements IdlingResource, AnvilRenderListener {
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private Runnable mForceIsIdleNow = () -> isIdleNow();
 
-    public AnvilTestLocker(AnvilRenderComponent anvilRenderComponent){
+    public AnvilTestLocker(AnvilRenderComponent anvilRenderComponent) {
         mAnvilRenderComponent = anvilRenderComponent;
         mAnvilRenderComponent.setAnvilRenderListener(this);
     }
@@ -58,7 +58,7 @@ public class AnvilTestLocker implements IdlingResource, AnvilRenderListener {
         Espresso.registerIdlingResources(this);
     }
 
-    public void unregisterIdlingResource(){
+    public void unregisterIdlingResource() {
         mHandler.removeCallbacks(mForceIsIdleNow);
         mAnvilRenderComponent.setAnvilRenderListener(null);
         Espresso.unregisterIdlingResources(this);

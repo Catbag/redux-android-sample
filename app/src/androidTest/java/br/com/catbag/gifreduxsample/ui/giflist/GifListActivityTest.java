@@ -2,7 +2,6 @@ package br.com.catbag.gifreduxsample.ui.giflist;
 
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -11,7 +10,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import org.hamcrest.Matcher;
 import org.junit.Rule;
@@ -20,13 +18,17 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.R;
 import br.com.catbag.gifreduxsample.asyncs.data.DataManager;
-import br.com.catbag.gifreduxsample.idlings.AnvilTestLocker;
+import br.com.catbag.gifreduxsample.asyncs.net.downloader.FileDownloader;
+import br.com.catbag.gifreduxsample.lockers.AnvilTestLocker;
 import br.com.catbag.gifreduxsample.matchers.RecyclerViewMatcher;
+import br.com.catbag.gifreduxsample.middlewares.RestMiddleware;
 import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.ui.GifListActivity;
 import br.com.catbag.gifreduxsample.ui.components.FeedComponent;
@@ -34,6 +36,7 @@ import br.com.catbag.gifreduxsample.ui.components.GifComponent;
 import shared.ReduxBaseTest;
 import shared.TestHelper;
 
+import static android.support.test.InstrumentationRegistry.getContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
@@ -45,7 +48,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.view.View.generateViewId;
 import static br.com.catbag.gifreduxsample.matchers.Matchers.withBGColor;
-import static br.com.catbag.gifreduxsample.matchers.Matchers.withEqualsGifDrawable;
+import static br.com.catbag.gifreduxsample.matchers.Matchers.withEqualsGifUuid;
 import static br.com.catbag.gifreduxsample.matchers.Matchers.withGifDrawable;
 import static br.com.catbag.gifreduxsample.matchers.Matchers.withPlayingGifDrawable;
 import static br.com.catbag.gifreduxsample.utils.FileUtils.createFakeGifFile;
@@ -59,23 +62,27 @@ import static shared.TestHelper.gifBuilderWithEmpty;
 @RunWith(AndroidJUnit4.class)
 public class GifListActivityTest extends ReduxBaseTest {
 
-    public GifListActivityTest() {
-        mHelper = new TestHelper(MyApp.getFluxxan());
-    }
-
     @Rule
     public ActivityTestRule<GifListActivity> mActivityTestRule
             = new ActivityTestRule<>(GifListActivity.class, false, false);
 
+    public GifListActivityTest() {
+        mHelper = new TestHelper(MyApp.getFluxxan());
+    }
+
     @Override
     public void setup() {
         super.setup();
-        MyApp.setDataManager(mock(DataManager.class));
+        RestMiddleware restMiddleware = new RestMiddleware(getContext(), mock(DataManager.class),
+                new FileDownloader());
+        replaceRestMiddleware(restMiddleware);
     }
 
     @Override
     public void cleanup() {
-        MyApp.setDataManager(new DataManager(InstrumentationRegistry.getTargetContext()));
+        RestMiddleware restMiddleware = new RestMiddleware(getContext(), new DataManager(
+                InstrumentationRegistry.getTargetContext()), new FileDownloader());
+        replaceRestMiddleware(restMiddleware);
         super.cleanup();
     }
 
@@ -128,8 +135,7 @@ public class GifListActivityTest extends ReduxBaseTest {
         int expectedColor
                 = ContextCompat.getColor(mActivityTestRule.getActivity(), R.color.notWatched);
 
-        onView(withId(R.id.gif_item))
-                .check(matches(withBGColor(expectedColor)));
+        onView(withId(R.id.gif_item)).check(matches(withBGColor(expectedColor)));
     }
 
     @Test
@@ -146,8 +152,7 @@ public class GifListActivityTest extends ReduxBaseTest {
         int expectedColor
                 = ContextCompat.getColor(mActivityTestRule.getActivity(), R.color.watched);
 
-        onView(withId(R.id.gif_item))
-                .check(matches(withBGColor(expectedColor)));
+        onView(withId(R.id.gif_item)).check(matches(withBGColor(expectedColor)));
     }
 
     @Test
@@ -168,8 +173,7 @@ public class GifListActivityTest extends ReduxBaseTest {
 
         locker.registerIdlingResource();
 
-        onView(withId(R.id.gif_image))
-                .check(matches(withPlayingGifDrawable()));
+        onView(withId(R.id.gif_image)).check(matches(withPlayingGifDrawable()));
 
         locker.unregisterIdlingResource();
     }
@@ -192,8 +196,7 @@ public class GifListActivityTest extends ReduxBaseTest {
 
         locker.registerIdlingResource();
 
-        onView(withId(R.id.gif_image))
-                .check(matches(not(withPlayingGifDrawable())));
+        onView(withId(R.id.gif_image)).check(matches(not(withPlayingGifDrawable())));
 
         locker.unregisterIdlingResource();
     }
@@ -211,8 +214,7 @@ public class GifListActivityTest extends ReduxBaseTest {
         int expectedColor
                 = ContextCompat.getColor(mActivityTestRule.getActivity(), R.color.error);
 
-        onView(withId(R.id.gif_item))
-                .check(matches(withBGColor(expectedColor)));
+        onView(withId(R.id.gif_item)).check(matches(withBGColor(expectedColor)));
     }
 
     @Test
@@ -251,16 +253,15 @@ public class GifListActivityTest extends ReduxBaseTest {
 
         AnvilTestLocker scrollLocker = new AnvilTestLocker(getFeedComponent());
 
-        int lastAdapterPos = gifListSize-1;
+        int lastAdapterPos = gifListSize - 1;
         onView(withId(getRecyclerView().getId())).perform(scrollToPosition(lastAdapterPos));
 
         espressoWaiter(scrollLocker);
 
-        int lastScreenPos = getRecyclerView().getChildCount()-1;
+        int lastScreenPos = getRecyclerView().getChildCount() - 1;
         AnvilTestLocker playLocker = new AnvilTestLocker(getGifComponent(lastScreenPos));
 
-        onView(withId(getRecyclerView().getId()))
-                .perform(actionOnItemAtPosition(lastAdapterPos, click()));
+        onView(withRecyclerPos(lastScreenPos)).perform(click());
 
         playLocker.registerIdlingResource();
 
@@ -276,22 +277,15 @@ public class GifListActivityTest extends ReduxBaseTest {
 
         mActivityTestRule.launchActivity(new Intent());
 
-        AnvilTestLocker scrollLocker = new AnvilTestLocker(getFeedComponent());
-
-        onView(withId(getRecyclerView().getId())).perform(scrollToPosition(gifListSize-1));
-
-        espressoWaiter(scrollLocker);
-
-        scrollLocker = new AnvilTestLocker(getFeedComponent());
-
-        onView(withId(getRecyclerView().getId())).perform(scrollToPosition(0));
-
-        espressoWaiter(scrollLocker);
-
         AnvilTestLocker playLocker = new AnvilTestLocker(getGifComponent(0));
 
-        onView(withId(getRecyclerView().getId()))
-                .perform(actionOnItemAtPosition(0, click()));
+        AnvilTestLocker scrollLocker = new AnvilTestLocker(getFeedComponent());
+
+        onView(withId(getRecyclerView().getId())).perform(scrollToPosition(gifListSize - 1));
+
+        espressoWaiter(scrollLocker);
+
+        onView(withId(getRecyclerView().getId())).perform(actionOnItemAtPosition(0, click()));
 
         playLocker.registerIdlingResource();
 
@@ -307,37 +301,41 @@ public class GifListActivityTest extends ReduxBaseTest {
 
         mActivityTestRule.launchActivity(new Intent());
 
-        for (int i = 0; i < gifListSize-1; i++) {
-            List<Drawable> drawablesBackup = getAllGifsDrawableOnScreen();
+        int screenPosToClick = 0;
+        for (int i = 0; i < gifListSize - 1; i++) {
+            List<String> gifsUuidBackup = getAllUuidFromGifsOnScreen();
 
-            AnvilTestLocker playLocker = new AnvilTestLocker(getGifComponent(0));
+            AnvilTestLocker playLocker = new AnvilTestLocker(getGifComponent(screenPosToClick));
 
-            onView(withId(getRecyclerView().getId()))
-                    .perform(actionOnItemAtPosition(i, click()));
+            onView(withRecyclerPos(screenPosToClick)).perform(click());
 
             playLocker.registerIdlingResource();
-            for (int j = 0; j < getRecyclerView().getChildCount(); j++) {
-                onView(withRecyclerPos(j)).check(matches(withEqualsGifDrawable(drawablesBackup.get(j))));
+            int gifsOnScreen = getRecyclerView().getChildCount();
+            for (int j = 0; j < gifsOnScreen; j++) {
+                onView(withRecyclerPos(j))
+                        .check(matches(withEqualsGifUuid(gifsUuidBackup.get(j))));
             }
             playLocker.unregisterIdlingResource();
 
-            if (i + 1 < gifListSize-1) {
+            if (i + gifsOnScreen < gifListSize - 1) {
                 AnvilTestLocker scrollLocker = new AnvilTestLocker(getFeedComponent());
 
-                onView(withId(getRecyclerView().getId())).perform(scrollToPosition(i + 1));
+                onView(withId(getRecyclerView().getId()))
+                        .perform(scrollToPosition(i + gifsOnScreen));
 
                 espressoWaiter(scrollLocker);
             }
+
+            screenPosToClick = getRecyclerView().getChildCount() - 1;
         }
     }
 
-    private List<Drawable> getAllGifsDrawableOnScreen(){
-        List<Drawable> drawables = new ArrayList<>();
+    private List<String> getAllUuidFromGifsOnScreen() {
+        List<String> uuids = new ArrayList<>();
         for (int x = 0; x < getRecyclerView().getChildCount(); x++) {
-            ImageView gifImage = (ImageView) getGifComponent(x).findViewById(R.id.gif_image);
-            drawables.add(gifImage.getDrawable());
+            uuids.add(getGifComponent(x).getGif().getUuid());
         }
-        return drawables;
+        return uuids;
     }
 
 
@@ -365,16 +363,16 @@ public class GifListActivityTest extends ReduxBaseTest {
         return mActivityTestRule.getActivity();
     }
 
-    private List<Gif> createFakeGifList(int size) {
-        List<Gif> gifs = new ArrayList<>();
+    private Map<String, Gif> createFakeGifList(int size) {
+        Map<String, Gif> gifs = new LinkedHashMap<>();
         File fakeGifFile = createFakeGifFile();
         for (int i = 0; i < size; i++) {
             Gif gif = gifBuilderWithEmpty()
-                    .title("gif"+i)
+                    .title("gif" + i)
                     .status(Gif.Status.DOWNLOADED)
                     .path(fakeGifFile.getAbsolutePath())
                     .build();
-            gifs.add(gif);
+            gifs.put(gif.getUuid(), gif);
         }
 
         return gifs;
@@ -384,5 +382,10 @@ public class GifListActivityTest extends ReduxBaseTest {
         locker.registerIdlingResource();
         onView(withText("espressoWaiter")).check(doesNotExist());
         locker.unregisterIdlingResource();
+    }
+
+    private void replaceRestMiddleware(RestMiddleware middleware) {
+        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
+        mHelper.getFluxxan().getDispatcher().registerMiddleware(middleware);
     }
 }

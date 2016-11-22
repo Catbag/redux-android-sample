@@ -12,20 +12,20 @@ import static junit.framework.Assert.assertEquals;
  */
 
 public class RiffsyMediaTest {
-  private final RiffsyGif gif = new RiffsyGif();
-  private RiffsyMedia sut = new RiffsyMedia.Builder().gif(gif).build();
+  private final RiffsyGif mGif = new RiffsyGif();
+  private RiffsyMedia mSut = new RiffsyMedia.Builder().gif(mGif).build();
 
   @Test
   public void testGetGif() {
-    assertEquals(sut.gif(), gif);
+    assertEquals(mSut.gif(), mGif);
   }
 
   @Test
   public void testSetGif() {
     final RiffsyGif expected = new RiffsyGif();
 
-    sut = sut.newBuilder().gif(expected).build();
+    mSut = mSut.newBuilder().gif(expected).build();
 
-    assertEquals(sut.gif(), expected);
+    assertEquals(mSut.gif(), expected);
   }
 }

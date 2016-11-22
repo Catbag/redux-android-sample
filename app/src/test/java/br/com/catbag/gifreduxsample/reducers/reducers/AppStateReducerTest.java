@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
  * Created by felipe on 13/11/16.
  */
 // Roboeletric still not supports API 24 stuffs
-@Config(sdk = 23, constants=BuildConfig.class)
+@Config(sdk = 23, constants = BuildConfig.class)
 @RunWith(RobolectricTestRunner.class)
 public class AppStateReducerTest extends ReduxBaseTest {
 
@@ -39,7 +39,8 @@ public class AppStateReducerTest extends ReduxBaseTest {
     @Test
     public void whenSendAppStateLoaded() {
         AppState expectedAppState = TestHelper.buildAppState(TestHelper.buildFiveGifs());
-        mHelper.dispatchAction(new Action(AppStateActionCreator.APP_STATE_LOADED, expectedAppState));
+        mHelper.dispatchAction(new Action(AppStateActionCreator.APP_STATE_LOADED,
+                expectedAppState));
         assertEquals(expectedAppState, mHelper.getFluxxan().getState());
     }
 

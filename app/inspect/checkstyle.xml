@@ -41,7 +41,7 @@
         <!-- Checks for long lines. !-->
         <module name="LineLength">
             <property name="ignorePattern" value="^$"/>
-            <property name="max" value="120"/>
+            <property name="max" value="100"/>
         </module>
 
         <!-- Checks the number of methods declared in each type. This includes the number of each scope !-->
@@ -129,6 +129,10 @@
                                            LOR, LT, MINUS, MOD, NOT_EQUAL,
                                            PLUS, QUESTION, SL, SR, STAR"/>
         </module>
+
+        <!-- Checks the policy on the right curly within next word line. !-->
+        <!-- See http://checkstyle.sourceforge.net/property_types.html#rcurly !-->
+        <module name="RightCurly"/>
 
         <!-- Checks the policy on the padding of parentheses. !-->
         <!-- See http://checkstyle.sf.net/config_whitespace.html !-->

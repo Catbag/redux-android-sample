@@ -11,7 +11,9 @@ import br.com.catbag.gifreduxsample.MyApp;
 
 public final class AppStateActionCreator extends BaseActionCreator {
 
+    public static final String APP_STATE_LOAD = "APP_STATE_LOAD";
     public static final String APP_STATE_LOADED = "APP_STATE_LOADED";
+
     private static AppStateActionCreator sInstance;
 
     private AppStateActionCreator() {
@@ -26,8 +28,7 @@ public final class AppStateActionCreator extends BaseActionCreator {
     }
 
     public void loadAppState() {
-        MyApp.getDataManager()
-                .getAppState(appState -> dispatch(new Action(APP_STATE_LOADED, appState)));
+        dispatch(new Action(APP_STATE_LOAD));
     }
 
 }
