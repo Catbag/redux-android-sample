@@ -29,8 +29,7 @@ public class MyApp extends Application {
     }
 
     private void initializeFluxxan() {
-        AppState state = ImmutableAppState.builder().build();
-        sFluxxan = new MyFluxxan(state);
+        sFluxxan = new MyFluxxan(ImmutableAppState.builder().build());
         sFluxxan.registerReducer(new AppStateReducer());
 
         DataManager dm = new DataManager(getBaseContext());
