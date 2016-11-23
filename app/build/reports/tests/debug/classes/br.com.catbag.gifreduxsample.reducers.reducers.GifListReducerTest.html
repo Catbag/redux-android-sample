@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">4.367s</div>
+<div class="counter">2.627s</div>
 <p>duration</p>
 </div>
 </td>
@@ -63,9 +63,6 @@
 <li>
 <a href="#tab0">Tests</a>
 </li>
-<li>
-<a href="#tab1">Standard error</a>
-</li>
 </ul>
 <div id="tab0" class="tab">
 <h2>Tests</h2>
@@ -79,123 +76,50 @@
 </thead>
 <tr>
 <td class="success">whenCompleteAppFlowActions</td>
-<td>0.511s</td>
+<td>0.262s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">whenSendDownloadFailureAction</td>
-<td>1.500s</td>
+<td>0.715s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">whenSendDownloadStartedAction</td>
-<td>0.264s</td>
+<td>0.249s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">whenSendDownloadSuccessAction</td>
-<td>0.312s</td>
+<td>0.246s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">whenSendLoadListAction</td>
-<td>0.321s</td>
+<td>0.283s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">whenSendLoadListWithANonEmptyListAction</td>
-<td>0.485s</td>
+<td>0.212s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">whenSendManyActions</td>
-<td>0.398s</td>
+<td>0.223s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">whenSendPauseAction</td>
-<td>0.284s</td>
+<td>0.245s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">whenSendPlayAction</td>
-<td>0.292s</td>
+<td>0.192s</td>
 <td class="success">passed</td>
 </tr>
 </table>
-</div>
-<div id="tab1" class="tab">
-<h2>Standard error</h2>
-<span class="code">
-<pre>Exception in thread &quot;Thread-18&quot; java.lang.UnsatisfiedLinkError: no snappydb-native in java.library.path
-	at java.lang.ClassLoader.loadLibrary(ClassLoader.java:1867)
-	at java.lang.Runtime.loadLibrary0(Runtime.java:870)
-	at java.lang.System.loadLibrary(System.java:1122)
-	at com.snappydb.internal.DBImpl.&lt;clinit&gt;(DBImpl.java:40)
-	at com.snappydb.DBFactory.open(DBFactory.java:40)
-	at com.snappydb.DBFactory.open(DBFactory.java:65)
-	at com.snappydb.DBFactory.open(DBFactory.java:77)
-	at br.com.catbag.gifreduxsample.asyncs.data.storage.Database.saveAppState(Database.java:35)
-	at br.com.catbag.gifreduxsample.asyncs.data.DataManager$SaveAppStateRunnable.run(DataManager.java:164)
-	at java.lang.Thread.run(Thread.java:745)
-Exception in thread &quot;Thread-20&quot; java.lang.NoClassDefFoundError: Could not initialize class com.snappydb.internal.DBImpl
-	at com.snappydb.DBFactory.open(DBFactory.java:40)
-	at com.snappydb.DBFactory.open(DBFactory.java:65)
-	at com.snappydb.DBFactory.open(DBFactory.java:77)
-	at br.com.catbag.gifreduxsample.asyncs.data.storage.Database.saveAppState(Database.java:35)
-	at br.com.catbag.gifreduxsample.asyncs.data.DataManager$SaveAppStateRunnable.run(DataManager.java:164)
-	at java.lang.Thread.run(Thread.java:745)
-Exception in thread &quot;Thread-22&quot; java.lang.NoClassDefFoundError: Could not initialize class com.snappydb.internal.DBImpl
-	at com.snappydb.DBFactory.open(DBFactory.java:40)
-	at com.snappydb.DBFactory.open(DBFactory.java:65)
-	at com.snappydb.DBFactory.open(DBFactory.java:77)
-	at br.com.catbag.gifreduxsample.asyncs.data.storage.Database.saveAppState(Database.java:35)
-	at br.com.catbag.gifreduxsample.asyncs.data.DataManager$SaveAppStateRunnable.run(DataManager.java:164)
-	at java.lang.Thread.run(Thread.java:745)
-Exception in thread &quot;Thread-24&quot; java.lang.NoClassDefFoundError: Could not initialize class com.snappydb.internal.DBImpl
-	at com.snappydb.DBFactory.open(DBFactory.java:40)
-	at com.snappydb.DBFactory.open(DBFactory.java:65)
-	at com.snappydb.DBFactory.open(DBFactory.java:77)
-	at br.com.catbag.gifreduxsample.asyncs.data.storage.Database.saveAppState(Database.java:35)
-	at br.com.catbag.gifreduxsample.asyncs.data.DataManager$SaveAppStateRunnable.run(DataManager.java:164)
-	at java.lang.Thread.run(Thread.java:745)
-Exception in thread &quot;Thread-26&quot; java.lang.NoClassDefFoundError: Could not initialize class com.snappydb.internal.DBImpl
-	at com.snappydb.DBFactory.open(DBFactory.java:40)
-	at com.snappydb.DBFactory.open(DBFactory.java:65)
-	at com.snappydb.DBFactory.open(DBFactory.java:77)
-	at br.com.catbag.gifreduxsample.asyncs.data.storage.Database.saveAppState(Database.java:35)
-	at br.com.catbag.gifreduxsample.asyncs.data.DataManager$SaveAppStateRunnable.run(DataManager.java:164)
-	at java.lang.Thread.run(Thread.java:745)
-Exception in thread &quot;Thread-28&quot; java.lang.NoClassDefFoundError: Could not initialize class com.snappydb.internal.DBImpl
-	at com.snappydb.DBFactory.open(DBFactory.java:40)
-	at com.snappydb.DBFactory.open(DBFactory.java:65)
-	at com.snappydb.DBFactory.open(DBFactory.java:77)
-	at br.com.catbag.gifreduxsample.asyncs.data.storage.Database.saveAppState(Database.java:35)
-	at br.com.catbag.gifreduxsample.asyncs.data.DataManager$SaveAppStateRunnable.run(DataManager.java:164)
-	at java.lang.Thread.run(Thread.java:745)
-Exception in thread &quot;Thread-30&quot; java.lang.NoClassDefFoundError: Could not initialize class com.snappydb.internal.DBImpl
-	at com.snappydb.DBFactory.open(DBFactory.java:40)
-	at com.snappydb.DBFactory.open(DBFactory.java:65)
-	at com.snappydb.DBFactory.open(DBFactory.java:77)
-	at br.com.catbag.gifreduxsample.asyncs.data.storage.Database.saveAppState(Database.java:35)
-	at br.com.catbag.gifreduxsample.asyncs.data.DataManager$SaveAppStateRunnable.run(DataManager.java:164)
-	at java.lang.Thread.run(Thread.java:745)
-Exception in thread &quot;Thread-32&quot; java.lang.NoClassDefFoundError: Could not initialize class com.snappydb.internal.DBImpl
-	at com.snappydb.DBFactory.open(DBFactory.java:40)
-	at com.snappydb.DBFactory.open(DBFactory.java:65)
-	at com.snappydb.DBFactory.open(DBFactory.java:77)
-	at br.com.catbag.gifreduxsample.asyncs.data.storage.Database.saveAppState(Database.java:35)
-	at br.com.catbag.gifreduxsample.asyncs.data.DataManager$SaveAppStateRunnable.run(DataManager.java:164)
-	at java.lang.Thread.run(Thread.java:745)
-Exception in thread &quot;Thread-34&quot; java.lang.NoClassDefFoundError: Could not initialize class com.snappydb.internal.DBImpl
-	at com.snappydb.DBFactory.open(DBFactory.java:40)
-	at com.snappydb.DBFactory.open(DBFactory.java:65)
-	at com.snappydb.DBFactory.open(DBFactory.java:77)
-	at br.com.catbag.gifreduxsample.asyncs.data.storage.Database.saveAppState(Database.java:35)
-	at br.com.catbag.gifreduxsample.asyncs.data.DataManager$SaveAppStateRunnable.run(DataManager.java:164)
-	at java.lang.Thread.run(Thread.java:745)
-</pre>
-</span>
 </div>
 </div>
 <div id="footer">
@@ -205,7 +129,7 @@ Exception in thread &quot;Thread-34&quot; java.lang.NoClassDefFoundError: Could 
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 2.14.1</a> at Nov 23, 2016 1:46:54 PM</p>
+<a href="http://www.gradle.org">Gradle 2.14.1</a> at Nov 23, 2016 2:14:53 PM</p>
 </div>
 </div>
 </body>
