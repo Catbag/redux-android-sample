@@ -2,7 +2,6 @@ package br.com.catbag.gifreduxsample.ui.giflist;
 
 
 import android.content.Intent;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -28,6 +27,7 @@ import br.com.catbag.gifreduxsample.asyncs.data.DataManager;
 import br.com.catbag.gifreduxsample.asyncs.net.downloader.FileDownloader;
 import br.com.catbag.gifreduxsample.lockers.AnvilTestLocker;
 import br.com.catbag.gifreduxsample.matchers.RecyclerViewMatcher;
+import br.com.catbag.gifreduxsample.middlewares.PersistenceMiddleware;
 import br.com.catbag.gifreduxsample.middlewares.RestMiddleware;
 import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.ui.GifListActivity;
@@ -73,16 +73,12 @@ public class GifListActivityTest extends ReduxBaseTest {
     @Override
     public void setup() {
         super.setup();
-        RestMiddleware restMiddleware = new RestMiddleware(getContext(), mock(DataManager.class),
-                new FileDownloader());
-        replaceRestMiddleware(restMiddleware);
+        replaceMiddlewares(mock(DataManager.class));
     }
 
     @Override
     public void cleanup() {
-        RestMiddleware restMiddleware = new RestMiddleware(getContext(), new DataManager(
-                InstrumentationRegistry.getTargetContext()), new FileDownloader());
-        replaceRestMiddleware(restMiddleware);
+        replaceMiddlewares(new DataManager(getContext()));
         super.cleanup();
     }
 
@@ -384,8 +380,13 @@ public class GifListActivityTest extends ReduxBaseTest {
         locker.unregisterIdlingResource();
     }
 
-    private void replaceRestMiddleware(RestMiddleware middleware) {
+    private void replaceMiddlewares(DataManager dm) {
+        RestMiddleware restMiddleware = new RestMiddleware(getContext(), dm, new FileDownloader());
         mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
-        mHelper.getFluxxan().getDispatcher().registerMiddleware(middleware);
+        mHelper.getFluxxan().getDispatcher().registerMiddleware(restMiddleware);
+
+        PersistenceMiddleware persistenceMiddleware = new PersistenceMiddleware(dm);
+        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(PersistenceMiddleware.class);
+        mHelper.getFluxxan().getDispatcher().registerMiddleware(persistenceMiddleware);
     }
 }
