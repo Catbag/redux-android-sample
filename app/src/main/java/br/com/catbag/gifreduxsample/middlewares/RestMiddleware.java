@@ -28,7 +28,7 @@ import static br.com.catbag.gifreduxsample.actions.GifListActionCreator.GIF_LIST
 public class RestMiddleware extends BaseMiddleware<AppState> {
     private final Context mContext;
     private final FileDownloader mFileDownloader;
-    private DataManager mDataManager = new DataManager();
+    private DataManager mDataManager;
 
     public RestMiddleware(Context context, DataManager dataManager, FileDownloader fileDownloader) {
         super();
