@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="5.9">
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/androidTest/java/br/com/catbag/gifreduxsample/asyncs/data/DataManagerTest.java">
-<error line="19" column="8" severity="error" message="Unused import - java.util.HashMap." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
 </file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/androidTest/java/br/com/catbag/gifreduxsample/lockers/AnvilTestLocker.java">
 </file>
