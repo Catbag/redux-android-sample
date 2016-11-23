@@ -11,6 +11,8 @@ import org.robolectric.annotation.Config;
 import br.com.catbag.gifreduxsample.BuildConfig;
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.actions.AppStateActionCreator;
+import br.com.catbag.gifreduxsample.middlewares.PersistenceMiddleware;
+import br.com.catbag.gifreduxsample.middlewares.RestMiddleware;
 import br.com.catbag.gifreduxsample.models.AppState;
 import shared.ReduxBaseTest;
 import shared.TestHelper;
@@ -28,6 +30,10 @@ public class AppStateReducerTest extends ReduxBaseTest {
 
     public AppStateReducerTest() {
         mHelper = new TestHelper(((MyApp) RuntimeEnvironment.application).getFluxxan());
+        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
+        PersistenceMiddleware persistenceMiddleware = (PersistenceMiddleware) mHelper.getFluxxan()
+                .getDispatcher().unregisterMiddleware(PersistenceMiddleware.class);
+        mHelper.getFluxxan().removeListener(persistenceMiddleware);
     }
 
     @Test

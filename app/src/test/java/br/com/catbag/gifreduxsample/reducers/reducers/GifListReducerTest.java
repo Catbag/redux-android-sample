@@ -18,6 +18,7 @@ import br.com.catbag.gifreduxsample.BuildConfig;
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.actions.GifListActionCreator;
 import br.com.catbag.gifreduxsample.actions.PayloadParams;
+import br.com.catbag.gifreduxsample.middlewares.PersistenceMiddleware;
 import br.com.catbag.gifreduxsample.middlewares.RestMiddleware;
 import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
@@ -48,6 +49,9 @@ public class GifListReducerTest extends ReduxBaseTest {
     public GifListReducerTest() {
         mHelper = new TestHelper(((MyApp) RuntimeEnvironment.application).getFluxxan());
         mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
+        PersistenceMiddleware persistenceMiddleware = (PersistenceMiddleware) mHelper.getFluxxan()
+                .getDispatcher().unregisterMiddleware(PersistenceMiddleware.class);
+        mHelper.getFluxxan().removeListener(persistenceMiddleware);
     }
 
     @Test
