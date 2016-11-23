@@ -381,12 +381,20 @@ public class GifListActivityTest extends ReduxBaseTest {
     }
 
     private void replaceMiddlewares(DataManager dm) {
+        clearMiddlewares();
+
         RestMiddleware restMiddleware = new RestMiddleware(getContext(), dm, new FileDownloader());
-        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
         mHelper.getFluxxan().getDispatcher().registerMiddleware(restMiddleware);
 
         PersistenceMiddleware persistenceMiddleware = new PersistenceMiddleware(dm);
-        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(PersistenceMiddleware.class);
         mHelper.getFluxxan().getDispatcher().registerMiddleware(persistenceMiddleware);
+        mHelper.getFluxxan().addListener(persistenceMiddleware);
+    }
+
+    private void clearMiddlewares() {
+        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
+        PersistenceMiddleware persistenceMiddleware = (PersistenceMiddleware) mHelper.getFluxxan()
+                .getDispatcher().unregisterMiddleware(PersistenceMiddleware.class);
+        mHelper.getFluxxan().getDispatcher().removeListener(persistenceMiddleware);
     }
 }
