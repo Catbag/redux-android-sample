@@ -5,8 +5,8 @@ import android.os.Looper;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingResource;
 
-import br.com.catbag.gifreduxsample.ui.AnvilRenderComponent;
 import br.com.catbag.gifreduxsample.ui.AnvilRenderListener;
+import br.com.catbag.gifreduxsample.ui.AnvilRenderable;
 
 /**
  * Created by niltonvasques on 10/24/16.
@@ -15,16 +15,16 @@ import br.com.catbag.gifreduxsample.ui.AnvilRenderListener;
 public class AnvilTestLocker implements IdlingResource, AnvilRenderListener {
 
     private static final int FORCE_IS_IDLE_NOW_DELAY = 250;
-    private AnvilRenderComponent mAnvilRenderComponent;
+    private AnvilRenderable mAnvilRenderable;
     private ResourceCallback mResourceCallback;
     private int mRenderTimes = 0;
     private int mLastRenderTimes = 0;
     private Handler mHandler = new Handler(Looper.getMainLooper());
-    private Runnable mForceIsIdleNow = () -> isIdleNow();
+    private Runnable mForceIsIdleNow = this::isIdleNow;
 
-    public AnvilTestLocker(AnvilRenderComponent anvilRenderComponent) {
-        mAnvilRenderComponent = anvilRenderComponent;
-        mAnvilRenderComponent.setAnvilRenderListener(this);
+    public AnvilTestLocker(AnvilRenderable anvilRenderable) {
+        mAnvilRenderable = anvilRenderable;
+        mAnvilRenderable.setAnvilRenderListener(this);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class AnvilTestLocker implements IdlingResource, AnvilRenderListener {
 
     public void unregisterIdlingResource() {
         mHandler.removeCallbacks(mForceIsIdleNow);
-        mAnvilRenderComponent.setAnvilRenderListener(null);
+        mAnvilRenderable.setAnvilRenderListener(null);
         Espresso.unregisterIdlingResources(this);
     }
 

@@ -11,7 +11,7 @@ import br.com.catbag.gifreduxsample.models.AppState;
  * Created by raulcca on 11/21/16.
  */
 
-public class MyFluxxan extends Fluxxan<AppState> {
+class MyFluxxan extends Fluxxan<AppState> {
     /**
      * Create a new instance
      *

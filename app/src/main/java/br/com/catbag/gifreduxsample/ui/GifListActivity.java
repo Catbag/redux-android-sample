@@ -15,7 +15,7 @@ import static trikita.anvil.BaseDSL.withId;
 import static trikita.anvil.DSL.visibility;
 
 public class GifListActivity extends StateListenerActivity<AppState>
-        implements AnvilRenderComponent {
+        implements AnvilRenderable {
 
     //Binding Data
     private boolean mGifProgressVisibility = true;
@@ -59,9 +59,7 @@ public class GifListActivity extends StateListenerActivity<AppState>
     private void bindingViews() {
         //Bindings Defaults
         Anvil.mount(findViewById(R.id.activity_gif_list), () -> {
-            withId(R.id.loading, () -> {
-                visibility(mGifProgressVisibility);
-            });
+            withId(R.id.loading, () -> visibility(mGifProgressVisibility));
 
             if (mAnvilRenderListener != null) mAnvilRenderListener.onAnvilRendered();
         });

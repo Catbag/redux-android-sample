@@ -10,7 +10,7 @@ import br.com.catbag.gifreduxsample.models.ImmutableGif;
  * Created by niltonvasques on 10/12/16.
  */
 
-public final class GifInnerReducer {
+final class GifInnerReducer {
     private GifInnerReducer() {
     }
 

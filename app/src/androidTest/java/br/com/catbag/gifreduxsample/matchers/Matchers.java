@@ -10,7 +10,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
 import br.com.catbag.gifreduxsample.R;
-import br.com.catbag.gifreduxsample.ui.components.GifComponent;
+import br.com.catbag.gifreduxsample.ui.components.GifView;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -55,8 +55,8 @@ public final class Matchers {
         return new BoundedMatcher<View, View>(View.class) {
             @Override
             public boolean matchesSafely(View view) {
-                GifComponent gifComponent = (GifComponent) ((FrameLayout) view).getChildAt(0);
-                return gifComponent.getGif().getUuid().equals(uuid);
+                GifView gifView = (GifView) ((FrameLayout) view).getChildAt(0);
+                return gifView.getGif().getUuid().equals(uuid);
             }
 
             @Override
