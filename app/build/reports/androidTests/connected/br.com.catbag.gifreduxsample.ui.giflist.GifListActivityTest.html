@@ -28,13 +28,13 @@
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">11</div>
+<div class="counter">6</div>
 <p>failures</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">5m54.23s</div>
+<div class="counter">53.041s</div>
 <p>duration</p>
 </div>
 </td>
@@ -44,7 +44,7 @@
 </td>
 <td>
 <div class="infoBox failures" id="successRate">
-<div class="percent">0%</div>
+<div class="percent">45%</div>
 <p>successful</p>
 </div>
 </td>
@@ -63,158 +63,51 @@
 <div id="tab0" class="tab">
 <h2>Failed tests</h2>
 <div class="test">
-<a name="whenGifDownloadFailTest"></a>
-<h3 class="failures">whenGifDownloadFailTest</h3>
-<span class="code">
-<pre>java.lang.RuntimeException: Waited for the root of the view hierarchy to have window focus and not be requesting layout for over 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus. Otherwise, something is seriously wrong. Selected Root:
-Root{application-window-token=android.view.ViewRootImpl$W@3322848, window-token=android.view.ViewRootImpl$W@3322848, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-. All Roots:
-Root{application-window-token=android.view.ViewRootImpl$W@3322848, window-token=android.view.ViewRootImpl$W@3322848, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-at android.support.test.espresso.base.RootViewPicker.get(RootViewPicker.java:99)
-at android.support.test.espresso.ViewInteractionModule.provideRootView(ViewInteractionModule.java:69)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:23)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:9)
-at android.support.test.espresso.base.ViewFinderImpl.getView(ViewFinderImpl.java:68)
-at android.support.test.espresso.ViewInteraction$2.run(ViewInteraction.java:166)
-at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:428)
-at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at android.os.Handler.handleCallback(Handler.java:751)
-at android.os.Handler.dispatchMessage(Handler.java:95)
-at android.os.Looper.loop(Looper.java:154)
-at android.app.ActivityThread.main(ActivityThread.java:6077)
-at java.lang.reflect.Method.invoke(Native Method)
-at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:865)
-at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
-</pre>
-</span>
-</div>
-<div class="test">
 <a name="whenGifIsDownloadedTest"></a>
 <h3 class="failures">whenGifIsDownloadedTest</h3>
 <span class="code">
-<pre>java.lang.RuntimeException: Waited for the root of the view hierarchy to have window focus and not be requesting layout for over 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus. Otherwise, something is seriously wrong. Selected Root:
-Root{application-window-token=android.view.ViewRootImpl$W@a5cff35, window-token=android.view.ViewRootImpl$W@a5cff35, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-. All Roots:
-Root{application-window-token=android.view.ViewRootImpl$W@a5cff35, window-token=android.view.ViewRootImpl$W@a5cff35, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-at android.support.test.espresso.base.RootViewPicker.get(RootViewPicker.java:99)
-at android.support.test.espresso.ViewInteractionModule.provideRootView(ViewInteractionModule.java:69)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:23)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:9)
-at android.support.test.espresso.base.ViewFinderImpl.getView(ViewFinderImpl.java:68)
-at android.support.test.espresso.ViewInteraction$2.run(ViewInteraction.java:166)
-at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:428)
-at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at android.os.Handler.handleCallback(Handler.java:751)
-at android.os.Handler.dispatchMessage(Handler.java:95)
-at android.os.Looper.loop(Looper.java:154)
-at android.app.ActivityThread.main(ActivityThread.java:6077)
+<pre>android.support.test.espresso.base.DefaultFailureHandler$AssertionFailedWithCauseError: 'with a not null drawable' doesn't match the selected view.
+Expected: with a not null drawable
+Got: &quot;GifImageView{id=2131492949, res-name=gif_image, visibility=VISIBLE, width=432, height=480, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0}&quot;
+
+at dalvik.system.VMStack.getThreadStackTrace(Native Method)
+at java.lang.Thread.getStackTrace(Thread.java:580)
+at android.support.test.espresso.base.DefaultFailureHandler.getUserFriendlyError(DefaultFailureHandler.java:92)
+at android.support.test.espresso.base.DefaultFailureHandler.handle(DefaultFailureHandler.java:56)
+at android.support.test.espresso.ViewInteraction.runSynchronouslyOnUiThread(ViewInteraction.java:184)
+at android.support.test.espresso.ViewInteraction.check(ViewInteraction.java:158)
+at br.com.catbag.gifreduxsample.ui.giflist.GifListActivityTest.whenGifIsDownloadedTest(GifListActivityTest.java:115)
 at java.lang.reflect.Method.invoke(Native Method)
-at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:865)
-at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="whenGifIsDownloadingTest"></a>
-<h3 class="failures">whenGifIsDownloadingTest</h3>
-<span class="code">
-<pre>java.lang.RuntimeException: Waited for the root of the view hierarchy to have window focus and not be requesting layout for over 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus. Otherwise, something is seriously wrong. Selected Root:
-Root{application-window-token=android.view.ViewRootImpl$W@3a4f57e, window-token=android.view.ViewRootImpl$W@3a4f57e, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-. All Roots:
-Root{application-window-token=android.view.ViewRootImpl$W@3a4f57e, window-token=android.view.ViewRootImpl$W@3a4f57e, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-at android.support.test.espresso.base.RootViewPicker.get(RootViewPicker.java:99)
-at android.support.test.espresso.ViewInteractionModule.provideRootView(ViewInteractionModule.java:69)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:23)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:9)
-at android.support.test.espresso.base.ViewFinderImpl.getView(ViewFinderImpl.java:68)
-at android.support.test.espresso.ViewInteraction$2.run(ViewInteraction.java:166)
-at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:428)
+at java.lang.reflect.Method.invoke(Method.java:372)
+at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+at android.support.test.internal.statement.UiThreadStatement.evaluate(UiThreadStatement.java:55)
+at android.support.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:270)
+at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:298)
+at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:292)
 at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at android.os.Handler.handleCallback(Handler.java:751)
-at android.os.Handler.dispatchMessage(Handler.java:95)
-at android.os.Looper.loop(Looper.java:154)
-at android.app.ActivityThread.main(ActivityThread.java:6077)
-at java.lang.reflect.Method.invoke(Native Method)
-at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:865)
-at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="whenGifIsNotWatchedTest"></a>
-<h3 class="failures">whenGifIsNotWatchedTest</h3>
-<span class="code">
-<pre>java.lang.RuntimeException: Waited for the root of the view hierarchy to have window focus and not be requesting layout for over 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus. Otherwise, something is seriously wrong. Selected Root:
-Root{application-window-token=android.view.ViewRootImpl$W@599ba21, window-token=android.view.ViewRootImpl$W@599ba21, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-. All Roots:
-Root{application-window-token=android.view.ViewRootImpl$W@599ba21, window-token=android.view.ViewRootImpl$W@599ba21, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-at android.support.test.espresso.base.RootViewPicker.get(RootViewPicker.java:99)
-at android.support.test.espresso.ViewInteractionModule.provideRootView(ViewInteractionModule.java:69)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:23)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:9)
-at android.support.test.espresso.base.ViewFinderImpl.getView(ViewFinderImpl.java:68)
-at android.support.test.espresso.ViewInteraction$2.run(ViewInteraction.java:166)
-at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:428)
+at java.lang.Thread.run(Thread.java:818)
+Caused by: junit.framework.AssertionFailedError: 'with a not null drawable' doesn't match the selected view.
+Expected: with a not null drawable
+Got: &quot;GifImageView{id=2131492949, res-name=gif_image, visibility=VISIBLE, width=432, height=480, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0}&quot;
+
+at android.support.test.espresso.matcher.ViewMatchers.assertThat(ViewMatchers.java:1053)
+at android.support.test.espresso.assertion.ViewAssertions$2.check(ViewAssertions.java:89)
+at android.support.test.espresso.ViewInteraction$2.run(ViewInteraction.java:170)
+at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:422)
 at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at android.os.Handler.handleCallback(Handler.java:751)
+at android.os.Handler.handleCallback(Handler.java:739)
 at android.os.Handler.dispatchMessage(Handler.java:95)
-at android.os.Looper.loop(Looper.java:154)
-at android.app.ActivityThread.main(ActivityThread.java:6077)
+at android.os.Looper.loop(Looper.java:135)
+at android.app.ActivityThread.main(ActivityThread.java:5254)
 at java.lang.reflect.Method.invoke(Native Method)
-at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:865)
-at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="whenGifIsWatchedTest"></a>
-<h3 class="failures">whenGifIsWatchedTest</h3>
-<span class="code">
-<pre>java.lang.RuntimeException: Waited for the root of the view hierarchy to have window focus and not be requesting layout for over 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus. Otherwise, something is seriously wrong. Selected Root:
-Root{application-window-token=android.view.ViewRootImpl$W@6a9304c, window-token=android.view.ViewRootImpl$W@6a9304c, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-. All Roots:
-Root{application-window-token=android.view.ViewRootImpl$W@6a9304c, window-token=android.view.ViewRootImpl$W@6a9304c, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-at android.support.test.espresso.base.RootViewPicker.get(RootViewPicker.java:99)
-at android.support.test.espresso.ViewInteractionModule.provideRootView(ViewInteractionModule.java:69)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:23)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:9)
-at android.support.test.espresso.base.ViewFinderImpl.getView(ViewFinderImpl.java:68)
-at android.support.test.espresso.ViewInteraction$2.run(ViewInteraction.java:166)
-at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:428)
-at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at android.os.Handler.handleCallback(Handler.java:751)
-at android.os.Handler.dispatchMessage(Handler.java:95)
-at android.os.Looper.loop(Looper.java:154)
-at android.app.ActivityThread.main(ActivityThread.java:6077)
-at java.lang.reflect.Method.invoke(Native Method)
-at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:865)
-at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="whenListKeepOrderedAfterPlayTest"></a>
-<h3 class="failures">whenListKeepOrderedAfterPlayTest</h3>
-<span class="code">
-<pre>java.lang.RuntimeException: Waited for the root of the view hierarchy to have window focus and not be requesting layout for over 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus. Otherwise, something is seriously wrong. Selected Root:
-Root{application-window-token=android.view.ViewRootImpl$W@2097bbc, window-token=android.view.ViewRootImpl$W@2097bbc, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-. All Roots:
-Root{application-window-token=android.view.ViewRootImpl$W@2097bbc, window-token=android.view.ViewRootImpl$W@2097bbc, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-at android.support.test.espresso.base.RootViewPicker.get(RootViewPicker.java:99)
-at android.support.test.espresso.ViewInteractionModule.provideRootView(ViewInteractionModule.java:69)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:23)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:9)
-at android.support.test.espresso.base.ViewFinderImpl.getView(ViewFinderImpl.java:68)
-at android.support.test.espresso.ViewInteraction$1.run(ViewInteraction.java:120)
-at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:428)
-at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at android.os.Handler.handleCallback(Handler.java:751)
-at android.os.Handler.dispatchMessage(Handler.java:95)
-at android.os.Looper.loop(Looper.java:154)
-at android.app.ActivityThread.main(ActivityThread.java:6077)
-at java.lang.reflect.Method.invoke(Native Method)
-at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:865)
-at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
+at java.lang.reflect.Method.invoke(Method.java:372)
+at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:903)
+at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:698)
 </pre>
 </span>
 </div>
@@ -222,25 +115,48 @@ at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
 <a name="whenLoadMultipleGifsOnAppStateTest"></a>
 <h3 class="failures">whenLoadMultipleGifsOnAppStateTest</h3>
 <span class="code">
-<pre>java.lang.RuntimeException: Waited for the root of the view hierarchy to have window focus and not be requesting layout for over 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus. Otherwise, something is seriously wrong. Selected Root:
-Root{application-window-token=android.view.ViewRootImpl$W@978805, window-token=android.view.ViewRootImpl$W@978805, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-. All Roots:
-Root{application-window-token=android.view.ViewRootImpl$W@978805, window-token=android.view.ViewRootImpl$W@978805, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-at android.support.test.espresso.base.RootViewPicker.get(RootViewPicker.java:99)
-at android.support.test.espresso.ViewInteractionModule.provideRootView(ViewInteractionModule.java:69)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:23)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:9)
-at android.support.test.espresso.base.ViewFinderImpl.getView(ViewFinderImpl.java:68)
-at android.support.test.espresso.ViewInteraction$2.run(ViewInteraction.java:166)
-at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:428)
-at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at android.os.Handler.handleCallback(Handler.java:751)
-at android.os.Handler.dispatchMessage(Handler.java:95)
-at android.os.Looper.loop(Looper.java:154)
-at android.app.ActivityThread.main(ActivityThread.java:6077)
+<pre>android.support.test.espresso.base.DefaultFailureHandler$AssertionFailedWithCauseError: 'with a not null drawable' doesn't match the selected view.
+Expected: with a not null drawable
+Got: &quot;FrameLayout{id=-1, visibility=VISIBLE, width=432, height=480, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}&quot;
+
+at dalvik.system.VMStack.getThreadStackTrace(Native Method)
+at java.lang.Thread.getStackTrace(Thread.java:580)
+at android.support.test.espresso.base.DefaultFailureHandler.getUserFriendlyError(DefaultFailureHandler.java:92)
+at android.support.test.espresso.base.DefaultFailureHandler.handle(DefaultFailureHandler.java:56)
+at android.support.test.espresso.ViewInteraction.runSynchronouslyOnUiThread(ViewInteraction.java:184)
+at android.support.test.espresso.ViewInteraction.check(ViewInteraction.java:158)
+at br.com.catbag.gifreduxsample.ui.giflist.GifListActivityTest.whenLoadMultipleGifsOnAppStateTest(GifListActivityTest.java:227)
 at java.lang.reflect.Method.invoke(Native Method)
-at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:865)
-at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
+at java.lang.reflect.Method.invoke(Method.java:372)
+at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+at android.support.test.internal.statement.UiThreadStatement.evaluate(UiThreadStatement.java:55)
+at android.support.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:270)
+at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:298)
+at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:292)
+at java.util.concurrent.FutureTask.run(FutureTask.java:237)
+at java.lang.Thread.run(Thread.java:818)
+Caused by: junit.framework.AssertionFailedError: 'with a not null drawable' doesn't match the selected view.
+Expected: with a not null drawable
+Got: &quot;FrameLayout{id=-1, visibility=VISIBLE, width=432, height=480, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}&quot;
+
+at android.support.test.espresso.matcher.ViewMatchers.assertThat(ViewMatchers.java:1053)
+at android.support.test.espresso.assertion.ViewAssertions$2.check(ViewAssertions.java:89)
+at android.support.test.espresso.ViewInteraction$2.run(ViewInteraction.java:170)
+at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:422)
+at java.util.concurrent.FutureTask.run(FutureTask.java:237)
+at android.os.Handler.handleCallback(Handler.java:739)
+at android.os.Handler.dispatchMessage(Handler.java:95)
+at android.os.Looper.loop(Looper.java:135)
+at android.app.ActivityThread.main(ActivityThread.java:5254)
+at java.lang.reflect.Method.invoke(Native Method)
+at java.lang.reflect.Method.invoke(Method.java:372)
+at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:903)
+at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:698)
 </pre>
 </span>
 </div>
@@ -248,25 +164,24 @@ at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
 <a name="whenPauseGifTest"></a>
 <h3 class="failures">whenPauseGifTest</h3>
 <span class="code">
-<pre>java.lang.RuntimeException: Waited for the root of the view hierarchy to have window focus and not be requesting layout for over 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus. Otherwise, something is seriously wrong. Selected Root:
-Root{application-window-token=android.view.ViewRootImpl$W@bc64d9f, window-token=android.view.ViewRootImpl$W@bc64d9f, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-. All Roots:
-Root{application-window-token=android.view.ViewRootImpl$W@bc64d9f, window-token=android.view.ViewRootImpl$W@bc64d9f, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-at android.support.test.espresso.base.RootViewPicker.get(RootViewPicker.java:99)
-at android.support.test.espresso.ViewInteractionModule.provideRootView(ViewInteractionModule.java:69)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:23)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:9)
-at android.support.test.espresso.base.ViewFinderImpl.getView(ViewFinderImpl.java:68)
-at android.support.test.espresso.ViewInteraction$1.run(ViewInteraction.java:120)
-at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:428)
+<pre>java.lang.NullPointerException: Attempt to invoke virtual method 'boolean pl.droidsonroids.gif.GifDrawable.isPlaying()' on a null object reference
+at br.com.catbag.gifreduxsample.matchers.Matchers$2.matchesSafely(Matchers.java:45)
+at br.com.catbag.gifreduxsample.matchers.Matchers$2.matchesSafely(Matchers.java:41)
+at android.support.test.espresso.matcher.BoundedMatcher.matches(BoundedMatcher.java:73)
+at org.hamcrest.core.IsNot.matches(IsNot.java:25)
+at android.support.test.espresso.matcher.ViewMatchers.assertThat(ViewMatchers.java:1041)
+at android.support.test.espresso.assertion.ViewAssertions$2.check(ViewAssertions.java:89)
+at android.support.test.espresso.ViewInteraction$2.run(ViewInteraction.java:170)
+at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:422)
 at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at android.os.Handler.handleCallback(Handler.java:751)
+at android.os.Handler.handleCallback(Handler.java:739)
 at android.os.Handler.dispatchMessage(Handler.java:95)
-at android.os.Looper.loop(Looper.java:154)
-at android.app.ActivityThread.main(ActivityThread.java:6077)
+at android.os.Looper.loop(Looper.java:135)
+at android.app.ActivityThread.main(ActivityThread.java:5254)
 at java.lang.reflect.Method.invoke(Native Method)
-at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:865)
-at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
+at java.lang.reflect.Method.invoke(Method.java:372)
+at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:903)
+at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:698)
 </pre>
 </span>
 </div>
@@ -274,25 +189,23 @@ at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
 <a name="whenPlayGifTest"></a>
 <h3 class="failures">whenPlayGifTest</h3>
 <span class="code">
-<pre>java.lang.RuntimeException: Waited for the root of the view hierarchy to have window focus and not be requesting layout for over 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus. Otherwise, something is seriously wrong. Selected Root:
-Root{application-window-token=android.view.ViewRootImpl$W@6c45493, window-token=android.view.ViewRootImpl$W@6c45493, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-. All Roots:
-Root{application-window-token=android.view.ViewRootImpl$W@6c45493, window-token=android.view.ViewRootImpl$W@6c45493, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-at android.support.test.espresso.base.RootViewPicker.get(RootViewPicker.java:99)
-at android.support.test.espresso.ViewInteractionModule.provideRootView(ViewInteractionModule.java:69)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:23)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:9)
-at android.support.test.espresso.base.ViewFinderImpl.getView(ViewFinderImpl.java:68)
-at android.support.test.espresso.ViewInteraction$1.run(ViewInteraction.java:120)
-at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:428)
+<pre>java.lang.NullPointerException: Attempt to invoke virtual method 'boolean pl.droidsonroids.gif.GifDrawable.isPlaying()' on a null object reference
+at br.com.catbag.gifreduxsample.matchers.Matchers$2.matchesSafely(Matchers.java:45)
+at br.com.catbag.gifreduxsample.matchers.Matchers$2.matchesSafely(Matchers.java:41)
+at android.support.test.espresso.matcher.BoundedMatcher.matches(BoundedMatcher.java:73)
+at android.support.test.espresso.matcher.ViewMatchers.assertThat(ViewMatchers.java:1041)
+at android.support.test.espresso.assertion.ViewAssertions$2.check(ViewAssertions.java:89)
+at android.support.test.espresso.ViewInteraction$2.run(ViewInteraction.java:170)
+at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:422)
 at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at android.os.Handler.handleCallback(Handler.java:751)
+at android.os.Handler.handleCallback(Handler.java:739)
 at android.os.Handler.dispatchMessage(Handler.java:95)
-at android.os.Looper.loop(Looper.java:154)
-at android.app.ActivityThread.main(ActivityThread.java:6077)
+at android.os.Looper.loop(Looper.java:135)
+at android.app.ActivityThread.main(ActivityThread.java:5254)
 at java.lang.reflect.Method.invoke(Native Method)
-at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:865)
-at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
+at java.lang.reflect.Method.invoke(Method.java:372)
+at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:903)
+at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:698)
 </pre>
 </span>
 </div>
@@ -300,25 +213,28 @@ at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
 <a name="whenScrollDownAndPlayLastItemTest"></a>
 <h3 class="failures">whenScrollDownAndPlayLastItemTest</h3>
 <span class="code">
-<pre>java.lang.RuntimeException: Waited for the root of the view hierarchy to have window focus and not be requesting layout for over 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus. Otherwise, something is seriously wrong. Selected Root:
-Root{application-window-token=android.view.ViewRootImpl$W@af6500d, window-token=android.view.ViewRootImpl$W@af6500d, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-. All Roots:
-Root{application-window-token=android.view.ViewRootImpl$W@af6500d, window-token=android.view.ViewRootImpl$W@af6500d, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-at android.support.test.espresso.base.RootViewPicker.get(RootViewPicker.java:99)
-at android.support.test.espresso.ViewInteractionModule.provideRootView(ViewInteractionModule.java:69)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:23)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:9)
-at android.support.test.espresso.base.ViewFinderImpl.getView(ViewFinderImpl.java:68)
-at android.support.test.espresso.ViewInteraction$1.run(ViewInteraction.java:120)
-at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:428)
-at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at android.os.Handler.handleCallback(Handler.java:751)
-at android.os.Handler.dispatchMessage(Handler.java:95)
-at android.os.Looper.loop(Looper.java:154)
-at android.app.ActivityThread.main(ActivityThread.java:6077)
+<pre>android.support.test.espresso.IdlingResourceTimeoutException: Wait for [Class] to become idle timed out
+at dalvik.system.VMStack.getThreadStackTrace(Native Method)
+at java.lang.Thread.getStackTrace(Thread.java:580)
+at android.support.test.espresso.base.DefaultFailureHandler.getUserFriendlyError(DefaultFailureHandler.java:92)
+at android.support.test.espresso.base.DefaultFailureHandler.handle(DefaultFailureHandler.java:56)
+at android.support.test.espresso.ViewInteraction.runSynchronouslyOnUiThread(ViewInteraction.java:184)
+at android.support.test.espresso.ViewInteraction.check(ViewInteraction.java:158)
+at br.com.catbag.gifreduxsample.ui.giflist.GifListActivityTest.whenScrollDownAndPlayLastItemTest(GifListActivityTest.java:264)
 at java.lang.reflect.Method.invoke(Native Method)
-at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:865)
-at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
+at java.lang.reflect.Method.invoke(Method.java:372)
+at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+at android.support.test.internal.statement.UiThreadStatement.evaluate(UiThreadStatement.java:55)
+at android.support.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:270)
+at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:298)
+at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:292)
+at java.util.concurrent.FutureTask.run(FutureTask.java:237)
+at java.lang.Thread.run(Thread.java:818)
 </pre>
 </span>
 </div>
@@ -326,25 +242,23 @@ at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
 <a name="whenScrollUpAndPlayFirstItemTest"></a>
 <h3 class="failures">whenScrollUpAndPlayFirstItemTest</h3>
 <span class="code">
-<pre>java.lang.RuntimeException: Waited for the root of the view hierarchy to have window focus and not be requesting layout for over 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus. Otherwise, something is seriously wrong. Selected Root:
-Root{application-window-token=android.view.ViewRootImpl$W@8def8ba, window-token=android.view.ViewRootImpl$W@8def8ba, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-. All Roots:
-Root{application-window-token=android.view.ViewRootImpl$W@8def8ba, window-token=android.view.ViewRootImpl$W@8def8ba, has-window-focus=false, layout-params-type=1, layout-params-string=WM.LayoutParams{(0,0)(fillxfill) sim=#100 ty=1 fl=#81810100 wanim=0x1030465 needsMenuKey=2}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-at android.support.test.espresso.base.RootViewPicker.get(RootViewPicker.java:99)
-at android.support.test.espresso.ViewInteractionModule.provideRootView(ViewInteractionModule.java:69)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:23)
-at android.support.test.espresso.ViewInteractionModule_ProvideRootViewFactory.get(ViewInteractionModule_ProvideRootViewFactory.java:9)
-at android.support.test.espresso.base.ViewFinderImpl.getView(ViewFinderImpl.java:68)
-at android.support.test.espresso.ViewInteraction$1.run(ViewInteraction.java:120)
-at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:428)
+<pre>java.lang.NullPointerException: Attempt to invoke virtual method 'boolean pl.droidsonroids.gif.GifDrawable.isPlaying()' on a null object reference
+at br.com.catbag.gifreduxsample.matchers.Matchers$2.matchesSafely(Matchers.java:45)
+at br.com.catbag.gifreduxsample.matchers.Matchers$2.matchesSafely(Matchers.java:41)
+at android.support.test.espresso.matcher.BoundedMatcher.matches(BoundedMatcher.java:73)
+at android.support.test.espresso.matcher.ViewMatchers.assertThat(ViewMatchers.java:1041)
+at android.support.test.espresso.assertion.ViewAssertions$2.check(ViewAssertions.java:89)
+at android.support.test.espresso.ViewInteraction$2.run(ViewInteraction.java:170)
+at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:422)
 at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at android.os.Handler.handleCallback(Handler.java:751)
+at android.os.Handler.handleCallback(Handler.java:739)
 at android.os.Handler.dispatchMessage(Handler.java:95)
-at android.os.Looper.loop(Looper.java:154)
-at android.app.ActivityThread.main(ActivityThread.java:6077)
+at android.os.Looper.loop(Looper.java:135)
+at android.app.ActivityThread.main(ActivityThread.java:5254)
 at java.lang.reflect.Method.invoke(Native Method)
-at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:865)
-at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
+at java.lang.reflect.Method.invoke(Method.java:372)
+at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:903)
+at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:698)
 </pre>
 </span>
 </div>
@@ -355,59 +269,59 @@ at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:755)
 <thead>
 <tr>
 <th>Test</th>
-<th>test(AVD) - 7.0</th>
+<th>test(AVD) - 5.1.1</th>
 </tr>
 </thead>
 <tr>
 <td>whenGifDownloadFailTest</td>
-<td class="failures">failed (30.061s)</td>
+<td class="success">passed (0.754s)</td>
 </tr>
 <tr>
 <td>whenGifIsDownloadedTest</td>
-<td class="failures">failed (29.943s)</td>
+<td class="failures">failed (1.499s)</td>
 </tr>
 <tr>
 <td>whenGifIsDownloadingTest</td>
-<td class="failures">failed (32.649s)</td>
+<td class="success">passed (1.239s)</td>
 </tr>
 <tr>
 <td>whenGifIsNotWatchedTest</td>
-<td class="failures">failed (32.096s)</td>
+<td class="success">passed (1.435s)</td>
 </tr>
 <tr>
 <td>whenGifIsWatchedTest</td>
-<td class="failures">failed (29.853s)</td>
+<td class="success">passed (1.434s)</td>
 </tr>
 <tr>
 <td>whenListKeepOrderedAfterPlayTest</td>
-<td class="failures">failed (30.624s)</td>
+<td class="success">passed (10.478s)</td>
 </tr>
 <tr>
 <td>whenLoadMultipleGifsOnAppStateTest</td>
-<td class="failures">failed (31.140s)</td>
+<td class="failures">failed (1.765s)</td>
 </tr>
 <tr>
 <td>whenPauseGifTest</td>
-<td class="failures">failed (43.408s)</td>
+<td class="failures">failed (1.485s)</td>
 </tr>
 <tr>
 <td>whenPlayGifTest</td>
-<td class="failures">failed (30.400s)</td>
+<td class="failures">failed (1.413s)</td>
 </tr>
 <tr>
 <td>whenScrollDownAndPlayLastItemTest</td>
-<td class="failures">failed (33.968s)</td>
+<td class="failures">failed (30.164s)</td>
 </tr>
 <tr>
 <td>whenScrollUpAndPlayFirstItemTest</td>
-<td class="failures">failed (30.084s)</td>
+<td class="failures">failed (1.375s)</td>
 </tr>
 </table>
 </div>
 </div>
 <div id="footer">
 <p>Generated by 
-<a href="http://www.gradle.org">Gradle 2.14.1</a> at Nov 23, 2016 8:52:13 PM</p>
+<a href="http://www.gradle.org">Gradle 2.14.1</a> at Nov 24, 2016 12:29:40 PM</p>
 </div>
 </div>
 </body>
