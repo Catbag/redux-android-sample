@@ -25,22 +25,22 @@ import static trikita.anvil.BaseDSL.v;
 /**
  * Created by niltonvasques on 10/26/16.
  */
-public class FeedComponent extends RenderableComponent {
+public class FeedView extends ReactiveView {
 
     private Map<String, Gif> mGifs;
     private DrawableCache mDrawables = new DrawableCache();
     private LinearLayoutManager mLayoutManager;
     private GifsAdapter mGifsAdapter;
 
-    public FeedComponent(Context context) {
+    public FeedView(Context context) {
         super(context);
     }
 
-    public FeedComponent(Context context, AttributeSet attrs) {
+    public FeedView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public FeedComponent(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FeedView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -52,7 +52,7 @@ public class FeedComponent extends RenderableComponent {
                         LinearLayoutManager.VERTICAL, false);
             }
             if (mGifsAdapter == null) {
-                mGifsAdapter = gifsAdapter(mGifs, (gif) -> renderGifView(gif));
+                mGifsAdapter = gifsAdapter(mGifs, this::renderGifView);
             }
 
             Recycler.layoutManager(mLayoutManager);
@@ -85,11 +85,9 @@ public class FeedComponent extends RenderableComponent {
     }
 
     private void renderGifView(Gif gif) {
-        v(GifComponent.class, () -> {
-            ((GifComponent) Anvil.currentView())
-                    .withGifDrawable(createDrawable(gif))
-                    .withGif(gif);
-        });
+        v(GifView.class, () -> ((GifView) Anvil.currentView())
+                .withGifDrawable(createDrawable(gif))
+                .withGif(gif));
         onAnvilRendered();
     }
 

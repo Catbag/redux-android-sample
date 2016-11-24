@@ -74,8 +74,6 @@ public class RestMiddleware extends BaseMiddleware<AppState> {
                     params.put(PayloadParams.PARAM_PATH, pathToSave);
                     mDispatcher.dispatch(new Action(GIF_DOWNLOAD_SUCCESS, params));
                 },
-                e -> {
-                    mDispatcher.dispatch(new Action(GIF_DOWNLOAD_FAILURE, gif.getUuid()));
-                });
+                e -> mDispatcher.dispatch(new Action(GIF_DOWNLOAD_FAILURE, gif.getUuid())));
     }
 }

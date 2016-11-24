@@ -26,25 +26,25 @@ import static trikita.anvil.DSL.onClick;
  * Created by felipe on 26/10/16.
  */
 
-public class GifComponent extends RenderableComponent {
+public class GifView extends ReactiveView {
 
     private Gif mGif;
     private GifDrawable mGifDrawable;
     private boolean mHasRequestedDownload = false;
 
-    public GifComponent(Context context) {
+    public GifView(Context context) {
         super(context);
     }
 
-    public GifComponent(Context context, AttributeSet attrs) {
+    public GifView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public GifComponent(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GifView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public GifComponent withGif(Gif gif) {
+    public GifView withGif(Gif gif) {
         if (gif != null) {
             if (!gif.getUuid().equals(mGif.getUuid())) mHasRequestedDownload = false;
             mGif = gif;
@@ -52,7 +52,7 @@ public class GifComponent extends RenderableComponent {
         return this;
     }
 
-    public GifComponent withGifDrawable(GifDrawable gifDrawable) {
+    public GifView withGifDrawable(GifDrawable gifDrawable) {
         mGifDrawable = gifDrawable;
         return this;
     }
@@ -70,9 +70,7 @@ public class GifComponent extends RenderableComponent {
                 requestContent();
                 defineBehavior();
             });
-            withId(R.id.gif_loading, () -> {
-                visibility(mGif.getStatus() == DOWNLOADING);
-            });
+            withId(R.id.gif_loading, () -> visibility(mGif.getStatus() == DOWNLOADING));
         });
         onAnvilRendered();
     }
@@ -127,9 +125,7 @@ public class GifComponent extends RenderableComponent {
 
                 mGifDrawable.stop();
             }
-            onClick(v -> {
-                GifActionCreator.getInstance().gifClick(mGif);
-            });
+            onClick(v -> GifActionCreator.getInstance().gifClick(mGif));
         }
     }
 }

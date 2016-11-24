@@ -62,7 +62,7 @@ To run unit tests through a CI or command line:
 
         drone exec --trusted
 
-#Good Pratices
+#Good Practices
 
 ###Actions Creators
 

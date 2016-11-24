@@ -5,12 +5,10 @@ import com.umaplay.fluxxan.Action;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -47,7 +45,7 @@ import static shared.TestHelper.gifBuilderWithDefault;
 public class GifListReducerTest extends ReduxBaseTest {
 
     public GifListReducerTest() {
-        mHelper = new TestHelper(((MyApp) RuntimeEnvironment.application).getFluxxan());
+        mHelper = new TestHelper(MyApp.getFluxxan());
         mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
         PersistenceMiddleware persistenceMiddleware = (PersistenceMiddleware) mHelper.getFluxxan()
                 .getDispatcher().unregisterMiddleware(PersistenceMiddleware.class);
@@ -234,9 +232,7 @@ public class GifListReducerTest extends ReduxBaseTest {
             assertNotEquals(to, mHelper.getFluxxan().getState().getGifs().get(uuid).getStatus());
         }
 
-        for (Iterator<Gif.Status> iterator = from.iterator(); iterator.hasNext();) {
-            Gif.Status fromStatus = iterator.next();
-
+        for (Gif.Status fromStatus : from) {
             mHelper.dispatchFakeAppState(buildAppState(buildGif(fromStatus, uuid)));
             mHelper.dispatchAction(new Action(action, payload));
             assertEquals(to, mHelper.getFluxxan().getState().getGifs().get(uuid).getStatus());

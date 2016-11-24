@@ -31,8 +31,8 @@ import br.com.catbag.gifreduxsample.middlewares.PersistenceMiddleware;
 import br.com.catbag.gifreduxsample.middlewares.RestMiddleware;
 import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.ui.GifListActivity;
-import br.com.catbag.gifreduxsample.ui.components.FeedComponent;
-import br.com.catbag.gifreduxsample.ui.components.GifComponent;
+import br.com.catbag.gifreduxsample.ui.components.FeedView;
+import br.com.catbag.gifreduxsample.ui.components.GifView;
 import shared.ReduxBaseTest;
 import shared.TestHelper;
 
@@ -340,8 +340,8 @@ public class GifListActivityTest extends ReduxBaseTest {
         return new RecyclerViewMatcher(getRecyclerView().getId()).atPosition(pos);
     }
 
-    private FeedComponent getFeedComponent() {
-        return (FeedComponent) getActivity().findViewById(R.id.feed);
+    private FeedView getFeedComponent() {
+        return (FeedView) getActivity().findViewById(R.id.feed);
     }
 
     private RecyclerView getRecyclerView() {
@@ -350,9 +350,9 @@ public class GifListActivityTest extends ReduxBaseTest {
         return recyclerView;
     }
 
-    private GifComponent getGifComponent(int screenPos) {
+    private GifView getGifComponent(int screenPos) {
         FrameLayout frameLayout = (FrameLayout) getRecyclerView().getChildAt(screenPos);
-        return (GifComponent) frameLayout.getChildAt(0);
+        return (GifView) frameLayout.getChildAt(0);
     }
 
     private GifListActivity getActivity() {

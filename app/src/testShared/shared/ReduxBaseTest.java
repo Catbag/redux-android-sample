@@ -39,7 +39,7 @@ public class ReduxBaseTest {
         }
     }
 
-    public void informTestHelperNotInitialized() {
+    private void informTestHelperNotInitialized() {
         Log.e(getClass().getSimpleName(),
                 "TestHelper not initialized: set super.mHelper with properly Fluxxan instance");
     }

@@ -58,7 +58,7 @@ public class FileDownloader {
         });
     }
 
-    public void readFromNetAndWriteToDisk(InputStream inputStream, String pathToSave)
+    private void readFromNetAndWriteToDisk(InputStream inputStream, String pathToSave)
             throws IOException {
 
         File futureStudioIconFile = new File(pathToSave);
@@ -76,12 +76,8 @@ public class FileDownloader {
         }
 
         outputStream.flush();
-        if (inputStream != null) {
-            inputStream.close();
-        }
-        if (outputStream != null) {
-            outputStream.close();
-        }
+        inputStream.close();
+        outputStream.close();
     }
 
     public interface SuccessDownloadListener {

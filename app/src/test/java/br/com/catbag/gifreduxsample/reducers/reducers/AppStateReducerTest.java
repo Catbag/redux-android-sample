@@ -5,7 +5,6 @@ import com.umaplay.fluxxan.Action;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import br.com.catbag.gifreduxsample.BuildConfig;
@@ -29,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 public class AppStateReducerTest extends ReduxBaseTest {
 
     public AppStateReducerTest() {
-        mHelper = new TestHelper(((MyApp) RuntimeEnvironment.application).getFluxxan());
+        mHelper = new TestHelper(MyApp.getFluxxan());
         mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
         PersistenceMiddleware persistenceMiddleware = (PersistenceMiddleware) mHelper.getFluxxan()
                 .getDispatcher().unregisterMiddleware(PersistenceMiddleware.class);

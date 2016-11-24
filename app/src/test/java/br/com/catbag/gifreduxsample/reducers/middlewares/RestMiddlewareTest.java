@@ -52,8 +52,8 @@ import static shared.TestHelper.buildGif;
 @RunWith(RobolectricTestRunner.class)
 public class RestMiddlewareTest extends ReduxBaseTest {
 
-    public static final boolean EXPECTED_HAS_MORE = false;
-    public static final Map EXPECTED_GIFS = new LinkedHashMap<>();
+    private static final boolean EXPECTED_HAS_MORE = false;
+    private static final Map EXPECTED_GIFS = new LinkedHashMap<>();
 
     private Fluxxan<AppState> mFluxxan;
     private CountDownLatch mSignal;

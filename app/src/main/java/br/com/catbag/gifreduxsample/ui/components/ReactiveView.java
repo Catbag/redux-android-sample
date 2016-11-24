@@ -7,31 +7,31 @@ import com.umaplay.fluxxan.StateListener;
 
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.models.AppState;
-import br.com.catbag.gifreduxsample.ui.AnvilRenderComponent;
 import br.com.catbag.gifreduxsample.ui.AnvilRenderListener;
+import br.com.catbag.gifreduxsample.ui.AnvilRenderable;
 import trikita.anvil.RenderableView;
 
 /**
  * Created by raulcca on 11/21/16.
  */
 
-public abstract class RenderableComponent extends RenderableView
-        implements StateListener<AppState>, AnvilRenderComponent {
+public abstract class ReactiveView extends RenderableView
+        implements StateListener<AppState>, AnvilRenderable {
 
     private boolean mIsRegisteredOnStateChange = false;
     private AnvilRenderListener mAnvilRenderListener;
 
-    public RenderableComponent(Context context) {
+    public ReactiveView(Context context) {
         super(context);
         initialState();
     }
 
-    public RenderableComponent(Context context, AttributeSet attrs) {
+    public ReactiveView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initialState();
     }
 
-    public RenderableComponent(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ReactiveView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initialState();
     }

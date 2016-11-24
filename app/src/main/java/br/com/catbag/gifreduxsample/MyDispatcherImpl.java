@@ -9,12 +9,7 @@ import trikita.anvil.Anvil;
  * Created by raulcca on 11/21/16.
  */
 
-public class MyDispatcherImpl extends DispatcherImpl<AppState> {
-    /**
-     * Your initial state tree
-     *
-     * @param state
-     */
+class MyDispatcherImpl extends DispatcherImpl<AppState> {
     public MyDispatcherImpl(AppState state) {
         super(state);
     }
