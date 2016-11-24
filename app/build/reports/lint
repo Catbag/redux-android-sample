@@ -194,7 +194,7 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Thu Nov 24 14:11:51 UTC 2016.<br/>
+Check performed at Thu Nov 24 14:53:56 UTC 2016.<br/>
 0 errors and 20 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
@@ -456,7 +456,7 @@ This detector checks with a central repository to see if there are newer version
 <div class="warningslist">
 <span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:8</span>: <span class="message">On SDK version 23 and up, your app data will be automatically backed up and restored on app install. Consider adding the attribute <code>android:fullBackupContent</code> to specify an <code>@xml</code> resource which configures which files to backup. More info: https://developer.android.com/training/backup/autosyncapi.html</span><br /><pre class="errorlines">
 <span class="lineno">   5</span>     &lt;uses-permission android:name="android.permission.INTERNET"/>
-<span class="lineno">   6</span>     &lt;uses-permission android:name="android.permission.SET_DEBUG_APP">&lt;/uses-permission>
+<span class="lineno">   6</span>     &lt;uses-permission android:name="android.permission.SET_DEBUG_APP"/>
 <span class="lineno">   7</span> 
 <span class="lineno">   8</span>     <span class="errorspan">&lt;application</span>
 <span class="lineno">   9</span>         android:name="br.com.catbag.gifreduxsample.MyApp"
@@ -538,7 +538,7 @@ Unused resources make applications larger and slow down builds.
 <div class="warningslist">
 <span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:8</span>: <span class="message">App is not indexable by Google Search; consider adding at least one Activity with an ACTION-VIEW intent filter. See issue explanation for more details.</span><br /><pre class="errorlines">
 <span class="lineno">   5</span>     &lt;uses-permission android:name="android.permission.INTERNET"/>
-<span class="lineno">   6</span>     &lt;uses-permission android:name="android.permission.SET_DEBUG_APP">&lt;/uses-permission>
+<span class="lineno">   6</span>     &lt;uses-permission android:name="android.permission.SET_DEBUG_APP"/>
 <span class="lineno">   7</span> 
 <span class="lineno">   8</span>     <span class="errorspan">&lt;application</span>
 <span class="lineno">   9</span>         android:name="br.com.catbag.gifreduxsample.MyApp"
