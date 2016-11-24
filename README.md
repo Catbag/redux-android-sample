@@ -2,7 +2,7 @@
 
 [![Build Status](http://drone.catbag.com.br/api/badges/Catbag/redux-android-sample/status.svg)](http://drone.catbag.com.br/Catbag/redux-android-sample)
 
-A Android sample that implements Redux architecture with React and NoSQL
+An Android sample that implements Redux architecture (using [Fluxxan](https://github.com/frostymarvelous/Fluxxan) and [Anvil](https://github.com/zserge/anvil)) and NoSQL (using [SnappyDB](https://github.com/nhachicha/SnappyDB))
 
 # Architecture
 ![Gif Sample Redux Architecture](architecture_gif_sample.png)
@@ -10,12 +10,14 @@ A Android sample that implements Redux architecture with React and NoSQL
 #App State Example
 ``` javascript
 {
-    gifLocalPath: "path",
-    gifDownloadFailureMsg: "error",
-    gifUrl: "url",
-    gifTitle: "string",
-    gifState: PAUSED, //PAUSED, LOOPING, DOWNLOADING, DOWNLOADED, NOT_DOWNLOADED
-    gifWatched: false
+    hasMoreGifs: true,
+    gifs: [{
+        path: "path",
+        url: "url",
+        title: "string",
+        watched: false,
+        status: PAUSED //PAUSED, LOOPING, DOWNLOADING, DOWNLOADED, NOT_DOWNLOADED, DOWNLOAD_FAILED
+    }]
 }
 ```
 
