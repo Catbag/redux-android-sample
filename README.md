@@ -2,7 +2,7 @@
 
 [![Build Status](http://drone.catbag.com.br/api/badges/Catbag/redux-android-sample/status.svg)](http://drone.catbag.com.br/Catbag/redux-android-sample)
 
-A Android sample that implements Redux architecture (using [Fluxxan](https://github.com/frostymarvelous/Fluxxan) and [Anvil](https://github.com/zserge/anvil)) and NoSQL (using [SnappyDB](https://github.com/nhachicha/SnappyDB))
+An Android sample that implements Redux architecture (using [Fluxxan](https://github.com/frostymarvelous/Fluxxan) and [Anvil](https://github.com/zserge/anvil)) and NoSQL (using [SnappyDB](https://github.com/nhachicha/SnappyDB))
 
 # Architecture
 ![Gif Sample Redux Architecture](architecture_gif_sample.png)
