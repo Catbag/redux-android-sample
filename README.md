@@ -61,6 +61,16 @@ To run unit tests through a CI or command line:
 * Run drone build inside project dir
 
         drone exec --trusted
+        
+#### CI last build reports
+        
+* [Instrumentation tests](https://catbag.github.io/redux-android-sample/app/build/reports/androidTests/connected/)
+* [Unit tests](https://catbag.github.io/redux-android-sample/app/build/reports/tests/debug)
+* [Coverage](https://catbag.github.io/redux-android-sample/app/build/reports/coverage/debug)
+* [PMD](https://catbag.github.io/redux-android-sample/app/build/reports/pmd/pmd.html)
+* [Findbugs](https://catbag.github.io/redux-android-sample/app/build/reports/findbugs/findbugs.html)
+* [Checkstyle](https://catbag.github.io/redux-android-sample/app/build/reports/checkstyle/checstyle.html) (without errors, no page generated)
+* [Artifacts history](https://github.com/Catbag/redux-android-sample/tree/gh-pages)
 
 #Good Practices
 
@@ -93,6 +103,9 @@ folder.
 [Summary](http://vincentbrison.com/2014/07/19/how-to-improve-quality-and-syntax-of-your-android-code/)
 
 [Checkstyle](https://github.com/checkstyle/checkstyle)
+
 [FindBugs](http://findbugs.sourceforge.net/)
+
 [PMD](http://pmd.github.io/)
+
 [Android Lint](https://developer.android.com/studio/write/lint.html)
