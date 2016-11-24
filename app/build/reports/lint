@@ -194,7 +194,7 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Thu Nov 24 14:02:39 UTC 2016.<br/>
+Check performed at Thu Nov 24 14:11:51 UTC 2016.<br/>
 0 errors and 20 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
@@ -295,7 +295,7 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <div class="id"><a href="#" title="Return to top">GradleDependency: Obsolete Gradle Dependency</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:89</span>: <span class="message">A newer version of com.android.support:recyclerview-v7 than 24.0.+ is available: 25.0.1</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:89</span>: <span class="message">A newer version of com.android.support:recyclerview-v7 than 24.0.+ is available: 25.0.0</span><br /><pre class="errorlines">
 <span class="lineno">  86</span>     compile 'com.github.trikita:anvil-recyclerview:1.2'
 <span class="lineno">  87</span>     compile 'com.squareup.retrofit2:retrofit:2.1.0'
 <span class="lineno">  88</span>     compile 'com.squareup.retrofit2:converter-gson:2.1.0'

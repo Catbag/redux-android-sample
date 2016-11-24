@@ -28,13 +28,13 @@
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">6</div>
+<div class="counter">0</div>
 <p>failures</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">48.020s</div>
+<div class="counter">35.785s</div>
 <p>duration</p>
 </div>
 </td>
@@ -43,8 +43,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox failures" id="successRate">
-<div class="percent">45%</div>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
 <p>successful</p>
 </div>
 </td>
@@ -54,274 +54,68 @@
 <div id="tabs">
 <ul class="tabLinks">
 <li>
-<a href="#tab0">Failed tests</a>
-</li>
-<li>
-<a href="#tab1">Tests</a>
+<a href="#tab0">Tests</a>
 </li>
 </ul>
 <div id="tab0" class="tab">
-<h2>Failed tests</h2>
-<div class="test">
-<a name="whenGifIsDownloadedTest"></a>
-<h3 class="failures">whenGifIsDownloadedTest</h3>
-<span class="code">
-<pre>android.support.test.espresso.base.DefaultFailureHandler$AssertionFailedWithCauseError: 'with a not null drawable' doesn't match the selected view.
-Expected: with a not null drawable
-Got: &quot;GifImageView{id=2131492949, res-name=gif_image, visibility=VISIBLE, width=432, height=480, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0}&quot;
-
-at dalvik.system.VMStack.getThreadStackTrace(Native Method)
-at java.lang.Thread.getStackTrace(Thread.java:580)
-at android.support.test.espresso.base.DefaultFailureHandler.getUserFriendlyError(DefaultFailureHandler.java:92)
-at android.support.test.espresso.base.DefaultFailureHandler.handle(DefaultFailureHandler.java:56)
-at android.support.test.espresso.ViewInteraction.runSynchronouslyOnUiThread(ViewInteraction.java:184)
-at android.support.test.espresso.ViewInteraction.check(ViewInteraction.java:158)
-at br.com.catbag.gifreduxsample.ui.giflist.GifListActivityTest.whenGifIsDownloadedTest(GifListActivityTest.java:115)
-at java.lang.reflect.Method.invoke(Native Method)
-at java.lang.reflect.Method.invoke(Method.java:372)
-at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
-at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
-at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
-at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
-at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
-at android.support.test.internal.statement.UiThreadStatement.evaluate(UiThreadStatement.java:55)
-at android.support.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:270)
-at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:298)
-at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:292)
-at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at java.lang.Thread.run(Thread.java:818)
-Caused by: junit.framework.AssertionFailedError: 'with a not null drawable' doesn't match the selected view.
-Expected: with a not null drawable
-Got: &quot;GifImageView{id=2131492949, res-name=gif_image, visibility=VISIBLE, width=432, height=480, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0}&quot;
-
-at android.support.test.espresso.matcher.ViewMatchers.assertThat(ViewMatchers.java:1053)
-at android.support.test.espresso.assertion.ViewAssertions$2.check(ViewAssertions.java:89)
-at android.support.test.espresso.ViewInteraction$2.run(ViewInteraction.java:170)
-at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:422)
-at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at android.os.Handler.handleCallback(Handler.java:739)
-at android.os.Handler.dispatchMessage(Handler.java:95)
-at android.os.Looper.loop(Looper.java:135)
-at android.app.ActivityThread.main(ActivityThread.java:5254)
-at java.lang.reflect.Method.invoke(Native Method)
-at java.lang.reflect.Method.invoke(Method.java:372)
-at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:903)
-at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:698)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="whenLoadMultipleGifsOnAppStateTest"></a>
-<h3 class="failures">whenLoadMultipleGifsOnAppStateTest</h3>
-<span class="code">
-<pre>android.support.test.espresso.base.DefaultFailureHandler$AssertionFailedWithCauseError: 'with a not null drawable' doesn't match the selected view.
-Expected: with a not null drawable
-Got: &quot;FrameLayout{id=-1, visibility=VISIBLE, width=432, height=480, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}&quot;
-
-at dalvik.system.VMStack.getThreadStackTrace(Native Method)
-at java.lang.Thread.getStackTrace(Thread.java:580)
-at android.support.test.espresso.base.DefaultFailureHandler.getUserFriendlyError(DefaultFailureHandler.java:92)
-at android.support.test.espresso.base.DefaultFailureHandler.handle(DefaultFailureHandler.java:56)
-at android.support.test.espresso.ViewInteraction.runSynchronouslyOnUiThread(ViewInteraction.java:184)
-at android.support.test.espresso.ViewInteraction.check(ViewInteraction.java:158)
-at br.com.catbag.gifreduxsample.ui.giflist.GifListActivityTest.whenLoadMultipleGifsOnAppStateTest(GifListActivityTest.java:227)
-at java.lang.reflect.Method.invoke(Native Method)
-at java.lang.reflect.Method.invoke(Method.java:372)
-at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
-at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
-at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
-at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
-at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
-at android.support.test.internal.statement.UiThreadStatement.evaluate(UiThreadStatement.java:55)
-at android.support.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:270)
-at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:298)
-at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:292)
-at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at java.lang.Thread.run(Thread.java:818)
-Caused by: junit.framework.AssertionFailedError: 'with a not null drawable' doesn't match the selected view.
-Expected: with a not null drawable
-Got: &quot;FrameLayout{id=-1, visibility=VISIBLE, width=432, height=480, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}&quot;
-
-at android.support.test.espresso.matcher.ViewMatchers.assertThat(ViewMatchers.java:1053)
-at android.support.test.espresso.assertion.ViewAssertions$2.check(ViewAssertions.java:89)
-at android.support.test.espresso.ViewInteraction$2.run(ViewInteraction.java:170)
-at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:422)
-at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at android.os.Handler.handleCallback(Handler.java:739)
-at android.os.Handler.dispatchMessage(Handler.java:95)
-at android.os.Looper.loop(Looper.java:135)
-at android.app.ActivityThread.main(ActivityThread.java:5254)
-at java.lang.reflect.Method.invoke(Native Method)
-at java.lang.reflect.Method.invoke(Method.java:372)
-at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:903)
-at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:698)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="whenPauseGifTest"></a>
-<h3 class="failures">whenPauseGifTest</h3>
-<span class="code">
-<pre>java.lang.NullPointerException: Attempt to invoke virtual method 'boolean pl.droidsonroids.gif.GifDrawable.isPlaying()' on a null object reference
-at br.com.catbag.gifreduxsample.matchers.Matchers$2.matchesSafely(Matchers.java:45)
-at br.com.catbag.gifreduxsample.matchers.Matchers$2.matchesSafely(Matchers.java:41)
-at android.support.test.espresso.matcher.BoundedMatcher.matches(BoundedMatcher.java:73)
-at org.hamcrest.core.IsNot.matches(IsNot.java:25)
-at android.support.test.espresso.matcher.ViewMatchers.assertThat(ViewMatchers.java:1041)
-at android.support.test.espresso.assertion.ViewAssertions$2.check(ViewAssertions.java:89)
-at android.support.test.espresso.ViewInteraction$2.run(ViewInteraction.java:170)
-at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:422)
-at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at android.os.Handler.handleCallback(Handler.java:739)
-at android.os.Handler.dispatchMessage(Handler.java:95)
-at android.os.Looper.loop(Looper.java:135)
-at android.app.ActivityThread.main(ActivityThread.java:5254)
-at java.lang.reflect.Method.invoke(Native Method)
-at java.lang.reflect.Method.invoke(Method.java:372)
-at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:903)
-at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:698)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="whenPlayGifTest"></a>
-<h3 class="failures">whenPlayGifTest</h3>
-<span class="code">
-<pre>java.lang.NullPointerException: Attempt to invoke virtual method 'boolean pl.droidsonroids.gif.GifDrawable.isPlaying()' on a null object reference
-at br.com.catbag.gifreduxsample.matchers.Matchers$2.matchesSafely(Matchers.java:45)
-at br.com.catbag.gifreduxsample.matchers.Matchers$2.matchesSafely(Matchers.java:41)
-at android.support.test.espresso.matcher.BoundedMatcher.matches(BoundedMatcher.java:73)
-at android.support.test.espresso.matcher.ViewMatchers.assertThat(ViewMatchers.java:1041)
-at android.support.test.espresso.assertion.ViewAssertions$2.check(ViewAssertions.java:89)
-at android.support.test.espresso.ViewInteraction$2.run(ViewInteraction.java:170)
-at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:422)
-at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at android.os.Handler.handleCallback(Handler.java:739)
-at android.os.Handler.dispatchMessage(Handler.java:95)
-at android.os.Looper.loop(Looper.java:135)
-at android.app.ActivityThread.main(ActivityThread.java:5254)
-at java.lang.reflect.Method.invoke(Native Method)
-at java.lang.reflect.Method.invoke(Method.java:372)
-at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:903)
-at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:698)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="whenScrollDownAndPlayLastItemTest"></a>
-<h3 class="failures">whenScrollDownAndPlayLastItemTest</h3>
-<span class="code">
-<pre>android.support.test.espresso.IdlingResourceTimeoutException: Wait for [Class] to become idle timed out
-at dalvik.system.VMStack.getThreadStackTrace(Native Method)
-at java.lang.Thread.getStackTrace(Thread.java:580)
-at android.support.test.espresso.base.DefaultFailureHandler.getUserFriendlyError(DefaultFailureHandler.java:92)
-at android.support.test.espresso.base.DefaultFailureHandler.handle(DefaultFailureHandler.java:56)
-at android.support.test.espresso.ViewInteraction.runSynchronouslyOnUiThread(ViewInteraction.java:184)
-at android.support.test.espresso.ViewInteraction.check(ViewInteraction.java:158)
-at br.com.catbag.gifreduxsample.ui.giflist.GifListActivityTest.whenScrollDownAndPlayLastItemTest(GifListActivityTest.java:264)
-at java.lang.reflect.Method.invoke(Native Method)
-at java.lang.reflect.Method.invoke(Method.java:372)
-at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
-at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
-at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
-at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
-at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
-at android.support.test.internal.statement.UiThreadStatement.evaluate(UiThreadStatement.java:55)
-at android.support.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:270)
-at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:298)
-at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:292)
-at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at java.lang.Thread.run(Thread.java:818)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="whenScrollUpAndPlayFirstItemTest"></a>
-<h3 class="failures">whenScrollUpAndPlayFirstItemTest</h3>
-<span class="code">
-<pre>java.lang.NullPointerException: Attempt to invoke virtual method 'boolean pl.droidsonroids.gif.GifDrawable.isPlaying()' on a null object reference
-at br.com.catbag.gifreduxsample.matchers.Matchers$2.matchesSafely(Matchers.java:45)
-at br.com.catbag.gifreduxsample.matchers.Matchers$2.matchesSafely(Matchers.java:41)
-at android.support.test.espresso.matcher.BoundedMatcher.matches(BoundedMatcher.java:73)
-at android.support.test.espresso.matcher.ViewMatchers.assertThat(ViewMatchers.java:1041)
-at android.support.test.espresso.assertion.ViewAssertions$2.check(ViewAssertions.java:89)
-at android.support.test.espresso.ViewInteraction$2.run(ViewInteraction.java:170)
-at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:422)
-at java.util.concurrent.FutureTask.run(FutureTask.java:237)
-at android.os.Handler.handleCallback(Handler.java:739)
-at android.os.Handler.dispatchMessage(Handler.java:95)
-at android.os.Looper.loop(Looper.java:135)
-at android.app.ActivityThread.main(ActivityThread.java:5254)
-at java.lang.reflect.Method.invoke(Native Method)
-at java.lang.reflect.Method.invoke(Method.java:372)
-at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:903)
-at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:698)
-</pre>
-</span>
-</div>
-</div>
-<div id="tab1" class="tab">
 <h2>Tests</h2>
 <table>
 <thead>
 <tr>
 <th>Test</th>
-<th>test(AVD) - 5.1.1</th>
+<th>test(AVD) - 7.0</th>
 </tr>
 </thead>
 <tr>
 <td>whenGifDownloadFailTest</td>
-<td class="success">passed (0.729s)</td>
+<td class="success">passed (0.654s)</td>
 </tr>
 <tr>
 <td>whenGifIsDownloadedTest</td>
-<td class="failures">failed (1.031s)</td>
+<td class="success">passed (0.428s)</td>
 </tr>
 <tr>
 <td>whenGifIsDownloadingTest</td>
-<td class="success">passed (1.685s)</td>
+<td class="success">passed (0.918s)</td>
 </tr>
 <tr>
 <td>whenGifIsNotWatchedTest</td>
-<td class="success">passed (0.875s)</td>
+<td class="success">passed (1.564s)</td>
 </tr>
 <tr>
 <td>whenGifIsWatchedTest</td>
-<td class="success">passed (0.808s)</td>
+<td class="success">passed (1.030s)</td>
 </tr>
 <tr>
 <td>whenListKeepOrderedAfterPlayTest</td>
-<td class="success">passed (9.023s)</td>
+<td class="success">passed (20.028s)</td>
 </tr>
 <tr>
 <td>whenLoadMultipleGifsOnAppStateTest</td>
-<td class="failures">failed (1.559s)</td>
+<td class="success">passed (3.496s)</td>
 </tr>
 <tr>
 <td>whenPauseGifTest</td>
-<td class="failures">failed (1.081s)</td>
+<td class="success">passed (1.458s)</td>
 </tr>
 <tr>
 <td>whenPlayGifTest</td>
-<td class="failures">failed (0.578s)</td>
+<td class="success">passed (0.679s)</td>
 </tr>
 <tr>
 <td>whenScrollDownAndPlayLastItemTest</td>
-<td class="failures">failed (29.293s)</td>
+<td class="success">passed (4.023s)</td>
 </tr>
 <tr>
 <td>whenScrollUpAndPlayFirstItemTest</td>
-<td class="failures">failed (1.358s)</td>
+<td class="success">passed (1.507s)</td>
 </tr>
 </table>
 </div>
 </div>
 <div id="footer">
 <p>Generated by 
-<a href="http://www.gradle.org">Gradle 2.14.1</a> at Nov 24, 2016 2:06:25 PM</p>
+<a href="http://www.gradle.org">Gradle 2.14.1</a> at Nov 24, 2016 2:15:37 PM</p>
 </div>
 </div>
 </body>
