@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>RenderableComponent.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">br.com.catbag.gifreduxsample.ui.components</a> &gt; <span class="el_source">RenderableComponent.java</span></div><h1>RenderableComponent.java</h1><pre class="source lang-java linenums">package br.com.catbag.gifreduxsample.ui.components;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ReactiveView.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">br.com.catbag.gifreduxsample.ui.components</a> &gt; <span class="el_source">ReactiveView.java</span></div><h1>ReactiveView.java</h1><pre class="source lang-java linenums">package br.com.catbag.gifreduxsample.ui.components;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,31 +7,31 @@ import com.umaplay.fluxxan.StateListener;
 
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.models.AppState;
-import br.com.catbag.gifreduxsample.ui.AnvilRenderComponent;
 import br.com.catbag.gifreduxsample.ui.AnvilRenderListener;
+import br.com.catbag.gifreduxsample.ui.AnvilRenderable;
 import trikita.anvil.RenderableView;
 
 /**
  * Created by raulcca on 11/21/16.
  */
 
-public abstract class RenderableComponent extends RenderableView
-        implements StateListener&lt;AppState&gt;, AnvilRenderComponent {
+public abstract class ReactiveView extends RenderableView
+        implements StateListener&lt;AppState&gt;, AnvilRenderable {
 
 <span class="pc" id="L21">    private boolean mIsRegisteredOnStateChange = false;</span>
     private AnvilRenderListener mAnvilRenderListener;
 
-    public RenderableComponent(Context context) {
+    public ReactiveView(Context context) {
 <span class="fc" id="L25">        super(context);</span>
 <span class="fc" id="L26">        initialState();</span>
 <span class="fc" id="L27">    }</span>
 
-    public RenderableComponent(Context context, AttributeSet attrs) {
+    public ReactiveView(Context context, AttributeSet attrs) {
 <span class="fc" id="L30">        super(context, attrs);</span>
 <span class="fc" id="L31">        initialState();</span>
 <span class="fc" id="L32">    }</span>
 
-    public RenderableComponent(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ReactiveView(Context context, AttributeSet attrs, int defStyleAttr) {
 <span class="nc" id="L35">        super(context, attrs, defStyleAttr);</span>
 <span class="nc" id="L36">        initialState();</span>
 <span class="nc" id="L37">    }</span>

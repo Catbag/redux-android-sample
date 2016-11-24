@@ -58,7 +58,7 @@ public class FileDownloader {
         });
 <span class="nc" id="L59">    }</span>
 
-    public void readFromNetAndWriteToDisk(InputStream inputStream, String pathToSave)
+    private void readFromNetAndWriteToDisk(InputStream inputStream, String pathToSave)
             throws IOException {
 
 <span class="nc" id="L64">        File futureStudioIconFile = new File(pathToSave);</span>
@@ -76,13 +76,9 @@ public class FileDownloader {
 <span class="nc" id="L76">        }</span>
 
 <span class="nc" id="L78">        outputStream.flush();</span>
-<span class="nc bnc" id="L79" title="All 2 branches missed.">        if (inputStream != null) {</span>
-<span class="nc" id="L80">            inputStream.close();</span>
-        }
-<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (outputStream != null) {</span>
-<span class="nc" id="L83">            outputStream.close();</span>
-        }
-<span class="nc" id="L85">    }</span>
+<span class="nc" id="L79">        inputStream.close();</span>
+<span class="nc" id="L80">        outputStream.close();</span>
+<span class="nc" id="L81">    }</span>
 
     public interface SuccessDownloadListener {
         void onSuccess();
