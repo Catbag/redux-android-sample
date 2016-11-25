@@ -194,7 +194,7 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Thu Nov 24 18:44:34 UTC 2016.<br/>
+Check performed at Fri Nov 25 19:11:04 UTC 2016.<br/>
 0 errors and 20 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
@@ -343,7 +343,7 @@ Using <code>+</code> in dependencies lets you automatically pick up the latest a
 <div class="id"><a href="#" title="Return to top">NewerVersionAvailable: Newer Library Versions Available</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:60</span>: <span class="message">A newer version of org.mockito:mockito-core than 2.0.17-beta is available: 2.2.22</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:60</span>: <span class="message">A newer version of org.mockito:mockito-core than 2.0.17-beta is available: 2.2.25</span><br /><pre class="errorlines">
 <span class="lineno">  57</span> dependencies {
 <span class="lineno">  58</span>     //Unit tests dependencies
 <span class="lineno">  59</span>     testCompile 'junit:junit:4.12'
@@ -367,7 +367,7 @@ Using <code>+</code> in dependencies lets you automatically pick up the latest a
 <span class="lineno">  63</span> 
 <span class="lineno">  64</span>     //UI tests dependencies
 </pre>
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:77</span>: <span class="message">A newer version of org.mockito:mockito-core than 2.0.17-beta is available: 2.2.22</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:77</span>: <span class="message">A newer version of org.mockito:mockito-core than 2.0.17-beta is available: 2.2.25</span><br /><pre class="errorlines">
 <span class="lineno">  74</span>     androidTestCompile "com.crittercism.dexmaker:dexmaker:1.4"
 <span class="lineno">  75</span>     androidTestCompile "com.crittercism.dexmaker:dexmaker-dx:1.4"
 <span class="lineno">  76</span>     androidTestCompile "com.crittercism.dexmaker:dexmaker-mockito:1.4"

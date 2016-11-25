@@ -4,6 +4,10 @@
 </file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/androidTest/java/br/com/catbag/gifreduxsample/lockers/AnvilTestLocker.java">
 </file>
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/androidTest/java/br/com/catbag/gifreduxsample/lockers/BaseTestLocker.java">
+</file>
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/androidTest/java/br/com/catbag/gifreduxsample/lockers/RecyclerTestLocker.java">
+</file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/androidTest/java/br/com/catbag/gifreduxsample/matchers/Matchers.java">
 </file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/androidTest/java/br/com/catbag/gifreduxsample/matchers/RecyclerViewMatcher.java">
@@ -28,21 +32,21 @@
 </file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/data/DataManager.java">
 </file>
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/data/net/downloader/FileDownloader.java">
+</file>
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/data/net/rest/retrofit/RetrofitBuilder.java">
+</file>
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/data/net/rest/riffsy/api/RiffsyRoutes.java">
+</file>
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/data/net/rest/riffsy/model/RiffsyGif.java">
+</file>
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/data/net/rest/riffsy/model/RiffsyMedia.java">
+</file>
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/data/net/rest/riffsy/model/RiffsyResponse.java">
+</file>
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/data/net/rest/riffsy/model/RiffsyResult.java">
+</file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/data/storage/Database.java">
-</file>
-<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/net/downloader/FileDownloader.java">
-</file>
-<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/net/rest/retrofit/RetrofitBuilder.java">
-</file>
-<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/net/rest/riffsy/api/RiffsyRoutes.java">
-</file>
-<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/net/rest/riffsy/model/RiffsyGif.java">
-</file>
-<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/net/rest/riffsy/model/RiffsyMedia.java">
-</file>
-<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/net/rest/riffsy/model/RiffsyResponse.java">
-</file>
-<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/asyncs/net/rest/riffsy/model/RiffsyResult.java">
 </file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/middlewares/PersistenceMiddleware.java">
 </file>
@@ -60,15 +64,17 @@
 </file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/ui/AnvilRenderable.java">
 </file>
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/ui/EndlessRecyclerScrollListener.java">
+</file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/ui/GifListActivity.java">
 </file>
-<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/ui/components/FeedView.java">
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/ui/views/FeedView.java">
 </file>
-<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/ui/components/GifView.java">
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/ui/views/GifView.java">
 </file>
-<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/ui/components/GifsAdapter.java">
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/ui/views/GifsAdapter.java">
 </file>
-<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/ui/components/ReactiveView.java">
+<file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/main/java/br/com/catbag/gifreduxsample/ui/views/ReactiveView.java">
 </file>
 <file name="/drone/src/github.com/Catbag/redux-android-sample/app/src/test/java/br/com/catbag/gifreduxsample/reducers/asyncs/net/rest/riffsy/api/RiffsyRoutesTest.java">
 </file>

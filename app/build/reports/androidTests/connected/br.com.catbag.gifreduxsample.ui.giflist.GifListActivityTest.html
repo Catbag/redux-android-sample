@@ -22,19 +22,19 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">11</div>
+<div class="counter">16</div>
 <p>tests</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">0</div>
+<div class="counter">1</div>
 <p>failures</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">35.689s</div>
+<div class="counter">36.828s</div>
 <p>duration</p>
 </div>
 </td>
@@ -43,8 +43,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox success" id="successRate">
-<div class="percent">100%</div>
+<div class="infoBox failures" id="successRate">
+<div class="percent">93%</div>
 <p>successful</p>
 </div>
 </td>
@@ -54,10 +54,99 @@
 <div id="tabs">
 <ul class="tabLinks">
 <li>
-<a href="#tab0">Tests</a>
+<a href="#tab0">Failed tests</a>
+</li>
+<li>
+<a href="#tab1">Tests</a>
 </li>
 </ul>
 <div id="tab0" class="tab">
+<h2>Failed tests</h2>
+<div class="test">
+<a name="whenPauseGifTest"></a>
+<h3 class="failures">whenPauseGifTest</h3>
+<span class="code">
+<pre>android.support.test.espresso.AmbiguousViewMatcherException: 'with id: br.com.catbag.gifreduxsample:id/gif_image' matches multiple views in the hierarchy.
+Problem views are marked with '****MATCHES****' below.
+
+View Hierarchy:
++&gt;DecorView{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=2}
+|
++-&gt;LinearLayout{id=-1, visibility=VISIBLE, width=480, height=800, has-focus=true, has-focusable=true, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=2}
+|
++--&gt;ViewStub{id=16909288, res-name=action_mode_bar_stub, visibility=GONE, width=0, height=0, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=true, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0}
+|
++--&gt;FrameLayout{id=-1, visibility=VISIBLE, width=480, height=764, has-focus=true, has-focusable=true, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=36.0, child-count=1}
+|
++---&gt;ActionBarOverlayLayout{id=2131492928, res-name=decor_content_parent, visibility=VISIBLE, width=480, height=764, has-focus=true, has-focusable=true, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=2}
+|
++----&gt;ContentFrameLayout{id=16908290, res-name=content, visibility=VISIBLE, width=480, height=680, has-focus=true, has-focusable=true, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=84.0, child-count=1}
+|
++-----&gt;RelativeLayout{id=2131492945, res-name=activity_gif_list, visibility=VISIBLE, width=480, height=680, has-focus=true, has-focusable=true, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=2}
+|
++------&gt;FeedView{id=2131492946, res-name=feed, visibility=VISIBLE, width=432, height=632, has-focus=true, has-focusable=true, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=24.0, y=24.0, child-count=1}
+|
++-------&gt;RecyclerView{id=256, visibility=VISIBLE, width=432, height=632, has-focus=true, has-focusable=true, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=true, is-focusable=true, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=2}
+|
++--------&gt;FrameLayout{id=-1, visibility=VISIBLE, width=432, height=480, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}
+|
++---------&gt;GifView{id=-1, visibility=VISIBLE, width=432, height=480, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}
+|
++----------&gt;RelativeLayout{id=2131492948, res-name=gif_item, visibility=VISIBLE, width=432, height=480, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=2}
+|
++-----------&gt;GifImageView{id=2131492949, res-name=gif_image, visibility=VISIBLE, width=432, height=480, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=true, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0} ****MATCHES****
+|
++-----------&gt;ProgressBar{id=2131492950, res-name=gif_loading, visibility=GONE, width=0, height=0, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=true, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0}
+|
++--------&gt;FrameLayout{id=-1, visibility=VISIBLE, width=432, height=480, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=480.0, child-count=1}
+|
++---------&gt;GifView{id=-1, visibility=VISIBLE, width=432, height=480, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}
+|
++----------&gt;RelativeLayout{id=2131492948, res-name=gif_item, visibility=VISIBLE, width=432, height=480, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=2}
+|
++-----------&gt;GifImageView{id=2131492949, res-name=gif_image, visibility=VISIBLE, width=432, height=480, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=true, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0} ****MATCHES****
+|
++-----------&gt;ProgressBar{id=2131492950, res-name=gif_loading, visibility=GONE, width=0, height=0, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=true, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0}
+|
++------&gt;ProgressBar{id=2131492947, res-name=loading, visibility=GONE, width=0, height=0, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=true, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0}
+|
++----&gt;ActionBarContainer{id=2131492929, res-name=action_bar_container, visibility=VISIBLE, width=480, height=84, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=2}
+|
++-----&gt;Toolbar{id=2131492930, res-name=action_bar, visibility=VISIBLE, width=480, height=84, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=2}
+|
++------&gt;TextView{id=-1, visibility=VISIBLE, width=238, height=41, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=24.0, y=21.0, text=Gif Redux Sample, input-type=0, ime-target=false, has-links=false}
+|
++------&gt;ActionMenuView{id=-1, visibility=VISIBLE, width=0, height=84, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=480.0, y=0.0, child-count=0}
+|
++-----&gt;ActionBarContextView{id=2131492931, res-name=action_context_bar, visibility=GONE, width=0, height=0, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=true, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=0}
+|
++-&gt;View{id=16908335, res-name=statusBarBackground, visibility=VISIBLE, width=480, height=36, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0}
+|
+at dalvik.system.VMStack.getThreadStackTrace(Native Method)
+at java.lang.Thread.getStackTrace(Thread.java:1566)
+at android.support.test.espresso.base.DefaultFailureHandler.getUserFriendlyError(DefaultFailureHandler.java:92)
+at android.support.test.espresso.base.DefaultFailureHandler.handle(DefaultFailureHandler.java:56)
+at android.support.test.espresso.ViewInteraction.runSynchronouslyOnUiThread(ViewInteraction.java:184)
+at android.support.test.espresso.ViewInteraction.check(ViewInteraction.java:158)
+at br.com.catbag.gifreduxsample.ui.giflist.GifListActivityTest.whenPauseGifTest(GifListActivityTest.java:208)
+at java.lang.reflect.Method.invoke(Native Method)
+at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+at android.support.test.internal.statement.UiThreadStatement.evaluate(UiThreadStatement.java:55)
+at android.support.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:270)
+at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:298)
+at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:292)
+at java.util.concurrent.FutureTask.run(FutureTask.java:237)
+at java.lang.Thread.run(Thread.java:761)
+</pre>
+</span>
+</div>
+</div>
+<div id="tab1" class="tab">
 <h2>Tests</h2>
 <table>
 <thead>
@@ -67,55 +156,75 @@
 </tr>
 </thead>
 <tr>
+<td>whenDefaultGifsAreLoaded</td>
+<td class="success">passed (1.886s)</td>
+</tr>
+<tr>
+<td>whenEndlessScrollNotTriggered</td>
+<td class="success">passed (1.156s)</td>
+</tr>
+<tr>
+<td>whenEndlessScrollTriggered</td>
+<td class="success">passed (0.856s)</td>
+</tr>
+<tr>
 <td>whenGifDownloadFailTest</td>
-<td class="success">passed (1.185s)</td>
+<td class="success">passed (1.043s)</td>
 </tr>
 <tr>
 <td>whenGifIsDownloadedTest</td>
-<td class="success">passed (0.563s)</td>
+<td class="success">passed (0.529s)</td>
 </tr>
 <tr>
 <td>whenGifIsDownloadingTest</td>
-<td class="success">passed (0.528s)</td>
+<td class="success">passed (0.453s)</td>
 </tr>
 <tr>
 <td>whenGifIsNotWatchedTest</td>
-<td class="success">passed (1.005s)</td>
+<td class="success">passed (0.654s)</td>
 </tr>
 <tr>
 <td>whenGifIsWatchedTest</td>
-<td class="success">passed (1.237s)</td>
+<td class="success">passed (0.680s)</td>
+</tr>
+<tr>
+<td>whenGifListIsEmpty</td>
+<td class="success">passed (0.454s)</td>
+</tr>
+<tr>
+<td>whenGifListIsNotEmpty</td>
+<td class="success">passed (0.704s)</td>
 </tr>
 <tr>
 <td>whenListKeepOrderedAfterPlayTest</td>
-<td class="success">passed (18.956s)</td>
+<td class="success">passed (18.991s)</td>
 </tr>
 <tr>
 <td>whenLoadMultipleGifsOnAppStateTest</td>
-<td class="success">passed (3.779s)</td>
+<td class="success">passed (0.906s)</td>
 </tr>
 <tr>
 <td>whenPauseGifTest</td>
-<td class="success">passed (1.817s)</td>
+<td class="failures">failed (2.548s)</td>
 </tr>
 <tr>
 <td>whenPlayGifTest</td>
-<td class="success">passed (1.435s)</td>
+<td class="success">passed (1.234s)</td>
 </tr>
 <tr>
 <td>whenScrollDownAndPlayLastItemTest</td>
-<td class="success">passed (3.600s)</td>
+<td class="success">passed (2.871s)</td>
 </tr>
 <tr>
 <td>whenScrollUpAndPlayFirstItemTest</td>
-<td class="success">passed (1.584s)</td>
+<td class="success">passed (1.863s)</td>
 </tr>
 </table>
 </div>
 </div>
 <div id="footer">
 <p>Generated by 
-<a href="http://www.gradle.org">Gradle 2.14.1</a> at Nov 24, 2016 6:48:24 PM</p>
+<a href="http://www.gradle.org">Gradle 2.14.1</a> at Nov 25, 2016 7:14:21 PM</p>
 </div>
 </div>
 </body>
