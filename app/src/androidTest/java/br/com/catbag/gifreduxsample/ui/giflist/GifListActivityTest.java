@@ -362,7 +362,6 @@ public class GifListActivityTest extends ReduxBaseTest {
         try {
             DB db = DBFactory.open(getTargetContext());
             db.destroy();
-            db.close();
         } catch (Exception e) {
             Log.e("TEST", e.getLocalizedMessage(), e);
         }
