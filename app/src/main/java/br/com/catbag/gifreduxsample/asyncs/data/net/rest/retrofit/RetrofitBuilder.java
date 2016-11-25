@@ -1,4 +1,4 @@
-package br.com.catbag.gifreduxsample.asyncs.net.rest.retrofit;
+package br.com.catbag.gifreduxsample.asyncs.data.net.rest.retrofit;
 
 import android.support.annotation.NonNull;
 

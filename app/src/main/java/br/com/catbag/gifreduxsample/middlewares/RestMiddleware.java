@@ -11,7 +11,7 @@ import java.util.Map;
 
 import br.com.catbag.gifreduxsample.actions.PayloadParams;
 import br.com.catbag.gifreduxsample.asyncs.data.DataManager;
-import br.com.catbag.gifreduxsample.asyncs.net.downloader.FileDownloader;
+import br.com.catbag.gifreduxsample.asyncs.data.net.downloader.FileDownloader;
 import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
 

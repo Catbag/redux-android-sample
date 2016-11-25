@@ -1,4 +1,4 @@
-package br.com.catbag.gifreduxsample.asyncs.net.downloader;
+package br.com.catbag.gifreduxsample.asyncs.data.net.downloader;
 
 import android.util.Log;
 
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import br.com.catbag.gifreduxsample.asyncs.net.rest.retrofit.RetrofitBuilder;
+import br.com.catbag.gifreduxsample.asyncs.data.net.rest.retrofit.RetrofitBuilder;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;

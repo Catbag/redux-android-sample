@@ -6,7 +6,7 @@ import com.umaplay.fluxxan.Fluxxan;
 import com.umaplay.fluxxan.Middleware;
 
 import br.com.catbag.gifreduxsample.asyncs.data.DataManager;
-import br.com.catbag.gifreduxsample.asyncs.net.downloader.FileDownloader;
+import br.com.catbag.gifreduxsample.asyncs.data.net.downloader.FileDownloader;
 import br.com.catbag.gifreduxsample.middlewares.PersistenceMiddleware;
 import br.com.catbag.gifreduxsample.middlewares.RestMiddleware;
 import br.com.catbag.gifreduxsample.models.AppState;

@@ -1,4 +1,4 @@
-package br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.model;
+package br.com.catbag.gifreduxsample.asyncs.data.net.rest.riffsy.model;
 
 import com.google.gson.annotations.SerializedName;
 

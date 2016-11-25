@@ -1,10 +1,5 @@
 package br.com.catbag.gifreduxsample.lockers;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.IdlingResource;
-
 import br.com.catbag.gifreduxsample.ui.AnvilRenderListener;
 import br.com.catbag.gifreduxsample.ui.AnvilRenderable;
 
@@ -12,15 +7,11 @@ import br.com.catbag.gifreduxsample.ui.AnvilRenderable;
  * Created by niltonvasques on 10/24/16.
  */
 
-public class AnvilTestLocker implements IdlingResource, AnvilRenderListener {
+public class AnvilTestLocker extends BaseTestLocker implements AnvilRenderListener {
 
-    private static final int FORCE_IS_IDLE_NOW_DELAY = 250;
     private AnvilRenderable mAnvilRenderable;
-    private ResourceCallback mResourceCallback;
     private int mRenderTimes = 0;
     private int mLastRenderTimes = 0;
-    private Handler mHandler = new Handler(Looper.getMainLooper());
-    private Runnable mForceIsIdleNow = this::isIdleNow;
 
     public AnvilTestLocker(AnvilRenderable anvilRenderable) {
         mAnvilRenderable = anvilRenderable;
@@ -28,40 +19,17 @@ public class AnvilTestLocker implements IdlingResource, AnvilRenderListener {
     }
 
     @Override
-    public void registerIdleTransitionCallback(ResourceCallback resourceCallback) {
-        mResourceCallback = resourceCallback;
-    }
-
-    @Override
-    public String getName() {
-        return AnvilTestLocker.class.getClass().getSimpleName();
-    }
-
-    @Override
-    public boolean isIdleNow() {
-        mHandler.removeCallbacks(mForceIsIdleNow);
+    protected boolean isIdle() {
         boolean isIdle = mRenderTimes != 0 && mRenderTimes == mLastRenderTimes;
         mLastRenderTimes = mRenderTimes;
 
-        if (mResourceCallback != null) {
-            if (isIdle) {
-                mResourceCallback.onTransitionToIdle();
-            } else {
-                mHandler.postDelayed(mForceIsIdleNow, FORCE_IS_IDLE_NOW_DELAY);
-            }
-        }
         return isIdle;
     }
 
-    /** Register idling resources don't stop flow when junit asserts is used **/
-    public void registerIdlingResource() {
-        Espresso.registerIdlingResources(this);
-    }
-
+    @Override
     public void unregisterIdlingResource() {
-        mHandler.removeCallbacks(mForceIsIdleNow);
         mAnvilRenderable.setAnvilRenderListener(null);
-        Espresso.unregisterIdlingResources(this);
+        super.unregisterIdlingResource();
     }
 
     @Override

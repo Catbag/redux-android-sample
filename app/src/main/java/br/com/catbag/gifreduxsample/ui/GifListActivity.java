@@ -18,14 +18,19 @@ public class GifListActivity extends StateListenerActivity<AppState>
         implements AnvilRenderable {
 
     //Binding Data
-    private boolean mGifProgressVisibility = true;
+    private boolean mGifProgressVisibility;
     private AnvilRenderListener mAnvilRenderListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gif_list);
+        initialState();
         bindingViews();
+    }
+
+    private void initialState() {
+        mGifProgressVisibility = MyApp.getFluxxan().getState().getGifs().isEmpty();
     }
 
     @Override
@@ -46,7 +51,7 @@ public class GifListActivity extends StateListenerActivity<AppState>
 
     @Override
     public void onStateChanged(AppState appState) {
-        if (!appState.getGifs().isEmpty() && mGifProgressVisibility) {
+        if (!appState.getGifs().isEmpty()) {
             mGifProgressVisibility = false;
         }
     }

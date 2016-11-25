@@ -1,20 +1,30 @@
 package shared;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.umaplay.fluxxan.Action;
 import com.umaplay.fluxxan.Fluxxan;
 import com.umaplay.fluxxan.StateListener;
 
+import org.mockito.ArgumentCaptor;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+import br.com.catbag.gifreduxsample.asyncs.data.DataManager;
+import br.com.catbag.gifreduxsample.asyncs.data.net.downloader.FileDownloader;
+import br.com.catbag.gifreduxsample.middlewares.PersistenceMiddleware;
+import br.com.catbag.gifreduxsample.middlewares.RestMiddleware;
 import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.models.ImmutableAppState;
 import br.com.catbag.gifreduxsample.models.ImmutableGif;
+
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by niltonvasques on 10/31/16.
@@ -57,6 +67,13 @@ public class TestHelper {
         getFluxxan().getDispatcher().removeListener(mStateListener);
     }
 
+    public void clearMiddlewares() {
+        getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
+        PersistenceMiddleware persistenceMiddleware = (PersistenceMiddleware) getFluxxan()
+                .getDispatcher().unregisterMiddleware(PersistenceMiddleware.class);
+        getFluxxan().getDispatcher().removeListener(persistenceMiddleware);
+    }
+
     private boolean isStateChanged() {
         synchronized (mLock) {
             return mStateChanged;
@@ -93,7 +110,7 @@ public class TestHelper {
         return gifs.values().iterator().next();
     }
 
-    private void sleep(long ms) {
+    public void sleep(long ms) {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException e) {
@@ -106,7 +123,7 @@ public class TestHelper {
     }
 
     public static AppState buildAppState(Map<String, Gif> gifs) {
-        return ImmutableAppState.builder().putAllGifs(gifs).build();
+        return ImmutableAppState.builder().gifs(gifs).build();
     }
 
     public static Map<String, Gif> buildFiveGifs() {
@@ -161,5 +178,38 @@ public class TestHelper {
                 .url("https://media.giphy.com/media/l0HlE56oAxpngfnWM/giphy.gif")
                 .status(Gif.Status.NOT_DOWNLOADED);
 
+    }
+
+    public DataManager mockDataManagerFetch(Map<String, Gif> expectedGifs,
+                                            boolean expectedHasMore) {
+        DataManager dataManager = mock(DataManager.class);
+        ArgumentCaptor<DataManager.GifListLoadListener> listenerCaptor
+                = ArgumentCaptor.forClass(DataManager.GifListLoadListener.class);
+        doAnswer((invocationOnMock) -> {
+            new Thread(() -> {
+                // The fluxxan don't let we dispatch when it's dispatching
+                while (mFluxxan.getDispatcher().isDispatching()) {
+                    try {
+                        Thread.sleep(5);
+                    } catch (InterruptedException e) {
+                        Log.e("Test", e.getMessage(), e);
+                    }
+                }
+                listenerCaptor.getValue().onLoaded(expectedGifs, expectedHasMore);
+            }).start();
+            return null;
+        }).when(dataManager).fetchGifs(listenerCaptor.capture());
+        return dataManager;
+    }
+
+    public void replaceMiddlewares(DataManager dm, Context context) {
+        clearMiddlewares();
+
+        RestMiddleware restMiddleware = new RestMiddleware(context, dm, new FileDownloader());
+        getFluxxan().getDispatcher().registerMiddleware(restMiddleware);
+
+        PersistenceMiddleware persistenceMiddleware = new PersistenceMiddleware(dm);
+        getFluxxan().getDispatcher().registerMiddleware(persistenceMiddleware);
+        getFluxxan().addListener(persistenceMiddleware);
     }
 }

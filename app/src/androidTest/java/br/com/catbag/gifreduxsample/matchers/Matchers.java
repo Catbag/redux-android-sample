@@ -10,7 +10,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
 import br.com.catbag.gifreduxsample.R;
-import br.com.catbag.gifreduxsample.ui.components.GifView;
+import br.com.catbag.gifreduxsample.ui.views.GifView;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 

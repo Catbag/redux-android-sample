@@ -1,4 +1,4 @@
-package br.com.catbag.gifreduxsample.ui.components;
+package br.com.catbag.gifreduxsample.ui.views;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
