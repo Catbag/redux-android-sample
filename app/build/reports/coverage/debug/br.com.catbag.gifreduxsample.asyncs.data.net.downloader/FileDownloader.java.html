@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FileDownloader.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">br.com.catbag.gifreduxsample.asyncs.data.net.downloader</a> &gt; <span class="el_source">FileDownloader.java</span></div><h1>FileDownloader.java</h1><pre class="source lang-java linenums">package br.com.catbag.gifreduxsample.asyncs.data.net.downloader;
+
+import android.util.Log;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import br.com.catbag.gifreduxsample.asyncs.data.net.rest.retrofit.RetrofitBuilder;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+/**
+ * Created by felipe on 13/10/16.
+ */
+
+public class FileDownloader {
+
+    private static RetrofitBuilder.DownloadRoute sRoutes;
+
+<span class="fc" id="L26">    public FileDownloader() {</span>
+<span class="fc" id="L27">        sRoutes = RetrofitBuilder.getInstance().createDownloadEndpoint();</span>
+<span class="fc" id="L28">    }</span>
+
+    public void download(String fileUrl, String pathToSave,
+                         SuccessDownloadListener successDownloadListener,
+                         FailureDownloadListener failureDownloadListener) {
+<span class="nc" id="L33">        Call&lt;ResponseBody&gt; call = sRoutes.downloadFileWithDynamicUrlSync(fileUrl);</span>
+<span class="nc" id="L34">        call.enqueue(new Callback&lt;ResponseBody&gt;() {</span>
+            @Override
+            public void onResponse(Call&lt;ResponseBody&gt; call, Response&lt;ResponseBody&gt; response) {
+<span class="nc bnc" id="L37" title="All 2 branches missed.">                if (response.isSuccessful()) {</span>
+                    try {
+<span class="nc" id="L39">                        readFromNetAndWriteToDisk(response.body().byteStream(), pathToSave);</span>
+<span class="nc" id="L40">                    } catch (IOException e) {</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">                        if (failureDownloadListener != null) {</span>
+<span class="nc" id="L42">                            failureDownloadListener</span>
+<span class="nc" id="L43">                                    .onFailure(new FileNotFoundException(&quot;Not found&quot;));</span>
+                        }
+<span class="nc" id="L45">                    }</span>
+
+<span class="nc bnc" id="L47" title="All 2 branches missed.">                    if (successDownloadListener != null) successDownloadListener.onSuccess();</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">                } else if (failureDownloadListener != null) {</span>
+<span class="nc" id="L49">                    failureDownloadListener.onFailure(new FileNotFoundException(&quot;Not found&quot;));</span>
+                }
+<span class="nc" id="L51">            }</span>
+
+            @Override
+            public void onFailure(Call&lt;ResponseBody&gt; call, Throwable t) {
+<span class="nc" id="L55">                Log.e(FileDownloader.class.getSimpleName(), &quot;error&quot;);</span>
+<span class="nc" id="L56">                failureDownloadListener.onFailure(new Exception(t));</span>
+<span class="nc" id="L57">            }</span>
+        });
+<span class="nc" id="L59">    }</span>
+
+    private void readFromNetAndWriteToDisk(InputStream inputStream, String pathToSave)
+            throws IOException {
+
+<span class="nc" id="L64">        File futureStudioIconFile = new File(pathToSave);</span>
+<span class="nc" id="L65">        OutputStream outputStream = new FileOutputStream(futureStudioIconFile);</span>
+<span class="nc" id="L66">        byte[] fileReader = new byte[4096];</span>
+
+        while (true) {
+            //Here the download is done...if some progress was made, here is the local
+<span class="nc" id="L70">            int read = inputStream.read(fileReader);</span>
+
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            if (read == -1) {</span>
+<span class="nc" id="L73">                break;</span>
+            }
+<span class="nc" id="L75">            outputStream.write(fileReader, 0, read);</span>
+<span class="nc" id="L76">        }</span>
+
+<span class="nc" id="L78">        outputStream.flush();</span>
+<span class="nc" id="L79">        inputStream.close();</span>
+<span class="nc" id="L80">        outputStream.close();</span>
+<span class="nc" id="L81">    }</span>
+
+    public interface SuccessDownloadListener {
+        void onSuccess();
+    }
+
+    public interface FailureDownloadListener {
+        void onFailure(Exception e);
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span>Generated by the Android Gradle plugin 2.2.2</div></body></html>

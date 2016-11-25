@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>EndlessRecyclerScrollListener.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">br.com.catbag.gifreduxsample.ui</a> &gt; <span class="el_source">EndlessRecyclerScrollListener.java</span></div><h1>EndlessRecyclerScrollListener.java</h1><pre class="source lang-java linenums">/* Credits from gist of https://gist.github.com/nesquena and https://gist.github.com/rogerhu */
+package br.com.catbag.gifreduxsample.ui;
+
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+
+public abstract class EndlessRecyclerScrollListener extends RecyclerView.OnScrollListener {
+    // The minimum amount of items to have below your current scroll position
+    // before mLoading more.
+<span class="pc" id="L12">    private int mVisibleThreshold = 5;</span>
+    // The current offset index of data you have loaded
+<span class="pc" id="L14">    private int mCurrentPage = 0;</span>
+    // The total number of items in the dataset after the last load
+<span class="pc" id="L16">    private int mPreviousTotalItemCount = 0;</span>
+    // True if we are still waiting for the last set of data to load.
+<span class="pc" id="L18">    private boolean mLoading = true;</span>
+    // Sets the starting page index
+<span class="pc" id="L20">    private int mStartingPageIndex = 0;</span>
+
+    private RecyclerView.LayoutManager mLayoutManager;
+
+<span class="fc" id="L24">    public EndlessRecyclerScrollListener(LinearLayoutManager layoutManager) {</span>
+<span class="fc" id="L25">        mLayoutManager = layoutManager;</span>
+<span class="fc" id="L26">    }</span>
+
+<span class="nc" id="L28">    public EndlessRecyclerScrollListener(GridLayoutManager layoutManager) {</span>
+<span class="nc" id="L29">        mLayoutManager = layoutManager;</span>
+<span class="nc" id="L30">        mVisibleThreshold = mVisibleThreshold * layoutManager.getSpanCount();</span>
+<span class="nc" id="L31">    }</span>
+
+<span class="nc" id="L33">    public EndlessRecyclerScrollListener(StaggeredGridLayoutManager layoutManager) {</span>
+<span class="nc" id="L34">        mLayoutManager = layoutManager;</span>
+<span class="nc" id="L35">        mVisibleThreshold = mVisibleThreshold * layoutManager.getSpanCount();</span>
+<span class="nc" id="L36">    }</span>
+
+    public int getLastVisibleItem(int[] lastVisibleItemPositions) {
+<span class="nc" id="L39">        int maxSize = 0;</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        for (int i = 0; i &lt; lastVisibleItemPositions.length; i++) {</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">            if (i == 0) {</span>
+<span class="nc" id="L42">                maxSize = lastVisibleItemPositions[i];</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">            } else if (lastVisibleItemPositions[i] &gt; maxSize) {</span>
+<span class="nc" id="L44">                maxSize = lastVisibleItemPositions[i];</span>
+            }
+        }
+<span class="nc" id="L47">        return maxSize;</span>
+    }
+
+    // This happens many times a second during a scroll, so be wary of the code you place here.
+    // We are given a few useful parameters to help us work out if we need to load some more data,
+    // but first we check if we are waiting for the previous load to finish.
+    @Override
+    public void onScrolled(RecyclerView view, int dx, int dy) {
+<span class="fc" id="L55">        int lastVisibleItemPosition = 0;</span>
+<span class="fc" id="L56">        int totalItemCount = mLayoutManager.getItemCount();</span>
+
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if (mLayoutManager instanceof StaggeredGridLayoutManager) {</span>
+<span class="nc" id="L59">            int[] lastVisibleItemPositions = ((StaggeredGridLayoutManager) mLayoutManager)</span>
+<span class="nc" id="L60">                    .findLastVisibleItemPositions(null);</span>
+            // get maximum element within the list
+<span class="nc" id="L62">            lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions);</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        } else if (mLayoutManager instanceof GridLayoutManager) {</span>
+<span class="nc" id="L64">            lastVisibleItemPosition = ((GridLayoutManager) mLayoutManager)</span>
+<span class="nc" id="L65">                    .findLastVisibleItemPosition();</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">        } else if (mLayoutManager instanceof LinearLayoutManager) {</span>
+<span class="fc" id="L67">            lastVisibleItemPosition = ((LinearLayoutManager) mLayoutManager)</span>
+<span class="fc" id="L68">                    .findLastVisibleItemPosition();</span>
+        } 
+
+        // If the total item count is zero and the previous isn't, assume the
+        // list is invalidated and should be reset back to initial state
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        if (totalItemCount &lt; mPreviousTotalItemCount) {</span>
+<span class="fc" id="L74">            mCurrentPage = mStartingPageIndex;</span>
+<span class="fc" id="L75">            mPreviousTotalItemCount = totalItemCount;</span>
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">            if (totalItemCount == 0) {</span>
+<span class="nc" id="L77">                mLoading = true;</span>
+            }
+        }
+        // If it’s still mLoading, we check to see if the dataset count has
+        // changed, if so we conclude it has finished mLoading and update the current page
+        // number and total item count.
+<span class="fc bfc" id="L83" title="All 4 branches covered.">        if (mLoading &amp;&amp; (totalItemCount &gt; mPreviousTotalItemCount)) {</span>
+<span class="fc" id="L84">            mLoading = false;</span>
+<span class="fc" id="L85">            mPreviousTotalItemCount = totalItemCount;</span>
+        }
+
+        // If it isn’t currently mLoading, we check to see if we have breached
+        // the mVisibleThreshold and need to reload more data.
+        // If we do need to reload some more data, we execute onLoadMore to fetch the data.
+        // threshold should reflect how many total columns there are too
+<span class="fc bfc" id="L92" title="All 4 branches covered.">        if (!mLoading &amp;&amp; (lastVisibleItemPosition + mVisibleThreshold) &gt; totalItemCount) {</span>
+<span class="fc" id="L93">            mCurrentPage++;</span>
+<span class="fc" id="L94">            onLoadMore(mCurrentPage, totalItemCount, view);</span>
+<span class="fc" id="L95">            mLoading = true;</span>
+        }
+<span class="fc" id="L97">    }</span>
+    
+    // Call this method whenever performing new searches
+    public void resetState() {
+<span class="nc" id="L101">        mCurrentPage = mStartingPageIndex;</span>
+<span class="nc" id="L102">        mPreviousTotalItemCount = 0;</span>
+<span class="nc" id="L103">        mLoading = true;</span>
+<span class="nc" id="L104">    }</span>
+
+    // Defines the process for actually mLoading more data based on page
+    public abstract void onLoadMore(int page, int totalItemsCount, RecyclerView view);
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span>Generated by the Android Gradle plugin 2.2.2</div></body></html>

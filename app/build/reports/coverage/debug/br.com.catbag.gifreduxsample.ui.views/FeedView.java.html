@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FeedView.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">br.com.catbag.gifreduxsample.ui.views</a> &gt; <span class="el_source">FeedView.java</span></div><h1>FeedView.java</h1><pre class="source lang-java linenums">package br.com.catbag.gifreduxsample.ui.views;
+
+import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
+import android.util.Log;
+
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import br.com.catbag.gifreduxsample.MyApp;
+import br.com.catbag.gifreduxsample.actions.GifListActionCreator;
+import br.com.catbag.gifreduxsample.models.AppState;
+import br.com.catbag.gifreduxsample.models.Gif;
+import br.com.catbag.gifreduxsample.ui.EndlessRecyclerScrollListener;
+import pl.droidsonroids.gif.GifDrawable;
+import trikita.anvil.Anvil;
+import trikita.anvil.recyclerview.Recycler;
+
+import static br.com.catbag.gifreduxsample.models.Gif.Status.DOWNLOADING;
+import static br.com.catbag.gifreduxsample.models.Gif.Status.DOWNLOAD_FAILED;
+import static br.com.catbag.gifreduxsample.models.Gif.Status.NOT_DOWNLOADED;
+import static br.com.catbag.gifreduxsample.ui.views.GifsAdapter.gifsAdapter;
+import static trikita.anvil.BaseDSL.v;
+
+/**
+ * Created by niltonvasques on 10/26/16.
+ */
+public class FeedView extends ReactiveView {
+
+    private Map&lt;String, Gif&gt; mGifs;
+<span class="pc" id="L34">    private DrawableCache mDrawables = new DrawableCache();</span>
+    private LinearLayoutManager mLayoutManager;
+    private GifsAdapter mGifsAdapter;
+    private boolean mHasMoreGifs;
+
+    public FeedView(Context context) {
+<span class="nc" id="L40">        super(context);</span>
+<span class="nc" id="L41">    }</span>
+
+    public FeedView(Context context, AttributeSet attrs) {
+<span class="fc" id="L44">        super(context, attrs);</span>
+<span class="fc" id="L45">    }</span>
+
+    public FeedView(Context context, AttributeSet attrs, int defStyleAttr) {
+<span class="nc" id="L48">        super(context, attrs, defStyleAttr);</span>
+<span class="nc" id="L49">    }</span>
+
+    @Override
+    public void view() {
+<span class="fc" id="L53">        Recycler.view(() -&gt; {</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            if (mLayoutManager == null) {</span>
+<span class="fc" id="L55">                mLayoutManager = new LinearLayoutManager(getContext(),</span>
+                        LinearLayoutManager.VERTICAL, false);
+            }
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            if (mGifsAdapter == null) {</span>
+<span class="fc" id="L59">                mGifsAdapter = gifsAdapter(mGifs, this::renderGifView);</span>
+            }
+
+<span class="fc" id="L62">            Recycler.layoutManager(mLayoutManager);</span>
+<span class="fc" id="L63">            Recycler.adapter(mGifsAdapter);</span>
+<span class="fc" id="L64">            Recycler.hasFixedSize(true);</span>
+<span class="fc" id="L65">            setupEndlessScrolling();</span>
+
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            if (!mGifs.equals(mGifsAdapter.getGifs())) {</span>
+<span class="fc" id="L68">                mGifsAdapter.setGifs(mGifs);</span>
+<span class="fc" id="L69">                mGifsAdapter.notifyDataSetChanged();</span>
+            }
+<span class="fc" id="L71">        });</span>
+
+<span class="fc" id="L73">        onAnvilRendered();</span>
+<span class="fc" id="L74">    }</span>
+
+    private void setupEndlessScrolling() {
+        //TODO: PR on Anvil Recycler to exposes addOnScrollListener
+<span class="fc" id="L78">        ((RecyclerView) Anvil.currentView())</span>
+<span class="fc" id="L79">                .addOnScrollListener(new EndlessRecyclerScrollListener(mLayoutManager) {</span>
+                    @Override
+                    public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+<span class="fc bfc" id="L82" title="All 2 branches covered.">                        if (mHasMoreGifs) {</span>
+<span class="fc" id="L83">                            GifListActionCreator.getInstance().fetchGifs();</span>
+                        }
+<span class="fc" id="L85">                    }</span>
+                });
+<span class="fc" id="L87">    }</span>
+
+    @Override
+    public boolean hasStateChanged(AppState newState, AppState oldState) {
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">        return !newState.getGifs().equals(mGifs)</span>
+<span class="pc bnc" id="L92" title="All 2 branches missed.">                || newState.getHasMoreGifs() != oldState.getHasMoreGifs();</span>
+    }
+
+    @Override
+    public void onStateChanged(AppState appState) {
+<span class="fc" id="L97">        mGifs = appState.getGifs();</span>
+<span class="fc" id="L98">        mHasMoreGifs = appState.getHasMoreGifs();</span>
+<span class="fc" id="L99">    }</span>
+
+    @Override
+    protected void initialState() {
+<span class="fc" id="L103">        super.initialState();</span>
+<span class="fc" id="L104">        mGifs = MyApp.getFluxxan().getState().getGifs();</span>
+<span class="fc" id="L105">        mHasMoreGifs = MyApp.getFluxxan().getState().getHasMoreGifs();</span>
+<span class="fc" id="L106">    }</span>
+
+    private void renderGifView(Gif gif) {
+<span class="fc" id="L109">        v(GifView.class, () -&gt; ((GifView) Anvil.currentView())</span>
+<span class="fc" id="L110">                .withGifDrawable(createDrawable(gif))</span>
+<span class="fc" id="L111">                .withGif(gif));</span>
+<span class="fc" id="L112">        onAnvilRendered();</span>
+<span class="fc" id="L113">    }</span>
+
+    private GifDrawable createDrawable(Gif gif) {
+<span class="fc" id="L116">        GifDrawable drawable = null;</span>
+        try {
+<span class="fc bfc" id="L118" title="All 2 branches covered.">            if (mDrawables.containsKey(gif.getUuid())) {</span>
+<span class="fc" id="L119">                drawable = mDrawables.get(gif.getUuid());</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">            } else if (gif.getStatus() != NOT_DOWNLOADED</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">                    &amp;&amp; gif.getStatus() != DOWNLOADING</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">                    &amp;&amp; gif.getStatus() != DOWNLOAD_FAILED) {</span>
+<span class="fc" id="L123">                drawable = new GifDrawable(gif.getPath());</span>
+<span class="fc" id="L124">                mDrawables.put(gif.getUuid(), drawable);</span>
+            }
+<span class="fc" id="L126">        } catch (IOException e) {</span>
+<span class="fc" id="L127">            Log.e(&quot;Feed&quot;, gif.toString(), e);</span>
+<span class="fc" id="L128">        }</span>
+
+<span class="fc" id="L130">        return drawable;</span>
+    }
+
+    private class DrawableCache extends LinkedHashMap&lt;String, GifDrawable&gt; {
+        private static final int CACHE_CAPACITY = 10;
+        /* The load factor indicates the size where the linked hash will trigger to
+         * increase his size. */
+        private static final float LOAD_FACTOR = 0.7f;
+        /* The initial capacity should be a little bit greater than cache capacity to keep
+         * a threshold that ensures that removeEldest will be triggered before the list be full.
+         */
+        private static final int INITIAL_CAPACITY = (int) (CACHE_CAPACITY * LOAD_FACTOR);
+        /* The accessOrder ensures that eldestEntry will be the most oldest entry accessed.
+         * This fits well in the feed, since the eldest gif accessed usually will be
+         * the one that the user have viewed moments ago and isn't currently displayed
+         * in the screen.
+         **/
+        private static final boolean ACCESS_ORDER = true;
+
+<span class="fc" id="L149">        public DrawableCache() {</span>
+<span class="fc" id="L150">            super(INITIAL_CAPACITY, LOAD_FACTOR, ACCESS_ORDER);</span>
+<span class="fc" id="L151">        }</span>
+
+        @Override
+        protected boolean removeEldestEntry(Entry&lt;String, GifDrawable&gt; eldest) {
+<span class="fc bfc" id="L155" title="All 2 branches covered.">            return size() &gt; CACHE_CAPACITY;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span>Generated by the Android Gradle plugin 2.2.2</div></body></html>

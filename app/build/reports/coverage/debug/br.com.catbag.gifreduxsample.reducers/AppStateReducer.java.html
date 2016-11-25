@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AppStateReducer.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">br.com.catbag.gifreduxsample.reducers</a> &gt; <span class="el_source">AppStateReducer.java</span></div><h1>AppStateReducer.java</h1><pre class="source lang-java linenums">package br.com.catbag.gifreduxsample.reducers;
+
+import com.umaplay.fluxxan.annotation.BindAction;
+import com.umaplay.fluxxan.impl.BaseAnnotatedReducer;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import br.com.catbag.gifreduxsample.actions.AppStateActionCreator;
+import br.com.catbag.gifreduxsample.actions.GifActionCreator;
+import br.com.catbag.gifreduxsample.actions.GifListActionCreator;
+import br.com.catbag.gifreduxsample.actions.PayloadParams;
+import br.com.catbag.gifreduxsample.models.AppState;
+import br.com.catbag.gifreduxsample.models.Gif;
+import br.com.catbag.gifreduxsample.models.ImmutableAppState;
+
+/**
+ * Created by raul@catbag.com.br on 10/26/16.
+ */
+
+<span class="fc" id="L21">public class AppStateReducer extends BaseAnnotatedReducer&lt;AppState&gt; {</span>
+
+    @BindAction(AppStateActionCreator.APP_STATE_LOADED)
+    public AppState stateLoaded(AppState oldState, AppState newState) {
+<span class="fc" id="L25">        return createImmutableAppBuilder(newState)</span>
+<span class="fc" id="L26">                .build();</span>
+    }
+
+    @BindAction(GifListActionCreator.GIF_LIST_UPDATED)
+    public AppState listUpdated(AppState state, Map&lt;String, Object&gt; params) {
+<span class="fc" id="L31">        Map&lt;String, Gif&gt; gifs = (Map&lt;String, Gif&gt;) params.get(PayloadParams.PARAM_GIFS);</span>
+<span class="fc" id="L32">        boolean hasMore = (boolean) params.get(PayloadParams.PARAM_HAS_MORE);</span>
+<span class="fc" id="L33">        return createImmutableAppBuilder(state)</span>
+<span class="fc" id="L34">                .putAllGifs(gifs)</span>
+<span class="fc" id="L35">                .hasMoreGifs(hasMore)</span>
+<span class="fc" id="L36">                .build();</span>
+    }
+
+    @BindAction(GifActionCreator.GIF_DOWNLOAD_START)
+    public AppState downloadStart(AppState state, String uuid) {
+<span class="fc" id="L41">        return reduceGifState(state, GifInnerReducer.downloadStart(state.getGifs().get(uuid)));</span>
+    }
+
+    @BindAction(GifActionCreator.GIF_DOWNLOAD_SUCCESS)
+    public AppState downloadSuccess(AppState state, Map&lt;String, Object&gt; params) {
+<span class="fc" id="L46">        return reduceGifState(state,</span>
+<span class="fc" id="L47">                GifInnerReducer.downloadSuccess(getGifState(params, state), params));</span>
+    }
+
+    @BindAction(GifActionCreator.GIF_DOWNLOAD_FAILURE)
+    public AppState downloadFailure(AppState state, String uuid) {
+<span class="fc" id="L52">        return reduceGifState(state,</span>
+<span class="fc" id="L53">                GifInnerReducer.downloadFailure(state.getGifs().get(uuid)));</span>
+    }
+
+    @BindAction(GifActionCreator.GIF_PLAY)
+    public AppState play(AppState state, String uuid) {
+<span class="fc" id="L58">        return reduceGifState(state, GifInnerReducer.play(state.getGifs().get(uuid)));</span>
+    }
+
+    @BindAction(GifActionCreator.GIF_PAUSE)
+    public AppState pause(AppState state, String uuid) {
+<span class="fc" id="L63">        return reduceGifState(state, GifInnerReducer.pause(state.getGifs().get(uuid)));</span>
+    }
+
+    //Business Logic
+    private AppState reduceGifState(AppState state, Gif gif) {
+<span class="fc" id="L68">        Map&lt;String, Gif&gt; gifs = new LinkedHashMap&lt;&gt;(state.getGifs());</span>
+<span class="fc" id="L69">        gifs.put(gif.getUuid(), gif);</span>
+<span class="fc" id="L70">        return createImmutableAppBuilder(state)</span>
+<span class="fc" id="L71">                .gifs(gifs)</span>
+<span class="fc" id="L72">                .build();</span>
+    }
+
+    //Helpers
+    private static Gif getGifState(Map&lt;String, Object&gt; params, AppState state) {
+<span class="fc" id="L77">        return state.getGifs().get(params.get(PayloadParams.PARAM_UUID));</span>
+    }
+
+    private static  ImmutableAppState.Builder createImmutableAppBuilder(AppState state) {
+<span class="fc" id="L81">        return ImmutableAppState.builder().from(state);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span>Generated by the Android Gradle plugin 2.2.2</div></body></html>
