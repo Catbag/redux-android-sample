@@ -67,13 +67,6 @@ public class TestHelper {
         getFluxxan().getDispatcher().removeListener(mStateListener);
     }
 
-    public void clearMiddlewares() {
-        getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
-        PersistenceMiddleware persistenceMiddleware = (PersistenceMiddleware) getFluxxan()
-                .getDispatcher().unregisterMiddleware(PersistenceMiddleware.class);
-        getFluxxan().getDispatcher().removeListener(persistenceMiddleware);
-    }
-
     private boolean isStateChanged() {
         synchronized (mLock) {
             return mStateChanged;
@@ -88,6 +81,14 @@ public class TestHelper {
 
     public Fluxxan<AppState> getFluxxan() {
         return mFluxxan;
+    }
+
+    public void sleep(long ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Log.e(getClass().getSimpleName(), "", e);
+        }
     }
 
     // Helpers methods to dry up unit tests
@@ -110,43 +111,12 @@ public class TestHelper {
         return gifs.values().iterator().next();
     }
 
-    public void sleep(long ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException e) {
-            Log.e(getClass().getSimpleName(), "", e);
-        }
-    }
-
     public static AppState buildAppState(Gif gif) {
         return ImmutableAppState.builder().putGifs(gif.getUuid(), gif).build();
     }
 
     public static AppState buildAppState(Map<String, Gif> gifs) {
         return ImmutableAppState.builder().gifs(gifs).build();
-    }
-
-    public static Map<String, Gif> buildFiveGifs() {
-        String[] titles = {"Gif 1", "Gif 2", "Gif 3", "Gif 4", "Gif 5" };
-        String[] urls = {
-                "https://media.giphy.com/media/l0HlE56oAxpngfnWM/giphy.gif",
-                "http://inspirandoideias.com.br/blog/wp-content/uploads/2015/03/"
-                        + "b3368a682fc5ff891e41baad2731f4b6.gif",
-                "https://media.giphy.com/media/9fbYYzdf6BbQA/giphy.gif",
-                "https://media.giphy.com/media/l2YWl1oQlNvthGWrK/giphy.gif",
-                "https://media.giphy.com/media/3oriNQHSU0bVcFW5sA/giphy.gif"
-        };
-
-        Map<String, Gif> gifs = new LinkedHashMap<>();
-        for (int i = 0; i < titles.length; i++) {
-            Gif gif = ImmutableGif.builder().uuid(UUID.randomUUID().toString())
-                    .title(titles[i])
-                    .url(urls[i])
-                    .build();
-            gifs.put(gif.getUuid(), gif);
-        }
-
-        return gifs;
     }
 
     public static Gif buildGif() {
@@ -180,6 +150,29 @@ public class TestHelper {
 
     }
 
+    public static Map<String, Gif> buildFiveGifs() {
+        String[] titles = {"Gif 1", "Gif 2", "Gif 3", "Gif 4", "Gif 5" };
+        String[] urls = {
+                "https://media.giphy.com/media/l0HlE56oAxpngfnWM/giphy.gif",
+                "http://inspirandoideias.com.br/blog/wp-content/uploads/2015/03/"
+                        + "b3368a682fc5ff891e41baad2731f4b6.gif",
+                "https://media.giphy.com/media/9fbYYzdf6BbQA/giphy.gif",
+                "https://media.giphy.com/media/l2YWl1oQlNvthGWrK/giphy.gif",
+                "https://media.giphy.com/media/3oriNQHSU0bVcFW5sA/giphy.gif"
+        };
+
+        Map<String, Gif> gifs = new LinkedHashMap<>();
+        for (int i = 0; i < titles.length; i++) {
+            Gif gif = ImmutableGif.builder().uuid(UUID.randomUUID().toString())
+                    .title(titles[i])
+                    .url(urls[i])
+                    .build();
+            gifs.put(gif.getUuid(), gif);
+        }
+
+        return gifs;
+    }
+
     public DataManager mockDataManagerFetch(Map<String, Gif> expectedGifs,
                                             boolean expectedHasMore) {
         DataManager dataManager = mock(DataManager.class);
@@ -202,14 +195,38 @@ public class TestHelper {
         return dataManager;
     }
 
-    public void replaceMiddlewares(DataManager dm, Context context) {
-        clearMiddlewares();
+    private void clearRestMiddleware() {
+        getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
+    }
+
+    private void clearPersistenceMiddleware() {
+        PersistenceMiddleware persistenceMiddleware = (PersistenceMiddleware) getFluxxan()
+                .getDispatcher().unregisterMiddleware(PersistenceMiddleware.class);
+        getFluxxan().getDispatcher().removeListener(persistenceMiddleware);
+    }
+
+    public void clearMiddlewares() {
+        clearRestMiddleware();
+        clearPersistenceMiddleware();
+    }
+
+    public void replaceRestMiddleware(DataManager dm, Context context) {
+        clearRestMiddleware();
 
         RestMiddleware restMiddleware = new RestMiddleware(context, dm, new FileDownloader());
         getFluxxan().getDispatcher().registerMiddleware(restMiddleware);
+    }
+
+    public void replacePersistenceMiddleware(DataManager dm) {
+        clearPersistenceMiddleware();
 
         PersistenceMiddleware persistenceMiddleware = new PersistenceMiddleware(dm);
         getFluxxan().getDispatcher().registerMiddleware(persistenceMiddleware);
         getFluxxan().addListener(persistenceMiddleware);
+    }
+
+    public void replaceMiddlewares(DataManager dm, Context context) {
+        replaceRestMiddleware(dm, context);
+        replacePersistenceMiddleware(dm);
     }
 }

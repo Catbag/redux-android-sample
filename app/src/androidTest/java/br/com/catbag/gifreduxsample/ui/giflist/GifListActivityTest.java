@@ -28,15 +28,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.R;
 import br.com.catbag.gifreduxsample.actions.GifActionCreator;
 import br.com.catbag.gifreduxsample.asyncs.data.DataManager;
-import br.com.catbag.gifreduxsample.asyncs.data.net.downloader.FileDownloader;
 import br.com.catbag.gifreduxsample.lockers.AnvilTestLocker;
 import br.com.catbag.gifreduxsample.lockers.RecyclerTestLocker;
 import br.com.catbag.gifreduxsample.matchers.RecyclerViewMatcher;
-import br.com.catbag.gifreduxsample.middlewares.RestMiddleware;
 import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.models.ImmutableAppState;
@@ -57,6 +54,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.view.View.generateViewId;
+import static br.com.catbag.gifreduxsample.MyApp.getFluxxan;
 import static br.com.catbag.gifreduxsample.asyncs.data.DataManager.getAppStateDefault;
 import static br.com.catbag.gifreduxsample.matchers.Matchers.withBGColor;
 import static br.com.catbag.gifreduxsample.matchers.Matchers.withEqualsGifUuid;
@@ -80,7 +78,7 @@ public class GifListActivityTest extends ReduxBaseTest {
             = new ActivityTestRule<>(GifListActivity.class, false, false);
 
     public GifListActivityTest() {
-        mHelper = new TestHelper(MyApp.getFluxxan());
+        mHelper = new TestHelper(getFluxxan());
     }
 
     @Override
@@ -364,11 +362,14 @@ public class GifListActivityTest extends ReduxBaseTest {
         try {
             DB db = DBFactory.open(getTargetContext());
             db.destroy();
+            db.close();
         } catch (Exception e) {
             Log.e("TEST", e.getLocalizedMessage(), e);
         }
 
-        mHelper.replaceMiddlewares(new DataManager(getTargetContext()), getTargetContext());
+        mHelper.dispatchFakeAppState(ImmutableAppState.builder().build());
+
+        mHelper.replacePersistenceMiddleware(new DataManager(getTargetContext()));
         GifActionCreator.getInstance().setDispatcher(mock(DispatcherImpl.class));
 
         mActivityTestRule.launchActivity(new Intent());
@@ -381,7 +382,7 @@ public class GifListActivityTest extends ReduxBaseTest {
         Map<Strings, Gif> gotGifs = ((GifsAdapter) getRecyclerView().getAdapter()).getGifs();
         assertEquals(expectedGifs, gotGifs);
 
-        MyApp.getFluxxan().inject(GifActionCreator.getInstance());
+        GifActionCreator.getInstance().setDispatcher(getFluxxan().getDispatcher());
     }
 
     @Test
@@ -394,11 +395,8 @@ public class GifListActivityTest extends ReduxBaseTest {
 
         Map<String, Gif> newGifs = createFakeDownloadedGifList(gifListSize);
         expectedGifs.putAll(newGifs);
-        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
-        mHelper.getFluxxan().getDispatcher()
-                .registerMiddleware(new RestMiddleware(getTargetContext(),
-                        mHelper.mockDataManagerFetch(newGifs, false),
-                        new FileDownloader()));
+        mHelper.replaceRestMiddleware(mHelper.mockDataManagerFetch(newGifs, false),
+                getTargetContext());
 
         RecyclerTestLocker locker = new RecyclerTestLocker(getRecyclerView(), expectedGifs.size());
         onView(withId(getRecyclerView().getId()))
@@ -407,7 +405,7 @@ public class GifListActivityTest extends ReduxBaseTest {
 
         Map<String, Gif> gotGifs = ((GifsAdapter) getRecyclerView().getAdapter()).getGifs();
         assertEquals(expectedGifs, gotGifs);
-        assertFalse(MyApp.getFluxxan().getState().getHasMoreGifs());
+        assertFalse(getFluxxan().getState().getHasMoreGifs());
     }
 
     @Test
@@ -423,11 +421,8 @@ public class GifListActivityTest extends ReduxBaseTest {
 
         Map<String, Gif> newGifs = createFakeDownloadedGifList(gifListSize);
         expectedGifs.putAll(newGifs);
-        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
-        mHelper.getFluxxan().getDispatcher()
-                .registerMiddleware(new RestMiddleware(getTargetContext(),
-                        mHelper.mockDataManagerFetch(newGifs, true),
-                        new FileDownloader()));
+        mHelper.replaceRestMiddleware(mHelper.mockDataManagerFetch(newGifs, true),
+                getTargetContext());
 
         AnvilTestLocker scrollLocker = new AnvilTestLocker(getFeedView());
         onView(withId(getRecyclerView().getId()))
@@ -436,7 +431,7 @@ public class GifListActivityTest extends ReduxBaseTest {
 
         Map<String, Gif> gotGifs = ((GifsAdapter) getRecyclerView().getAdapter()).getGifs();
         assertNotSame(expectedGifs, gotGifs);
-        assertFalse(MyApp.getFluxxan().getState().getHasMoreGifs());
+        assertFalse(getFluxxan().getState().getHasMoreGifs());
     }
 
     private List<String> getAllUuidFromGifsOnScreen() {
