@@ -1,10 +1,14 @@
-/* Credits from gist of https://gist.github.com/nesquena and https://gist.github.com/rogerhu */
 package br.com.catbag.gifreduxsample.ui;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+
+/**
+ at https://gist.github.com/nesquena/d09dc68ff07e845cc622
+ Credits from this gist to https://gist.github.com/nesquena and https://gist.github.com/rogerhu
+ **/
 
 public abstract class EndlessRecyclerScrollListener extends RecyclerView.OnScrollListener {
     // The minimum amount of items to have below your current scroll position
