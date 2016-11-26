@@ -70,10 +70,10 @@ public abstract class EndlessRecyclerScrollListener extends RecyclerView.OnScrol
 
         // If the total item count is zero and the previous isn't, assume the
         // list is invalidated and should be reset back to initial state
-<span class="fc bfc" id="L73" title="All 2 branches covered.">        if (totalItemCount &lt; mPreviousTotalItemCount) {</span>
-<span class="fc" id="L74">            mCurrentPage = mStartingPageIndex;</span>
-<span class="fc" id="L75">            mPreviousTotalItemCount = totalItemCount;</span>
-<span class="pc bpc" id="L76" title="1 of 2 branches missed.">            if (totalItemCount == 0) {</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        if (totalItemCount &lt; mPreviousTotalItemCount) {</span>
+<span class="nc" id="L74">            mCurrentPage = mStartingPageIndex;</span>
+<span class="nc" id="L75">            mPreviousTotalItemCount = totalItemCount;</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">            if (totalItemCount == 0) {</span>
 <span class="nc" id="L77">                mLoading = true;</span>
             }
         }
