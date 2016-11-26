@@ -2,8 +2,8 @@ package br.com.catbag.gifreduxsample.reducers.asyncs.net.rest.riffsy.model;
 
 import org.junit.Test;
 
-import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.model.RiffsyGif;
-import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.model.RiffsyMedia;
+import br.com.catbag.gifreduxsample.asyncs.data.net.rest.riffsy.model.RiffsyGif;
+import br.com.catbag.gifreduxsample.asyncs.data.net.rest.riffsy.model.RiffsyMedia;
 
 import static junit.framework.Assert.assertEquals;
 

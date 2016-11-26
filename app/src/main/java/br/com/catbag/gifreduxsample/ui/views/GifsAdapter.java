@@ -1,4 +1,4 @@
-package br.com.catbag.gifreduxsample.ui.components;
+package br.com.catbag.gifreduxsample.ui.views;
 
 import android.support.v7.widget.RecyclerView;
 

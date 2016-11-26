@@ -1,6 +1,6 @@
-package br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.api;
+package br.com.catbag.gifreduxsample.asyncs.data.net.rest.riffsy.api;
 
-import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.model.RiffsyResponse;
+import br.com.catbag.gifreduxsample.asyncs.data.net.rest.riffsy.model.RiffsyResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

@@ -2,9 +2,9 @@ package br.com.catbag.gifreduxsample.reducers.asyncs.net.rest.riffsy.api;
 
 import org.junit.Test;
 
-import br.com.catbag.gifreduxsample.asyncs.net.rest.retrofit.RetrofitBuilder;
-import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.api.RiffsyRoutes;
-import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.model.RiffsyResponse;
+import br.com.catbag.gifreduxsample.asyncs.data.net.rest.retrofit.RetrofitBuilder;
+import br.com.catbag.gifreduxsample.asyncs.data.net.rest.riffsy.api.RiffsyRoutes;
+import br.com.catbag.gifreduxsample.asyncs.data.net.rest.riffsy.model.RiffsyResponse;
 import br.com.catbag.gifreduxsample.reducers.mocks.ServerMockTestBase;
 import retrofit2.Response;
 

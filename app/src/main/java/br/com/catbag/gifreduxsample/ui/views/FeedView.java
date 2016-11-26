@@ -1,7 +1,8 @@
-package br.com.catbag.gifreduxsample.ui.components;
+package br.com.catbag.gifreduxsample.ui.views;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -10,8 +11,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import br.com.catbag.gifreduxsample.MyApp;
+import br.com.catbag.gifreduxsample.actions.GifListActionCreator;
 import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
+import br.com.catbag.gifreduxsample.ui.EndlessRecyclerScrollListener;
 import pl.droidsonroids.gif.GifDrawable;
 import trikita.anvil.Anvil;
 import trikita.anvil.recyclerview.Recycler;
@@ -19,7 +22,7 @@ import trikita.anvil.recyclerview.Recycler;
 import static br.com.catbag.gifreduxsample.models.Gif.Status.DOWNLOADING;
 import static br.com.catbag.gifreduxsample.models.Gif.Status.DOWNLOAD_FAILED;
 import static br.com.catbag.gifreduxsample.models.Gif.Status.NOT_DOWNLOADED;
-import static br.com.catbag.gifreduxsample.ui.components.GifsAdapter.gifsAdapter;
+import static br.com.catbag.gifreduxsample.ui.views.GifsAdapter.gifsAdapter;
 import static trikita.anvil.BaseDSL.v;
 
 /**
@@ -31,6 +34,7 @@ public class FeedView extends ReactiveView {
     private DrawableCache mDrawables = new DrawableCache();
     private LinearLayoutManager mLayoutManager;
     private GifsAdapter mGifsAdapter;
+    private boolean mHasMoreGifs;
 
     public FeedView(Context context) {
         super(context);
@@ -58,6 +62,7 @@ public class FeedView extends ReactiveView {
             Recycler.layoutManager(mLayoutManager);
             Recycler.adapter(mGifsAdapter);
             Recycler.hasFixedSize(true);
+            setupEndlessScrolling();
 
             if (!mGifs.equals(mGifsAdapter.getGifs())) {
                 mGifsAdapter.setGifs(mGifs);
@@ -68,20 +73,36 @@ public class FeedView extends ReactiveView {
         onAnvilRendered();
     }
 
+    private void setupEndlessScrolling() {
+        //TODO: PR on Anvil Recycler to exposes addOnScrollListener
+        ((RecyclerView) Anvil.currentView())
+                .addOnScrollListener(new EndlessRecyclerScrollListener(mLayoutManager) {
+                    @Override
+                    public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                        if (mHasMoreGifs) {
+                            GifListActionCreator.getInstance().fetchGifs();
+                        }
+                    }
+                });
+    }
+
     @Override
     public boolean hasStateChanged(AppState newState, AppState oldState) {
-        return !newState.getGifs().equals(mGifs);
+        return !newState.getGifs().equals(mGifs)
+                || newState.getHasMoreGifs() != oldState.getHasMoreGifs();
     }
 
     @Override
     public void onStateChanged(AppState appState) {
         mGifs = appState.getGifs();
+        mHasMoreGifs = appState.getHasMoreGifs();
     }
 
     @Override
     protected void initialState() {
         super.initialState();
         mGifs = MyApp.getFluxxan().getState().getGifs();
+        mHasMoreGifs = MyApp.getFluxxan().getState().getHasMoreGifs();
     }
 
     private void renderGifView(Gif gif) {

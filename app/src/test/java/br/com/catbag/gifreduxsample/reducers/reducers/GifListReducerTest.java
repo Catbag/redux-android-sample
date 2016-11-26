@@ -16,12 +16,9 @@ import br.com.catbag.gifreduxsample.BuildConfig;
 import br.com.catbag.gifreduxsample.MyApp;
 import br.com.catbag.gifreduxsample.actions.GifListActionCreator;
 import br.com.catbag.gifreduxsample.actions.PayloadParams;
-import br.com.catbag.gifreduxsample.middlewares.PersistenceMiddleware;
-import br.com.catbag.gifreduxsample.middlewares.RestMiddleware;
 import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.models.ImmutableAppState;
-import shared.FakeReducer;
 import shared.ReduxBaseTest;
 import shared.TestHelper;
 
@@ -46,10 +43,7 @@ public class GifListReducerTest extends ReduxBaseTest {
 
     public GifListReducerTest() {
         mHelper = new TestHelper(MyApp.getFluxxan());
-        mHelper.getFluxxan().getDispatcher().unregisterMiddleware(RestMiddleware.class);
-        PersistenceMiddleware persistenceMiddleware = (PersistenceMiddleware) mHelper.getFluxxan()
-                .getDispatcher().unregisterMiddleware(PersistenceMiddleware.class);
-        mHelper.getFluxxan().removeListener(persistenceMiddleware);
+        mHelper.clearMiddlewares();
     }
 
     @Test
@@ -147,8 +141,7 @@ public class GifListReducerTest extends ReduxBaseTest {
         gifs.put(uid2, buildGif(Gif.Status.DOWNLOADING, uid2));
         gifs.put(uid3, buildGif(Gif.Status.LOOPING, uid3));
 
-        mHelper.dispatchAction(new Action(FakeReducer.FAKE_REDUCE_ACTION,
-                buildAppState(new LinkedHashMap<>())));
+        mHelper.dispatchFakeAppState(buildAppState(new LinkedHashMap<>()));
 
         Map<String, Object> params = new HashMap<>();
         params.put(PayloadParams.PARAM_GIFS, gifs);
@@ -176,8 +169,7 @@ public class GifListReducerTest extends ReduxBaseTest {
 
     @Test
     public void whenCompleteAppFlowActions() {
-        mHelper.dispatchAction(new Action(FakeReducer.FAKE_REDUCE_ACTION,
-                buildAppState(new LinkedHashMap<>())));
+        mHelper.dispatchFakeAppState(buildAppState(new LinkedHashMap<>()));
 
         Map<String, Gif> gifs = new LinkedHashMap<>();
         Gif gifToTest = buildGif(Gif.Status.NOT_DOWNLOADED);

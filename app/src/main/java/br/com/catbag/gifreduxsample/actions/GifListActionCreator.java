@@ -27,7 +27,7 @@ public final class GifListActionCreator extends BaseActionCreator {
         return sInstance;
     }
 
-    public void loadGifs() {
+    public void fetchGifs() {
         dispatch(new Action(GIF_LIST_FETCHING));
     }
 }

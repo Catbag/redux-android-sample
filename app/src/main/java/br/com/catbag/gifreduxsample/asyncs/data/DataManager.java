@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import br.com.catbag.gifreduxsample.asyncs.data.net.rest.retrofit.RetrofitBuilder;
+import br.com.catbag.gifreduxsample.asyncs.data.net.rest.riffsy.api.RiffsyRoutes;
+import br.com.catbag.gifreduxsample.asyncs.data.net.rest.riffsy.model.RiffsyMedia;
+import br.com.catbag.gifreduxsample.asyncs.data.net.rest.riffsy.model.RiffsyResponse;
+import br.com.catbag.gifreduxsample.asyncs.data.net.rest.riffsy.model.RiffsyResult;
 import br.com.catbag.gifreduxsample.asyncs.data.storage.Database;
-import br.com.catbag.gifreduxsample.asyncs.net.rest.retrofit.RetrofitBuilder;
-import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.api.RiffsyRoutes;
-import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.model.RiffsyMedia;
-import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.model.RiffsyResponse;
-import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.model.RiffsyResult;
 import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.models.ImmutableAppState;
@@ -117,7 +117,7 @@ public class DataManager {
         return gifs;
     }
 
-    private AppState getAppStateDefault() {
+    public static AppState getAppStateDefault() {
         String[] uuids = {"1", "2", "3", "4", "5" };
         String[] titles = {"Gif 1", "Gif 2", "Gif 3", "Gif 4", "Gif 5" };
         String[] urls = {
@@ -138,7 +138,7 @@ public class DataManager {
         return ImmutableAppState.builder().putAllGifs(gifs).build();
     }
 
-    private Gif buildGif(String uuid, String title, String url) {
+    private static Gif buildGif(String uuid, String title, String url) {
         return ImmutableGif.builder().uuid(uuid).title(title).url(url).build();
     }
 

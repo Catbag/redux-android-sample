@@ -12,7 +12,6 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-import org.robolectric.util.Logger;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -22,7 +21,7 @@ import java.util.concurrent.CountDownLatch;
 import br.com.catbag.gifreduxsample.BuildConfig;
 import br.com.catbag.gifreduxsample.actions.PayloadParams;
 import br.com.catbag.gifreduxsample.asyncs.data.DataManager;
-import br.com.catbag.gifreduxsample.asyncs.net.downloader.FileDownloader;
+import br.com.catbag.gifreduxsample.asyncs.data.net.downloader.FileDownloader;
 import br.com.catbag.gifreduxsample.middlewares.RestMiddleware;
 import br.com.catbag.gifreduxsample.models.AppState;
 import br.com.catbag.gifreduxsample.models.Gif;
@@ -89,7 +88,8 @@ public class RestMiddlewareTest extends ReduxBaseTest {
 
     @Test
     public void whenInterceptListFetching() throws Exception {
-        RestMiddleware middleware = new RestMiddleware(application, mockDataManager(),
+        RestMiddleware middleware = new RestMiddleware(application,
+                mHelper.mockDataManagerFetch(EXPECTED_GIFS, EXPECTED_HAS_MORE),
                 any(FileDownloader.class));
         middleware.setDispatcher(mFluxxan.getDispatcher());
         middleware.intercept(mFluxxan.getState(), new Action(GIF_LIST_FETCHING));
@@ -106,7 +106,7 @@ public class RestMiddlewareTest extends ReduxBaseTest {
     @Test
     public void whenInterceptListFetchingAndDontHasMoreGifs() throws Exception {
         AppState state = ImmutableAppState.builder().hasMoreGifs(false).build();
-        DataManager dataManager = mockDataManager();
+        DataManager dataManager = mHelper.mockDataManagerFetch(EXPECTED_GIFS, EXPECTED_HAS_MORE);
         RestMiddleware middleware = new RestMiddleware(application, dataManager, null);
         middleware.setDispatcher(mFluxxan.getDispatcher());
         middleware.intercept(state, new Action(GIF_LIST_FETCHING));
@@ -117,7 +117,7 @@ public class RestMiddlewareTest extends ReduxBaseTest {
     @Test
     public void whenInterceptNonUsefulActions() throws Exception {
         AppState state = ImmutableAppState.builder().hasMoreGifs(false).build();
-        DataManager dataManager = mockDataManager();
+        DataManager dataManager = mHelper.mockDataManagerFetch(EXPECTED_GIFS, EXPECTED_HAS_MORE);
         FileDownloader fileDownloader = mock(FileDownloader.class);
         RestMiddleware middleware = new RestMiddleware(application,
                 dataManager, fileDownloader);
@@ -135,7 +135,8 @@ public class RestMiddlewareTest extends ReduxBaseTest {
         Gif gif = buildGif();
         AppState state = TestHelper.buildAppState(gif);
         RestMiddleware middleware = new RestMiddleware(application,
-                mockDataManager(), mockFileDownloaderWithSuccess());
+                mHelper.mockDataManagerFetch(EXPECTED_GIFS, EXPECTED_HAS_MORE),
+                mockFileDownloaderWithSuccess());
         middleware.setDispatcher(mFluxxan.getDispatcher());
         middleware.intercept(state, new Action(GIF_DOWNLOAD_START, gif.getUuid()));
         mSignal.await();
@@ -152,7 +153,8 @@ public class RestMiddlewareTest extends ReduxBaseTest {
         Gif gif = buildGif();
         AppState state = TestHelper.buildAppState(gif);
         Middleware middleware = new RestMiddleware(application,
-                mockDataManager(), mockFileDownloaderFailure());
+                mHelper.mockDataManagerFetch(EXPECTED_GIFS, EXPECTED_HAS_MORE),
+                mockFileDownloaderFailure());
         middleware.setDispatcher(mFluxxan.getDispatcher());
 
         middleware.intercept(state, new Action(GIF_DOWNLOAD_START, gif.getUuid()));
@@ -160,27 +162,6 @@ public class RestMiddlewareTest extends ReduxBaseTest {
 
         assertEquals(GIF_DOWNLOAD_FAILURE, mLastAction.Type);
         assertEquals(mLastAction.Payload, gif.getUuid());
-    }
-
-    private DataManager mockDataManager() {
-        DataManager dataManager = mock(DataManager.class);
-        ArgumentCaptor<GifListLoadListener> listenerCaptor
-                = ArgumentCaptor.forClass(GifListLoadListener.class);
-        doAnswer((invocationOnMock) -> {
-            new Thread(() -> {
-                // The fluxxan don't let we dispatch when it's dispatching
-                while (mFluxxan.getDispatcher().isDispatching()) {
-                    try {
-                        Thread.sleep(5);
-                    } catch (InterruptedException e) {
-                        Logger.error(e.getMessage(), e);
-                    }
-                }
-                listenerCaptor.getValue().onLoaded(EXPECTED_GIFS, EXPECTED_HAS_MORE);
-            }).start();
-            return null;
-        }).when(dataManager).fetchGifs(listenerCaptor.capture());
-        return dataManager;
     }
 
     private FileDownloader mockFileDownloaderWithSuccess() {

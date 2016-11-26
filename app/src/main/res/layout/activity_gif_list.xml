@@ -10,11 +10,11 @@
                 android:paddingTop="@dimen/activity_vertical_margin"
                 tools:context="br.com.catbag.gifreduxsample.ui.GifListActivity">
 
-    <br.com.catbag.gifreduxsample.ui.components.FeedView
+    <br.com.catbag.gifreduxsample.ui.views.FeedView
         android:id="@+id/feed"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </br.com.catbag.gifreduxsample.ui.components.FeedView>
+    </br.com.catbag.gifreduxsample.ui.views.FeedView>
 
     <include layout="@layout/common_progress"/>
 </RelativeLayout>

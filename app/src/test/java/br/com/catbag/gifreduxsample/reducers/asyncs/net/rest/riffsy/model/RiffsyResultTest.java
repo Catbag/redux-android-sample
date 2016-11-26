@@ -5,8 +5,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.model.RiffsyMedia;
-import br.com.catbag.gifreduxsample.asyncs.net.rest.riffsy.model.RiffsyResult;
+import br.com.catbag.gifreduxsample.asyncs.data.net.rest.riffsy.model.RiffsyMedia;
+import br.com.catbag.gifreduxsample.asyncs.data.net.rest.riffsy.model.RiffsyResult;
 
 import static junit.framework.Assert.assertEquals;
 import static shared.TestHelper.STRING_UNIQUE;

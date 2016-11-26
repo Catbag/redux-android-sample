@@ -1,6 +1,5 @@
 package br.com.catbag.gifreduxsample.asyncs.data;
 
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
@@ -25,6 +24,7 @@ import br.com.catbag.gifreduxsample.models.Gif;
 import br.com.catbag.gifreduxsample.models.ImmutableAppState;
 import br.com.catbag.gifreduxsample.models.ImmutableGif;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
@@ -44,12 +44,12 @@ public class DataManagerTest {
 
     @Before
     public void setup() {
-        mDataManager = new DataManager(InstrumentationRegistry.getTargetContext());
+        mDataManager = new DataManager(getTargetContext());
     }
 
     @After
     public void cleanup() throws SnappydbException {
-        DB db = DBFactory.open(InstrumentationRegistry.getTargetContext());
+        DB db = DBFactory.open(getTargetContext());
         db.destroy();
     }
 
@@ -106,7 +106,7 @@ public class DataManagerTest {
     private AppState getAppStateFromDB() {
         AppState appstate = null;
         try {
-            DB db = DBFactory.open(InstrumentationRegistry.getTargetContext());
+            DB db = DBFactory.open(getTargetContext());
             appstate = AppState.fromJson(db.get(TAG_APP_STATE));
             db.close();
         } catch (SnappydbException | IOException e) {
@@ -117,7 +117,7 @@ public class DataManagerTest {
 
     private void saveAppState(AppState appState) {
         try {
-            DB db = DBFactory.open(InstrumentationRegistry.getTargetContext());
+            DB db = DBFactory.open(getTargetContext());
             db.put(TAG_APP_STATE, appState.toJson());
             db.close();
         } catch (SnappydbException | IOException e) {
