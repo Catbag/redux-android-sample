@@ -14,7 +14,25 @@ import trikita.anvil.Anvil;
 import static trikita.anvil.BaseDSL.withId;
 import static trikita.anvil.DSL.visibility;
 
-<span class="fc" id="L17">public class GifListActivity extends StateListenerActivity&lt;AppState&gt;</span>
+/**
+ Copyright 26/10/2016
+ Felipe Piñeiro (fpbitencourt@gmail.com),
+ Nilton Vasques (nilton.vasques@gmail.com) and
+ Raul Abreu (raulccabreu@gmail.com)
+
+ Be free to ask for help, email us!
+
+ Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this file except
+ in compliance with the License. You may obtain a copy of the License at
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software distributed under the License
+ is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ implied. See the License for the specific language governing permissions and limitations under
+ the License.
+ **/
+
+<span class="fc" id="L35">public class GifListActivity extends StateListenerActivity&lt;AppState&gt;</span>
         implements AnvilRenderable {
 
     //Binding Data
@@ -23,51 +41,51 @@ import static trikita.anvil.DSL.visibility;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-<span class="fc" id="L26">        super.onCreate(savedInstanceState);</span>
-<span class="fc" id="L27">        setContentView(R.layout.activity_gif_list);</span>
-<span class="fc" id="L28">        initialState();</span>
-<span class="fc" id="L29">        bindingViews();</span>
-<span class="fc" id="L30">    }</span>
+<span class="fc" id="L44">        super.onCreate(savedInstanceState);</span>
+<span class="fc" id="L45">        setContentView(R.layout.activity_gif_list);</span>
+<span class="fc" id="L46">        initialState();</span>
+<span class="fc" id="L47">        bindingViews();</span>
+<span class="fc" id="L48">    }</span>
 
     private void initialState() {
-<span class="fc" id="L33">        mGifProgressVisibility = MyApp.getFluxxan().getState().getGifs().isEmpty();</span>
-<span class="fc" id="L34">    }</span>
+<span class="fc" id="L51">        mGifProgressVisibility = MyApp.getFluxxan().getState().getGifs().isEmpty();</span>
+<span class="fc" id="L52">    }</span>
 
     @Override
     protected Fluxxan&lt;AppState&gt; getFlux() {
-<span class="fc" id="L38">        return MyApp.getFluxxan();</span>
+<span class="fc" id="L56">        return MyApp.getFluxxan();</span>
     }
 
     @Override
     protected void onStart() {
-<span class="fc" id="L43">        super.onStart();</span>
-<span class="fc" id="L44">        AppStateActionCreator.getInstance().loadAppState();</span>
-<span class="fc" id="L45">    }</span>
+<span class="fc" id="L61">        super.onStart();</span>
+<span class="fc" id="L62">        AppStateActionCreator.getInstance().loadAppState();</span>
+<span class="fc" id="L63">    }</span>
 
     @Override
     public boolean hasStateChanged(AppState newState, AppState oldState) {
-<span class="pc bpc" id="L49" title="1 of 2 branches missed.">        return !newState.equals(oldState);</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        return !newState.equals(oldState);</span>
     }
 
     @Override
     public void onStateChanged(AppState appState) {
-<span class="fc bfc" id="L54" title="All 2 branches covered.">        if (!appState.getGifs().isEmpty()) {</span>
-<span class="fc" id="L55">            mGifProgressVisibility = false;</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">        if (!appState.getGifs().isEmpty()) {</span>
+<span class="fc" id="L73">            mGifProgressVisibility = false;</span>
         }
-<span class="fc" id="L57">    }</span>
+<span class="fc" id="L75">    }</span>
 
     @Override
     public void setAnvilRenderListener(AnvilRenderListener listener) {
-<span class="nc" id="L61">        mAnvilRenderListener = listener;</span>
-<span class="nc" id="L62">    }</span>
+<span class="nc" id="L79">        mAnvilRenderListener = listener;</span>
+<span class="nc" id="L80">    }</span>
 
     private void bindingViews() {
         //Bindings Defaults
-<span class="fc" id="L66">        Anvil.mount(findViewById(R.id.activity_gif_list), () -&gt; {</span>
-<span class="fc" id="L67">            withId(R.id.loading, () -&gt; visibility(mGifProgressVisibility));</span>
+<span class="fc" id="L84">        Anvil.mount(findViewById(R.id.activity_gif_list), () -&gt; {</span>
+<span class="fc" id="L85">            withId(R.id.loading, () -&gt; visibility(mGifProgressVisibility));</span>
 
-<span class="pc bpc" id="L69" title="1 of 2 branches missed.">            if (mAnvilRenderListener != null) mAnvilRenderListener.onAnvilRendered();</span>
-<span class="fc" id="L70">        });</span>
-<span class="fc" id="L71">    }</span>
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">            if (mAnvilRenderListener != null) mAnvilRenderListener.onAnvilRendered();</span>
+<span class="fc" id="L88">        });</span>
+<span class="fc" id="L89">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span>Generated by the Android Gradle plugin 2.2.2</div></body></html>

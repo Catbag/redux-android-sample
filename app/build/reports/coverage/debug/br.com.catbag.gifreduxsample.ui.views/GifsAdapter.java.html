@@ -10,50 +10,64 @@ import br.com.catbag.gifreduxsample.models.Gif;
 import trikita.anvil.RenderableRecyclerViewAdapter;
 
 /**
- * Created by raulcca on 11/18/16.
- */
+ Copyright 26/10/2016
+ Felipe Piñeiro (fpbitencourt@gmail.com),
+ Nilton Vasques (nilton.vasques@gmail.com) and
+ Raul Abreu (raulccabreu@gmail.com)
+
+ Be free to ask for help, email us!
+
+ Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this file except
+ in compliance with the License. You may obtain a copy of the License at
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software distributed under the License
+ is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ implied. See the License for the specific language governing permissions and limitations under
+ the License.
+ **/
 
 public final class GifsAdapter extends RenderableRecyclerViewAdapter {
     private GifsAdapterRenderable mRenderable;
     private Map&lt;String, Gif&gt; mGifs;
     private List mUuids;
 
-<span class="fc" id="L21">    private GifsAdapter(Map&lt;String, Gif&gt; gifs, GifsAdapterRenderable renderable) {</span>
-<span class="fc" id="L22">        setGifs(gifs);</span>
-<span class="fc" id="L23">        mRenderable = renderable;</span>
-<span class="fc" id="L24">    }</span>
+<span class="fc" id="L35">    private GifsAdapter(Map&lt;String, Gif&gt; gifs, GifsAdapterRenderable renderable) {</span>
+<span class="fc" id="L36">        setGifs(gifs);</span>
+<span class="fc" id="L37">        mRenderable = renderable;</span>
+<span class="fc" id="L38">    }</span>
 
     public static GifsAdapter gifsAdapter(Map&lt;String, Gif&gt; gifs, GifsAdapterRenderable renderable) {
-<span class="fc" id="L27">        GifsAdapter adapter = new GifsAdapter(gifs, renderable);</span>
-<span class="fc" id="L28">        adapter.setHasStableIds(false);</span>
-<span class="fc" id="L29">        return adapter;</span>
+<span class="fc" id="L41">        GifsAdapter adapter = new GifsAdapter(gifs, renderable);</span>
+<span class="fc" id="L42">        adapter.setHasStableIds(false);</span>
+<span class="fc" id="L43">        return adapter;</span>
     }
 
     public Map getGifs() {
-<span class="fc" id="L33">        return mGifs;</span>
+<span class="fc" id="L47">        return mGifs;</span>
     }
 
     public void setGifs(Map&lt;String, Gif&gt; gifs) {
-<span class="fc" id="L37">        mGifs = gifs;</span>
-<span class="fc" id="L38">        mUuids = Arrays.asList(mGifs.keySet().toArray());</span>
-<span class="fc" id="L39">    }</span>
+<span class="fc" id="L51">        mGifs = gifs;</span>
+<span class="fc" id="L52">        mUuids = Arrays.asList(mGifs.keySet().toArray());</span>
+<span class="fc" id="L53">    }</span>
 
     public int getItemCount() {
-<span class="fc" id="L42">        return mGifs.size();</span>
+<span class="fc" id="L56">        return mGifs.size();</span>
     }
 
     public long getItemId(int pos) {
-<span class="nc" id="L46">        return pos;</span>
+<span class="nc" id="L60">        return pos;</span>
     }
 
     public int getItemViewType(int pos) {
-<span class="fc" id="L50">        Object item = mGifs.get(mUuids.get(pos));</span>
-<span class="pc bpc" id="L51" title="1 of 2 branches missed.">        return item == null ? 0 : item.getClass().hashCode();</span>
+<span class="fc" id="L64">        Object item = mGifs.get(mUuids.get(pos));</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        return item == null ? 0 : item.getClass().hashCode();</span>
     }
 
     public void view(RecyclerView.ViewHolder holder) {
-<span class="fc" id="L55">        mRenderable.view(mGifs.get(mUuids.get(holder.getAdapterPosition())));</span>
-<span class="fc" id="L56">    }</span>
+<span class="fc" id="L69">        mRenderable.view(mGifs.get(mUuids.get(holder.getAdapterPosition())));</span>
+<span class="fc" id="L70">    }</span>
 
     public interface GifsAdapterRenderable {
         void view(Gif gif);

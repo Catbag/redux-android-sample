@@ -29,98 +29,112 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by felipe on 26/10/16.
- */
+ Copyright 26/10/2016
+ Felipe Piñeiro (fpbitencourt@gmail.com),
+ Nilton Vasques (nilton.vasques@gmail.com) and
+ Raul Abreu (raulccabreu@gmail.com)
+
+ Be free to ask for help, email us!
+
+ Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this file except
+ in compliance with the License. You may obtain a copy of the License at
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software distributed under the License
+ is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ implied. See the License for the specific language governing permissions and limitations under
+ the License.
+ **/
 
 public class DataManager {
-<span class="fc" id="L36">    private static Float sRiffsyNext = null;</span>
+<span class="fc" id="L50">    private static Float sRiffsyNext = null;</span>
     private final RiffsyRoutes mRiffsyRoutes;
 
     private Database mDatabase;
-<span class="fc" id="L40">    private boolean mIsSavingAppState = false;</span>
+<span class="fc" id="L54">    private boolean mIsSavingAppState = false;</span>
     private SaveAppStateRunnable mNextSaveAppStateRunnable;
 
-<span class="fc" id="L43">    public DataManager(Context context) {</span>
-<span class="fc" id="L44">        mDatabase = new Database(context);</span>
-<span class="fc" id="L45">        mRiffsyRoutes = RetrofitBuilder.getInstance()</span>
-<span class="fc" id="L46">                .createApiEndpoint(RiffsyRoutes.class, RiffsyRoutes.BASE_URL);</span>
-<span class="fc" id="L47">    }</span>
+<span class="fc" id="L57">    public DataManager(Context context) {</span>
+<span class="fc" id="L58">        mDatabase = new Database(context);</span>
+<span class="fc" id="L59">        mRiffsyRoutes = RetrofitBuilder.getInstance()</span>
+<span class="fc" id="L60">                .createApiEndpoint(RiffsyRoutes.class, RiffsyRoutes.BASE_URL);</span>
+<span class="fc" id="L61">    }</span>
 
     public boolean isSavingAppState() {
-<span class="fc" id="L50">        return mIsSavingAppState;</span>
+<span class="fc" id="L64">        return mIsSavingAppState;</span>
     }
 
     public void saveAppState(AppState appState) {
-<span class="fc" id="L54">        mNextSaveAppStateRunnable = new DataManager.SaveAppStateRunnable(appState);</span>
-<span class="fc" id="L55">        executeSaveAppStateTask();</span>
-<span class="fc" id="L56">    }</span>
+<span class="fc" id="L68">        mNextSaveAppStateRunnable = new DataManager.SaveAppStateRunnable(appState);</span>
+<span class="fc" id="L69">        executeSaveAppStateTask();</span>
+<span class="fc" id="L70">    }</span>
 
     public void loadAppState(final LoadAppStateListener listener) {
-<span class="fc" id="L59">        new Thread(() -&gt; {</span>
+<span class="fc" id="L73">        new Thread(() -&gt; {</span>
             try {
-<span class="fc" id="L61">                listener.onLoaded(mDatabase.getAppState());</span>
-<span class="fc" id="L62">            } catch (SnappydbException | IOException e) {</span>
-<span class="fc" id="L63">                listener.onLoaded(getAppStateDefault());</span>
-<span class="fc" id="L64">                Log.e(getClass().getSimpleName(), &quot;appstate not loaded&quot;, e);</span>
-<span class="fc" id="L65">            }</span>
-<span class="fc" id="L66">        }).start();</span>
-<span class="fc" id="L67">    }</span>
+<span class="fc" id="L75">                listener.onLoaded(mDatabase.getAppState());</span>
+<span class="fc" id="L76">            } catch (SnappydbException | IOException e) {</span>
+<span class="fc" id="L77">                listener.onLoaded(getAppStateDefault());</span>
+<span class="fc" id="L78">                Log.e(getClass().getSimpleName(), &quot;appstate not loaded&quot;, e);</span>
+<span class="fc" id="L79">            }</span>
+<span class="fc" id="L80">        }).start();</span>
+<span class="fc" id="L81">    }</span>
 
     public void fetchGifs(final GifListLoadListener listener) {
-<span class="nc" id="L70">        Call call = mRiffsyRoutes.getTrendingResults(RiffsyRoutes.DEFAULT_LIMIT_COUNT, sRiffsyNext);</span>
-<span class="nc" id="L71">        call.enqueue(new Callback&lt;RiffsyResponse&gt;() {</span>
+<span class="nc" id="L84">        Call call = mRiffsyRoutes.getTrendingResults(RiffsyRoutes.DEFAULT_LIMIT_COUNT, sRiffsyNext);</span>
+<span class="nc" id="L85">        call.enqueue(new Callback&lt;RiffsyResponse&gt;() {</span>
             @Override
             public void onResponse(Call&lt;RiffsyResponse&gt; call, Response&lt;RiffsyResponse&gt; response) {
-<span class="nc" id="L74">                Map&lt;String, Gif&gt; gifs = extractGifsFromRiffsyResponse(response);</span>
+<span class="nc" id="L88">                Map&lt;String, Gif&gt; gifs = extractGifsFromRiffsyResponse(response);</span>
 
-<span class="nc" id="L76">                sRiffsyNext = response.body().next();</span>
-<span class="nc bnc" id="L77" title="All 2 branches missed.">                boolean hasMore = sRiffsyNext != null;</span>
-<span class="nc" id="L78">                listener.onLoaded(gifs, hasMore);</span>
-<span class="nc" id="L79">            }</span>
+<span class="nc" id="L90">                sRiffsyNext = response.body().next();</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">                boolean hasMore = sRiffsyNext != null;</span>
+<span class="nc" id="L92">                listener.onLoaded(gifs, hasMore);</span>
+<span class="nc" id="L93">            }</span>
 
             @Override
             public void onFailure(Call&lt;RiffsyResponse&gt; call, Throwable t) {
-<span class="nc" id="L83">                Log.e(getClass().getSimpleName(), &quot;onFailure&quot;, t);</span>
-<span class="nc" id="L84">            }</span>
+<span class="nc" id="L97">                Log.e(getClass().getSimpleName(), &quot;onFailure&quot;, t);</span>
+<span class="nc" id="L98">            }</span>
         });
-<span class="nc" id="L86">    }</span>
+<span class="nc" id="L100">    }</span>
 
     private void executeSaveAppStateTask() {
-<span class="fc bfc" id="L89" title="All 4 branches covered.">        if (mNextSaveAppStateRunnable != null &amp;&amp; !mIsSavingAppState) {</span>
-<span class="fc" id="L90">            mIsSavingAppState = true;</span>
-<span class="fc" id="L91">            ThreadUtils.runInBackground(mNextSaveAppStateRunnable);</span>
-<span class="fc" id="L92">            mNextSaveAppStateRunnable = null;</span>
+<span class="fc bfc" id="L103" title="All 4 branches covered.">        if (mNextSaveAppStateRunnable != null &amp;&amp; !mIsSavingAppState) {</span>
+<span class="fc" id="L104">            mIsSavingAppState = true;</span>
+<span class="fc" id="L105">            ThreadUtils.runInBackground(mNextSaveAppStateRunnable);</span>
+<span class="fc" id="L106">            mNextSaveAppStateRunnable = null;</span>
         }
-<span class="fc" id="L94">    }</span>
+<span class="fc" id="L108">    }</span>
 
     private void onFinishedSaveAppStateTask() {
-<span class="fc" id="L97">        ThreadUtils.runOnMain(() -&gt; {</span>
-<span class="fc" id="L98">            mIsSavingAppState = false;</span>
-<span class="fc" id="L99">            executeSaveAppStateTask();</span>
-<span class="fc" id="L100">        });</span>
-<span class="fc" id="L101">    }</span>
+<span class="fc" id="L111">        ThreadUtils.runOnMain(() -&gt; {</span>
+<span class="fc" id="L112">            mIsSavingAppState = false;</span>
+<span class="fc" id="L113">            executeSaveAppStateTask();</span>
+<span class="fc" id="L114">        });</span>
+<span class="fc" id="L115">    }</span>
 
     @NonNull
     private Map&lt;String, Gif&gt; extractGifsFromRiffsyResponse(Response&lt;RiffsyResponse&gt; response) {
-<span class="nc" id="L105">        List&lt;RiffsyResult&gt; results = response.body().results();</span>
-<span class="nc" id="L106">        Map&lt;String, Gif&gt; gifs = new LinkedHashMap&lt;&gt;();</span>
-<span class="nc bnc" id="L107" title="All 2 branches missed.">        for (RiffsyResult result : results) {</span>
-<span class="nc" id="L108">            List&lt;RiffsyMedia&gt; riffsyMedias = result.media();</span>
-<span class="nc bnc" id="L109" title="All 2 branches missed.">            if (riffsyMedias.size() &gt; 0) {</span>
-<span class="nc" id="L110">                Gif gif = ImmutableGif.builder()</span>
-<span class="nc" id="L111">                        .url(riffsyMedias.get(0).gif().url())</span>
-<span class="nc" id="L112">                        .title(result.title())</span>
-<span class="nc" id="L113">                        .uuid(UUID.randomUUID().toString()).build();</span>
-<span class="nc" id="L114">                gifs.put(gif.getUuid(), gif);</span>
+<span class="nc" id="L119">        List&lt;RiffsyResult&gt; results = response.body().results();</span>
+<span class="nc" id="L120">        Map&lt;String, Gif&gt; gifs = new LinkedHashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        for (RiffsyResult result : results) {</span>
+<span class="nc" id="L122">            List&lt;RiffsyMedia&gt; riffsyMedias = result.media();</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">            if (riffsyMedias.size() &gt; 0) {</span>
+<span class="nc" id="L124">                Gif gif = ImmutableGif.builder()</span>
+<span class="nc" id="L125">                        .url(riffsyMedias.get(0).gif().url())</span>
+<span class="nc" id="L126">                        .title(result.title())</span>
+<span class="nc" id="L127">                        .uuid(UUID.randomUUID().toString()).build();</span>
+<span class="nc" id="L128">                gifs.put(gif.getUuid(), gif);</span>
             }
-<span class="nc" id="L116">        }</span>
-<span class="nc" id="L117">        return gifs;</span>
+<span class="nc" id="L130">        }</span>
+<span class="nc" id="L131">        return gifs;</span>
     }
 
     public static AppState getAppStateDefault() {
-<span class="fc" id="L121">        String[] uuids = {&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot; };</span>
-<span class="fc" id="L122">        String[] titles = {&quot;Gif 1&quot;, &quot;Gif 2&quot;, &quot;Gif 3&quot;, &quot;Gif 4&quot;, &quot;Gif 5&quot; };</span>
-<span class="fc" id="L123">        String[] urls = {</span>
+<span class="fc" id="L135">        String[] uuids = {&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot; };</span>
+<span class="fc" id="L136">        String[] titles = {&quot;Gif 1&quot;, &quot;Gif 2&quot;, &quot;Gif 3&quot;, &quot;Gif 4&quot;, &quot;Gif 5&quot; };</span>
+<span class="fc" id="L137">        String[] urls = {</span>
                 &quot;https://media.giphy.com/media/l0HlE56oAxpngfnWM/giphy.gif&quot;,
                 &quot;http://inspirandoideias.com.br/blog/wp-content/uploads/2015/03/&quot;
                         + &quot;b3368a682fc5ff891e41baad2731f4b6.gif&quot;,
@@ -129,17 +143,17 @@ public class DataManager {
                 &quot;https://media.giphy.com/media/3oriNQHSU0bVcFW5sA/giphy.gif&quot;
         };
 
-<span class="fc" id="L132">        Map&lt;String, Gif&gt; gifs = new LinkedHashMap&lt;&gt;();</span>
-<span class="fc bfc" id="L133" title="All 2 branches covered.">        for (int i = 0; i &lt; titles.length; i++) {</span>
-<span class="fc" id="L134">            Gif gif = buildGif(uuids[i], titles[i], urls[i]);</span>
-<span class="fc" id="L135">            gifs.put(gif.getUuid(), gif);</span>
+<span class="fc" id="L146">        Map&lt;String, Gif&gt; gifs = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">        for (int i = 0; i &lt; titles.length; i++) {</span>
+<span class="fc" id="L148">            Gif gif = buildGif(uuids[i], titles[i], urls[i]);</span>
+<span class="fc" id="L149">            gifs.put(gif.getUuid(), gif);</span>
         }
 
-<span class="fc" id="L138">        return ImmutableAppState.builder().putAllGifs(gifs).build();</span>
+<span class="fc" id="L152">        return ImmutableAppState.builder().putAllGifs(gifs).build();</span>
     }
 
     private static Gif buildGif(String uuid, String title, String url) {
-<span class="fc" id="L142">        return ImmutableGif.builder().uuid(uuid).title(title).url(url).build();</span>
+<span class="fc" id="L156">        return ImmutableGif.builder().uuid(uuid).title(title).url(url).build();</span>
     }
 
     public interface LoadAppStateListener {
@@ -154,19 +168,19 @@ public class DataManager {
 
         private AppState mAppState;
 
-<span class="fc" id="L157">        public SaveAppStateRunnable(AppState appState) {</span>
-<span class="fc" id="L158">            mAppState = appState;</span>
-<span class="fc" id="L159">        }</span>
+<span class="fc" id="L171">        public SaveAppStateRunnable(AppState appState) {</span>
+<span class="fc" id="L172">            mAppState = appState;</span>
+<span class="fc" id="L173">        }</span>
 
         @Override
         public void run() {
             try {
-<span class="fc" id="L164">                mDatabase.saveAppState(mAppState);</span>
-<span class="nc" id="L165">            } catch (SnappydbException | JsonProcessingException e) {</span>
-<span class="nc" id="L166">                Log.e(getClass().getSimpleName(), &quot;unsaved appstate&quot;, e);</span>
-<span class="fc" id="L167">            }</span>
-<span class="fc" id="L168">            onFinishedSaveAppStateTask();</span>
-<span class="fc" id="L169">        }</span>
+<span class="fc" id="L178">                mDatabase.saveAppState(mAppState);</span>
+<span class="nc" id="L179">            } catch (SnappydbException | JsonProcessingException e) {</span>
+<span class="nc" id="L180">                Log.e(getClass().getSimpleName(), &quot;unsaved appstate&quot;, e);</span>
+<span class="fc" id="L181">            }</span>
+<span class="fc" id="L182">            onFinishedSaveAppStateTask();</span>
+<span class="fc" id="L183">        }</span>
 
     }
 

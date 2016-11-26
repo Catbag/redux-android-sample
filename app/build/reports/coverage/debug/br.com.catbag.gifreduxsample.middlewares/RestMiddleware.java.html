@@ -22,8 +22,22 @@ import static br.com.catbag.gifreduxsample.actions.GifListActionCreator.GIF_LIST
 import static br.com.catbag.gifreduxsample.actions.GifListActionCreator.GIF_LIST_UPDATED;
 
 /**
- * Created by niltonvasques on 11/13/16.
- */
+ Copyright 26/10/2016
+ Felipe Piñeiro (fpbitencourt@gmail.com),
+ Nilton Vasques (nilton.vasques@gmail.com) and
+ Raul Abreu (raulccabreu@gmail.com)
+
+ Be free to ask for help, email us!
+
+ Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this file except
+ in compliance with the License. You may obtain a copy of the License at
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software distributed under the License
+ is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ implied. See the License for the specific language governing permissions and limitations under
+ the License.
+ **/
 
 public class RestMiddleware extends BaseMiddleware&lt;AppState&gt; {
     private final Context mContext;
@@ -31,50 +45,50 @@ public class RestMiddleware extends BaseMiddleware&lt;AppState&gt; {
     private DataManager mDataManager;
 
     public RestMiddleware(Context context, DataManager dataManager, FileDownloader fileDownloader) {
-<span class="fc" id="L34">        super();</span>
-<span class="fc" id="L35">        mContext = context;</span>
-<span class="fc" id="L36">        mDataManager = dataManager;</span>
-<span class="fc" id="L37">        mFileDownloader = fileDownloader;</span>
-<span class="fc" id="L38">    }</span>
+<span class="fc" id="L48">        super();</span>
+<span class="fc" id="L49">        mContext = context;</span>
+<span class="fc" id="L50">        mDataManager = dataManager;</span>
+<span class="fc" id="L51">        mFileDownloader = fileDownloader;</span>
+<span class="fc" id="L52">    }</span>
 
     @Override
     public void intercept(AppState appState, Action action) throws Exception {
-<span class="pc bpc" id="L42" title="2 of 10 branches missed.">        switch(action.Type) {</span>
+<span class="pc bpc" id="L56" title="2 of 10 branches missed.">        switch(action.Type) {</span>
             case GIF_DOWNLOAD_START:
-<span class="fc" id="L44">                downloadGif(appState, action);</span>
-<span class="fc" id="L45">                break;</span>
+<span class="fc" id="L58">                downloadGif(appState, action);</span>
+<span class="fc" id="L59">                break;</span>
             case GIF_LIST_FETCHING:
-<span class="fc" id="L47">                fetchGifs(appState);</span>
-<span class="fc" id="L48">                break;</span>
+<span class="fc" id="L61">                fetchGifs(appState);</span>
+<span class="fc" id="L62">                break;</span>
             default:
                 break;
         }
-<span class="fc" id="L52">    }</span>
+<span class="fc" id="L66">    }</span>
 
     private void fetchGifs(AppState appState) {
-<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (appState.getHasMoreGifs()) {</span>
-<span class="fc" id="L56">            mDataManager.fetchGifs((gifs, hasMore) -&gt; {</span>
-<span class="fc" id="L57">                Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L58">                params.put(PayloadParams.PARAM_GIFS, gifs);</span>
-<span class="fc" id="L59">                params.put(PayloadParams.PARAM_HAS_MORE, hasMore);</span>
-<span class="fc" id="L60">                mDispatcher.dispatch(new Action(GIF_LIST_UPDATED, params));</span>
-<span class="fc" id="L61">            });</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        if (appState.getHasMoreGifs()) {</span>
+<span class="fc" id="L70">            mDataManager.fetchGifs((gifs, hasMore) -&gt; {</span>
+<span class="fc" id="L71">                Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L72">                params.put(PayloadParams.PARAM_GIFS, gifs);</span>
+<span class="fc" id="L73">                params.put(PayloadParams.PARAM_HAS_MORE, hasMore);</span>
+<span class="fc" id="L74">                mDispatcher.dispatch(new Action(GIF_LIST_UPDATED, params));</span>
+<span class="fc" id="L75">            });</span>
         }
-<span class="fc" id="L63">    }</span>
+<span class="fc" id="L77">    }</span>
 
     private void downloadGif(AppState appState, Action action) {
-<span class="fc" id="L66">        Gif gif = appState.getGifs().get(action.Payload.toString());</span>
-<span class="fc" id="L67">        String pathToSave = mContext.getExternalFilesDir(null) + File.separator</span>
-<span class="fc" id="L68">                + gif.getUuid() + &quot;.gif&quot;;</span>
+<span class="fc" id="L80">        Gif gif = appState.getGifs().get(action.Payload.toString());</span>
+<span class="fc" id="L81">        String pathToSave = mContext.getExternalFilesDir(null) + File.separator</span>
+<span class="fc" id="L82">                + gif.getUuid() + &quot;.gif&quot;;</span>
 
-<span class="fc" id="L70">        mFileDownloader.download(gif.getUrl(), pathToSave,</span>
+<span class="fc" id="L84">        mFileDownloader.download(gif.getUrl(), pathToSave,</span>
                 () -&gt; {
-<span class="fc" id="L72">                    Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L73">                    params.put(PayloadParams.PARAM_UUID, gif.getUuid());</span>
-<span class="fc" id="L74">                    params.put(PayloadParams.PARAM_PATH, pathToSave);</span>
-<span class="fc" id="L75">                    mDispatcher.dispatch(new Action(GIF_DOWNLOAD_SUCCESS, params));</span>
-<span class="fc" id="L76">                },</span>
-<span class="fc" id="L77">                e -&gt; mDispatcher.dispatch(new Action(GIF_DOWNLOAD_FAILURE, gif.getUuid())));</span>
-<span class="fc" id="L78">    }</span>
+<span class="fc" id="L86">                    Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L87">                    params.put(PayloadParams.PARAM_UUID, gif.getUuid());</span>
+<span class="fc" id="L88">                    params.put(PayloadParams.PARAM_PATH, pathToSave);</span>
+<span class="fc" id="L89">                    mDispatcher.dispatch(new Action(GIF_DOWNLOAD_SUCCESS, params));</span>
+<span class="fc" id="L90">                },</span>
+<span class="fc" id="L91">                e -&gt; mDispatcher.dispatch(new Action(GIF_DOWNLOAD_FAILURE, gif.getUuid())));</span>
+<span class="fc" id="L92">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span>Generated by the Android Gradle plugin 2.2.2</div></body></html>

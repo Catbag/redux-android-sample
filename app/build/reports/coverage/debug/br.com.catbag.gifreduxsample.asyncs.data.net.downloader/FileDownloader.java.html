@@ -16,69 +16,83 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by felipe on 13/10/16.
- */
+ Copyright 26/10/2016
+ Felipe Piñeiro (fpbitencourt@gmail.com),
+ Nilton Vasques (nilton.vasques@gmail.com) and
+ Raul Abreu (raulccabreu@gmail.com)
+
+ Be free to ask for help, email us!
+
+ Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this file except
+ in compliance with the License. You may obtain a copy of the License at
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software distributed under the License
+ is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ implied. See the License for the specific language governing permissions and limitations under
+ the License.
+ **/
 
 public class FileDownloader {
 
     private static RetrofitBuilder.DownloadRoute sRoutes;
 
-<span class="fc" id="L26">    public FileDownloader() {</span>
-<span class="fc" id="L27">        sRoutes = RetrofitBuilder.getInstance().createDownloadEndpoint();</span>
-<span class="fc" id="L28">    }</span>
+<span class="fc" id="L40">    public FileDownloader() {</span>
+<span class="fc" id="L41">        sRoutes = RetrofitBuilder.getInstance().createDownloadEndpoint();</span>
+<span class="fc" id="L42">    }</span>
 
     public void download(String fileUrl, String pathToSave,
                          SuccessDownloadListener successDownloadListener,
                          FailureDownloadListener failureDownloadListener) {
-<span class="nc" id="L33">        Call&lt;ResponseBody&gt; call = sRoutes.downloadFileWithDynamicUrlSync(fileUrl);</span>
-<span class="nc" id="L34">        call.enqueue(new Callback&lt;ResponseBody&gt;() {</span>
+<span class="nc" id="L47">        Call&lt;ResponseBody&gt; call = sRoutes.downloadFileWithDynamicUrlSync(fileUrl);</span>
+<span class="nc" id="L48">        call.enqueue(new Callback&lt;ResponseBody&gt;() {</span>
             @Override
             public void onResponse(Call&lt;ResponseBody&gt; call, Response&lt;ResponseBody&gt; response) {
-<span class="nc bnc" id="L37" title="All 2 branches missed.">                if (response.isSuccessful()) {</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">                if (response.isSuccessful()) {</span>
                     try {
-<span class="nc" id="L39">                        readFromNetAndWriteToDisk(response.body().byteStream(), pathToSave);</span>
-<span class="nc" id="L40">                    } catch (IOException e) {</span>
-<span class="nc bnc" id="L41" title="All 2 branches missed.">                        if (failureDownloadListener != null) {</span>
-<span class="nc" id="L42">                            failureDownloadListener</span>
-<span class="nc" id="L43">                                    .onFailure(new FileNotFoundException(&quot;Not found&quot;));</span>
+<span class="nc" id="L53">                        readFromNetAndWriteToDisk(response.body().byteStream(), pathToSave);</span>
+<span class="nc" id="L54">                    } catch (IOException e) {</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">                        if (failureDownloadListener != null) {</span>
+<span class="nc" id="L56">                            failureDownloadListener</span>
+<span class="nc" id="L57">                                    .onFailure(new FileNotFoundException(&quot;Not found&quot;));</span>
                         }
-<span class="nc" id="L45">                    }</span>
+<span class="nc" id="L59">                    }</span>
 
-<span class="nc bnc" id="L47" title="All 2 branches missed.">                    if (successDownloadListener != null) successDownloadListener.onSuccess();</span>
-<span class="nc bnc" id="L48" title="All 2 branches missed.">                } else if (failureDownloadListener != null) {</span>
-<span class="nc" id="L49">                    failureDownloadListener.onFailure(new FileNotFoundException(&quot;Not found&quot;));</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">                    if (successDownloadListener != null) successDownloadListener.onSuccess();</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                } else if (failureDownloadListener != null) {</span>
+<span class="nc" id="L63">                    failureDownloadListener.onFailure(new FileNotFoundException(&quot;Not found&quot;));</span>
                 }
-<span class="nc" id="L51">            }</span>
+<span class="nc" id="L65">            }</span>
 
             @Override
             public void onFailure(Call&lt;ResponseBody&gt; call, Throwable t) {
-<span class="nc" id="L55">                Log.e(FileDownloader.class.getSimpleName(), &quot;error&quot;);</span>
-<span class="nc" id="L56">                failureDownloadListener.onFailure(new Exception(t));</span>
-<span class="nc" id="L57">            }</span>
+<span class="nc" id="L69">                Log.e(FileDownloader.class.getSimpleName(), &quot;error&quot;);</span>
+<span class="nc" id="L70">                failureDownloadListener.onFailure(new Exception(t));</span>
+<span class="nc" id="L71">            }</span>
         });
-<span class="nc" id="L59">    }</span>
+<span class="nc" id="L73">    }</span>
 
     private void readFromNetAndWriteToDisk(InputStream inputStream, String pathToSave)
             throws IOException {
 
-<span class="nc" id="L64">        File futureStudioIconFile = new File(pathToSave);</span>
-<span class="nc" id="L65">        OutputStream outputStream = new FileOutputStream(futureStudioIconFile);</span>
-<span class="nc" id="L66">        byte[] fileReader = new byte[4096];</span>
+<span class="nc" id="L78">        File futureStudioIconFile = new File(pathToSave);</span>
+<span class="nc" id="L79">        OutputStream outputStream = new FileOutputStream(futureStudioIconFile);</span>
+<span class="nc" id="L80">        byte[] fileReader = new byte[4096];</span>
 
         while (true) {
             //Here the download is done...if some progress was made, here is the local
-<span class="nc" id="L70">            int read = inputStream.read(fileReader);</span>
+<span class="nc" id="L84">            int read = inputStream.read(fileReader);</span>
 
-<span class="nc bnc" id="L72" title="All 2 branches missed.">            if (read == -1) {</span>
-<span class="nc" id="L73">                break;</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">            if (read == -1) {</span>
+<span class="nc" id="L87">                break;</span>
             }
-<span class="nc" id="L75">            outputStream.write(fileReader, 0, read);</span>
-<span class="nc" id="L76">        }</span>
+<span class="nc" id="L89">            outputStream.write(fileReader, 0, read);</span>
+<span class="nc" id="L90">        }</span>
 
-<span class="nc" id="L78">        outputStream.flush();</span>
-<span class="nc" id="L79">        inputStream.close();</span>
-<span class="nc" id="L80">        outputStream.close();</span>
-<span class="nc" id="L81">    }</span>
+<span class="nc" id="L92">        outputStream.flush();</span>
+<span class="nc" id="L93">        inputStream.close();</span>
+<span class="nc" id="L94">        outputStream.close();</span>
+<span class="nc" id="L95">    }</span>
 
     public interface SuccessDownloadListener {
         void onSuccess();

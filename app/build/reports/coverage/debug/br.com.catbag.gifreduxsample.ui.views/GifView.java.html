@@ -23,110 +23,124 @@ import static trikita.anvil.DSL.imageDrawable;
 import static trikita.anvil.DSL.onClick;
 
 /**
- * Created by felipe on 26/10/16.
- */
+ Copyright 26/10/2016
+ Felipe Piñeiro (fpbitencourt@gmail.com),
+ Nilton Vasques (nilton.vasques@gmail.com) and
+ Raul Abreu (raulccabreu@gmail.com)
+
+ Be free to ask for help, email us!
+
+ Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this file except
+ in compliance with the License. You may obtain a copy of the License at
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software distributed under the License
+ is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ implied. See the License for the specific language governing permissions and limitations under
+ the License.
+ **/
 
 public class GifView extends ReactiveView {
 
     private Gif mGif;
     private GifDrawable mGifDrawable;
-<span class="pc" id="L33">    private boolean mHasRequestedDownload = false;</span>
+<span class="pc" id="L47">    private boolean mHasRequestedDownload = false;</span>
 
     public GifView(Context context) {
-<span class="fc" id="L36">        super(context);</span>
-<span class="fc" id="L37">    }</span>
+<span class="fc" id="L50">        super(context);</span>
+<span class="fc" id="L51">    }</span>
 
     public GifView(Context context, AttributeSet attrs) {
-<span class="nc" id="L40">        super(context, attrs);</span>
-<span class="nc" id="L41">    }</span>
+<span class="nc" id="L54">        super(context, attrs);</span>
+<span class="nc" id="L55">    }</span>
 
     public GifView(Context context, AttributeSet attrs, int defStyleAttr) {
-<span class="nc" id="L44">        super(context, attrs, defStyleAttr);</span>
-<span class="nc" id="L45">    }</span>
+<span class="nc" id="L58">        super(context, attrs, defStyleAttr);</span>
+<span class="nc" id="L59">    }</span>
 
     public GifView withGif(Gif gif) {
-<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if (gif != null) {</span>
-<span class="fc bfc" id="L49" title="All 2 branches covered.">            if (!gif.getUuid().equals(mGif.getUuid())) mHasRequestedDownload = false;</span>
-<span class="fc" id="L50">            mGif = gif;</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        if (gif != null) {</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">            if (!gif.getUuid().equals(mGif.getUuid())) mHasRequestedDownload = false;</span>
+<span class="fc" id="L64">            mGif = gif;</span>
         }
-<span class="fc" id="L52">        return this;</span>
+<span class="fc" id="L66">        return this;</span>
     }
 
     public GifView withGifDrawable(GifDrawable gifDrawable) {
-<span class="fc" id="L56">        mGifDrawable = gifDrawable;</span>
-<span class="fc" id="L57">        return this;</span>
+<span class="fc" id="L70">        mGifDrawable = gifDrawable;</span>
+<span class="fc" id="L71">        return this;</span>
     }
 
     public Gif getGif() {
-<span class="fc" id="L61">        return mGif;</span>
+<span class="fc" id="L75">        return mGif;</span>
     }
 
     @Override
     public void view() {
-<span class="fc" id="L66">        xml(R.layout.gif_item, () -&gt; {</span>
-<span class="fc" id="L67">            setBackground();</span>
-<span class="fc" id="L68">            withId(R.id.gif_image, () -&gt; {</span>
-<span class="fc" id="L69">                imageDrawable(mGifDrawable);</span>
-<span class="fc" id="L70">                requestContent();</span>
-<span class="fc" id="L71">                defineBehavior();</span>
-<span class="fc" id="L72">            });</span>
-<span class="fc bfc" id="L73" title="All 2 branches covered.">            withId(R.id.gif_loading, () -&gt; visibility(mGif.getStatus() == DOWNLOADING));</span>
-<span class="fc" id="L74">        });</span>
-<span class="fc" id="L75">        onAnvilRendered();</span>
-<span class="fc" id="L76">    }</span>
+<span class="fc" id="L80">        xml(R.layout.gif_item, () -&gt; {</span>
+<span class="fc" id="L81">            setBackground();</span>
+<span class="fc" id="L82">            withId(R.id.gif_image, () -&gt; {</span>
+<span class="fc" id="L83">                imageDrawable(mGifDrawable);</span>
+<span class="fc" id="L84">                requestContent();</span>
+<span class="fc" id="L85">                defineBehavior();</span>
+<span class="fc" id="L86">            });</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">            withId(R.id.gif_loading, () -&gt; visibility(mGif.getStatus() == DOWNLOADING));</span>
+<span class="fc" id="L88">        });</span>
+<span class="fc" id="L89">        onAnvilRendered();</span>
+<span class="fc" id="L90">    }</span>
 
     @Override
     public boolean hasStateChanged(AppState newState, AppState oldState) {
-<span class="fc" id="L80">        Gif newGif = newState.getGifs().get(mGif.getUuid());</span>
-<span class="fc bfc" id="L81" title="All 4 branches covered.">        return newGif != null &amp;&amp; !newGif.equals(mGif);</span>
+<span class="fc" id="L94">        Gif newGif = newState.getGifs().get(mGif.getUuid());</span>
+<span class="fc bfc" id="L95" title="All 4 branches covered.">        return newGif != null &amp;&amp; !newGif.equals(mGif);</span>
     }
 
     @Override
     public void onStateChanged(AppState appState) {
-<span class="fc" id="L86">        withGif(appState.getGifs().get(mGif.getUuid()));</span>
+<span class="fc" id="L100">        withGif(appState.getGifs().get(mGif.getUuid()));</span>
 
-<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        if (mGif.getStatus() == DOWNLOAD_FAILED) {</span>
-<span class="nc" id="L89">            mHasRequestedDownload = false;</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if (mGif.getStatus() == DOWNLOAD_FAILED) {</span>
+<span class="nc" id="L103">            mHasRequestedDownload = false;</span>
         }
-<span class="fc" id="L91">    }</span>
+<span class="fc" id="L105">    }</span>
 
     @Override
     protected void initialState() {
-<span class="fc" id="L95">        super.initialState();</span>
-<span class="fc" id="L96">        mGif = ImmutableGif.builder().url(&quot;&quot;).path(&quot;&quot;).title(&quot;&quot;).uuid(&quot;&quot;)</span>
-<span class="fc" id="L97">                .build();</span>
-<span class="fc" id="L98">    }</span>
+<span class="fc" id="L109">        super.initialState();</span>
+<span class="fc" id="L110">        mGif = ImmutableGif.builder().url(&quot;&quot;).path(&quot;&quot;).title(&quot;&quot;).uuid(&quot;&quot;)</span>
+<span class="fc" id="L111">                .build();</span>
+<span class="fc" id="L112">    }</span>
 
     private void setBackground() {
-<span class="fc bfc" id="L101" title="All 2 branches covered.">        if (mGif.getStatus() == DOWNLOAD_FAILED) {</span>
-<span class="fc" id="L102">            backgroundColor(ContextCompat.getColor(getContext(), R.color.error));</span>
-<span class="fc" id="L103">            return;</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        if (mGif.getStatus() == DOWNLOAD_FAILED) {</span>
+<span class="fc" id="L116">            backgroundColor(ContextCompat.getColor(getContext(), R.color.error));</span>
+<span class="fc" id="L117">            return;</span>
         }
 
-<span class="fc bfc" id="L106" title="All 2 branches covered.">        if (mGif.getWatched()) {</span>
-<span class="fc" id="L107">            backgroundColor(ContextCompat.getColor(getContext(), R.color.watched));</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        if (mGif.getWatched()) {</span>
+<span class="fc" id="L121">            backgroundColor(ContextCompat.getColor(getContext(), R.color.watched));</span>
         } else {
-<span class="fc" id="L109">            backgroundColor(ContextCompat.getColor(getContext(), R.color.notWatched));</span>
+<span class="fc" id="L123">            backgroundColor(ContextCompat.getColor(getContext(), R.color.notWatched));</span>
         }
-<span class="fc" id="L111">    }</span>
+<span class="fc" id="L125">    }</span>
 
     private void requestContent() {
-<span class="fc bfc" id="L114" title="All 4 branches covered.">        if (mGif.getStatus() == NOT_DOWNLOADED &amp;&amp; !mHasRequestedDownload) {</span>
-<span class="fc" id="L115">            mHasRequestedDownload = true;</span>
-<span class="fc" id="L116">            GifActionCreator.getInstance().gifDownloadStart(mGif);</span>
+<span class="fc bfc" id="L128" title="All 4 branches covered.">        if (mGif.getStatus() == NOT_DOWNLOADED &amp;&amp; !mHasRequestedDownload) {</span>
+<span class="fc" id="L129">            mHasRequestedDownload = true;</span>
+<span class="fc" id="L130">            GifActionCreator.getInstance().gifDownloadStart(mGif);</span>
         }
-<span class="fc" id="L118">    }</span>
+<span class="fc" id="L132">    }</span>
 
     private void defineBehavior() {
-<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (mGifDrawable != null) {</span>
-<span class="fc bfc" id="L122" title="All 2 branches covered.">            if (mGif.getStatus() == LOOPING) {</span>
-<span class="fc" id="L123">                mGifDrawable.start();</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        if (mGifDrawable != null) {</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">            if (mGif.getStatus() == LOOPING) {</span>
+<span class="fc" id="L137">                mGifDrawable.start();</span>
             } else {
 
-<span class="fc" id="L126">                mGifDrawable.stop();</span>
+<span class="fc" id="L140">                mGifDrawable.stop();</span>
             }
-<span class="fc" id="L128">            onClick(v -&gt; GifActionCreator.getInstance().gifClick(mGif));</span>
+<span class="fc" id="L142">            onClick(v -&gt; GifActionCreator.getInstance().gifClick(mGif));</span>
         }
-<span class="fc" id="L130">    }</span>
+<span class="fc" id="L144">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span>Generated by the Android Gradle plugin 2.2.2</div></body></html>
